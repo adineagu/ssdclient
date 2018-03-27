@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.*?>
+<?import com.jfoenix.controls.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="919.0" prefWidth="1292.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erstegroupit.controller.InvestorFormController">
+    <children>
+      <StackPane fx:id="stackPane" layoutX="3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane fx:id="pane" layoutX="3.0" prefHeight="762.0" prefWidth="1148.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints fillHeight="false" maxHeight="219.0" minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="807.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="147.0" minHeight="2.0" prefHeight="62.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <AnchorPane>
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="110.0" layoutX="1186.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="14.0">
+                           <image>
+                              <Image url="@investor_logo.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="14.0" layoutY="8.0" prefHeight="35.0" prefWidth="160.0" text="Investor Form" textFill="#1950da">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <SplitPane dividerPositions="0.3075245365321701, 0.6859323882224646" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" GridPane.rowIndex="1">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <TitledPane text="Deals" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <TableView fx:id="dealTable" onMouseClicked="#handleRowSelect" prefHeight="279.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn fx:id="dealIdColumn" prefWidth="442.0" text="Deal Id" />
+                                        <TableColumn fx:id="issuerColumn" prefWidth="656.0" text="Issuer" />
+                                        <TableColumn fx:id="issueDateColumn" prefWidth="656.0" text="Issue Date" />
+                                        <TableColumn fx:id="expiryDateColumn" prefWidth="656.0" text="Expiry Date" />
+                                        <TableColumn fx:id="typeColumn" prefWidth="656.0" text="Type" />
+                                        <TableColumn fx:id="purposeColumn" prefWidth="656.0" text="Purpose" />
+                                        <TableColumn fx:id="amountColumn" prefWidth="656.0" text="Amount" />
+                                        <TableColumn fx:id="currencyColumn" prefWidth="656.0" text="Currency" />
+                                        <TableColumn fx:id="minSubscriptionAmountColumn" prefWidth="656.0" text="Min Subs. Amount" />
+                                      </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </content>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </TitledPane>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <TitledPane text="Tranches" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <TableView fx:id="trancheTable" prefHeight="341.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn fx:id="trancheIdColumn" prefWidth="75.0" text="Tranche Id" />                      
+                                        <TableColumn fx:id="trancheAmountColumn" prefWidth="75.0" text="Tranche Amount" />
+                                        <TableColumn fx:id="trancheDateColumn" prefWidth="75.0" text="Tranche Date" />
+                                        <TableColumn fx:id="repaymentDateColumn" prefWidth="75.0" text="Repayment Date" />
+                                        <TableColumn fx:id="referenceIndexColumn" prefWidth="75.0" text="Ref. Index" />
+                                        <TableColumn fx:id="marginColumn" prefWidth="75.0" text="Margin" />
+                                      </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </content>
+                              </TitledPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <SplitPane dividerPositions="0.4906976744186046" prefHeight="214.0" prefWidth="1292.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <items>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                       <children>
+                                          <TitledPane layoutY="-7.0" prefHeight="226.0" prefWidth="630.0" text="Subscriptions" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <content>
+                                                <TableView fx:id="subscriptionTable" layoutY="-7.0" prefHeight="158.0" prefWidth="48.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-7.0">
+                                                   <columnResizePolicy>
+                                                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                   </columnResizePolicy>
+                                                   <columns>
+                                                      <TableColumn fx:id="subscriptionIdColumn" prefWidth="75.0" text="Subscription Id" />
+                                                      <TableColumn fx:id="investorNameColumn" prefWidth="75.0" text="Investor Name" />
+                                                      <TableColumn fx:id="initialDateColumn" prefWidth="75.0" text="Initial Date" />
+                                                      <TableColumn fx:id="targetAmountColumn" prefWidth="75.0" text="Target Amount" />
+                                                      <TableColumn fx:id="spreadLimitColumn" prefWidth="75.0" text="Spread Limit" />
+                                                   </columns>
+                                                </TableView>
+                                             </content>
+                                          </TitledPane>
+                                       </children>
+                                    </AnchorPane>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                       <children>
+                                          <TitledPane prefHeight="212.0" prefWidth="654.0" text="Allocations" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <content>
+                                                <TableView fx:id="allocationTable" prefHeight="172.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <columnResizePolicy>
+                                                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                   </columnResizePolicy>
+                                                   <columns>
+                                                      <TableColumn fx:id="allocationIdColumn" prefWidth="75.0" text="Allocation Id" />
+                                                      <TableColumn fx:id="allocationInvestorNameColumn" prefWidth="75.0" text="Investor Name" />
+                                                      <TableColumn fx:id="allocationInitialDateColumn" prefWidth="75.0" text="Initial Date" />
+                                                      <TableColumn fx:id="allocationAmountColumn" prefWidth="75.0" text="Amount" />
+                                                      <TableColumn fx:id="alocationStatusColumn" prefWidth="75.0" text="Status" />
+                                                   </columns>
+                                                </TableView>
+                                             </content>
+                                          </TitledPane>
+                                       </children>
+                                    </AnchorPane>
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+                  <ToolBar prefHeight="71.0" prefWidth="1292.0" GridPane.rowIndex="2">
+                    <items>
+                        <JFXButton id="createTrancheBtn" fx:id="createSubscriptionBtn" buttonType="RAISED" ellipsisString="" mnemonicParsing="false" onAction="#handleCreateSubscriptionAction">
+                           <graphic>
+                              <ImageView>
+                                 <image>
+                                    <Image url="@tranche.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="refreshButton" buttonType="RAISED" ellipsisString="" mnemonicParsing="false" onAction="#handleRefreshDataButton">
+                           <graphic>
+                              <ImageView>
+                                 <image>
+                                    <Image url="@refresh.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                    </items>
+                  </ToolBar>
+               </children>
+            </GridPane>
+         </children>
+      </StackPane>
+    </children>
+</AnchorPane>
