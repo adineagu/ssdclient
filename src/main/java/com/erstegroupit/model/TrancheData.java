@@ -44,13 +44,6 @@ public class TrancheData {
     public TrancheData(String trancheId, String dealId, Integer issuerId, Integer trancheAmount, LocalDate trancheDate, LocalDate repaymentDate, String referenceIndex, double margin) {
         this(dealId, issuerId, trancheAmount, trancheDate, repaymentDate, referenceIndex, margin);
         this.trancheId = trancheId;
-        
-       subscriptionData.add(new SubscriptionData("SSD1",  "1002", trancheId, LocalDate.now(), 1000, 1.0));
-       subscriptionData.add(new SubscriptionData("SSD2",  "1001", trancheId, LocalDate.now(), 1500, 1.0));
-       
-       allocationData.add(new AllocationData("ALLOC1", "1002", trancheId, LocalDate.now(), 1000, "true"));
-       allocationData.add(new AllocationData("ALLOC2", "1001", trancheId, LocalDate.now(), 1500, "true"));
-
     }
 
     public String getTrancheId() {

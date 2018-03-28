@@ -7,6 +7,7 @@ package com.erstegroupit.controller;
 
 import com.erstegroupit.InjectorContext;
 import com.erstegroupit.model.Allocation;
+import com.erstegroupit.model.AllocationData;
 import com.erstegroupit.model.DataModel;
 import com.erstegroupit.model.Deal;
 import com.erstegroupit.model.DealData;
@@ -50,13 +51,13 @@ public class CommonController {
     public void deleteData() {
         dataModel.deleteData();
     }
-            
+
     public void readDeals() {
         CreateDealResponse resp = restClient.readDeals();
 
         JsonParser parser = new JsonParser();
         JsonElement jsonTree = parser.parse(resp.getPayload());
-        
+
         JsonArray elements = jsonTree.getAsJsonArray();
         for (JsonElement element : elements) {
             JsonObject object = element.getAsJsonObject();
@@ -66,21 +67,19 @@ public class CommonController {
 
             DealData dealData = createDealFromJson(object.getAsJsonObject("Record"));
             dataModel.getDeals().add(new Deal(dealData));
-        }        
+        }
     }
 
     private DealData createDealFromJson(JsonObject deal) {
         Integer minSubscriptionAmount = 10000;
 
         String dealId = deal.get("deal_uuid").getAsString();
-        String issuerName = deal.get("issuer").getAsString();
-        Integer issuerId = dataModel.getIssuerId(issuerName);
-        LocalDate issueDate = LocalDate.parse(deal.get("StartDate").getAsString(), DateTimeFormatter.ISO_DATE_TIME);
-        LocalDate expiryDate = LocalDate.parse(deal.get("expiry_date").getAsString(), DateTimeFormatter.ISO_DATE_TIME);
-        Integer issuedAmount = deal.get("amount").getAsInt();
+        Integer issuerId = deal.get("issuer_uuid").getAsInt();
+        LocalDate issueDate = LocalDate.parse(deal.get("init_date").getAsString(), DateTimeFormatter.ISO_DATE_TIME);
+        Integer issuedAmount = deal.get("total_amount").getAsInt();
         JsonArray tranchesId = deal.getAsJsonArray("tranches");
 
-        DealData dealData = new DealData(dealId, issuerId, issuedAmount, issueDate, expiryDate, minSubscriptionAmount);
+        DealData dealData = new DealData(dealId, issuerId, issuedAmount, issueDate, minSubscriptionAmount);
 
         if (tranchesId != null && !tranchesId.isJsonNull() && tranchesId.size() > 0) {
             for (JsonElement trancheIdObj : tranchesId) {
@@ -96,44 +95,68 @@ public class CommonController {
         CreateDealResponse resp = restClient.readTranche(trancheId);
         System.out.println("Tranche data payload is: " + resp.getPayload().getClass().getName());
         System.out.println("Tranche data is: " + resp.getPayload());
-        
+
         JsonParser parser = new JsonParser();
-        JsonElement jsonTree = parser.parse(resp.getPayload());   
-        
+        JsonElement jsonTree = parser.parse(resp.getPayload());
+
         JsonObject jsonTranche = jsonTree.getAsJsonObject();
 
         LocalDate issueDate = LocalDate.parse(jsonTranche.get("start_date").getAsString(), DateTimeFormatter.ISO_DATE_TIME);
+        LocalDate repaymentDate = LocalDate.parse(jsonTranche.get("repayment_date").getAsString(), DateTimeFormatter.ISO_DATE_TIME);
         Integer issuedAmount = jsonTranche.get("amount").getAsInt();
-        String conditions = jsonTranche.get("conditions").getAsString();
-        
+        String conditions = jsonTranche.get("ref_index").getAsString();
+        Double margin = jsonTranche.get("margin").getAsDouble();
+
         JsonArray subscriptionsId = jsonTranche.getAsJsonArray("subscriptions");
-        
-        TrancheData trancheData = new TrancheData(trancheId, dealId, issuerId, issuedAmount, issueDate, issueDate, conditions, 0);
-        
+        JsonArray allocationsId = jsonTranche.getAsJsonArray("allocations");
+
+        TrancheData trancheData = new TrancheData(trancheId, dealId, issuerId, issuedAmount, issueDate, repaymentDate, conditions, margin);
+
         for (JsonElement subscriptionId : subscriptionsId) {
             SubscriptionData subscriptionData = readSubscription(subscriptionId.getAsString(), trancheId);
             trancheData.getSubscriptionData().add(subscriptionData);
         }
-        
+
+        for (JsonElement allocationIdObj : allocationsId) {
+            AllocationData allocationData = readAllocation(allocationIdObj.getAsString(), trancheId);
+            trancheData.getAllocationData().add(allocationData);
+        }
         return trancheData;
     }
-    
+
     public SubscriptionData readSubscription(String subscriptionId, String trancheId) {
         CreateDealResponse resp = restClient.readSubscription(subscriptionId);
         System.out.println("Subscrption data payload is: " + resp.getPayload().getClass().getName());
         System.out.println("Subscrption data is: " + resp.getPayload());
-        
+
         JsonParser parser = new JsonParser();
-        JsonElement jsonTree = parser.parse(resp.getPayload());   
-        
+        JsonElement jsonTree = parser.parse(resp.getPayload());
+
         JsonObject jsonTranche = jsonTree.getAsJsonObject();
 
         LocalDate issueDate = LocalDate.parse(jsonTranche.get("init_date").getAsString(), DateTimeFormatter.ISO_DATE_TIME);
         Integer issuedAmount = jsonTranche.get("amount").getAsInt();
         String investorId = jsonTranche.get("investor_id").getAsString();
         Double spreadLimit = jsonTranche.get("spread_limit").getAsDouble();
-        
+
         return new SubscriptionData(subscriptionId, investorId, trancheId, issueDate, issuedAmount, spreadLimit);
+    }
+
+    public AllocationData readAllocation(String allocationId, String trancheId) {
+        CreateDealResponse resp = restClient.readAllocation(allocationId);
+        System.out.println("Allocation data payload is: " + resp.getPayload().getClass().getName());
+        System.out.println("Allocation data is: " + resp.getPayload());
+
+        JsonParser parser = new JsonParser();
+        JsonElement jsonTree = parser.parse(resp.getPayload());
+
+        JsonObject jsonTranche = jsonTree.getAsJsonObject();
+
+        LocalDate issueDate = LocalDate.parse(jsonTranche.get("init_date").getAsString(), DateTimeFormatter.ISO_DATE_TIME);
+        Integer issuedAmount = jsonTranche.get("allocation_amount").getAsInt();
+        String investorId = jsonTranche.get("investor_id").getAsString();
+
+        return new AllocationData(allocationId, investorId, trancheId, issueDate, issuedAmount, investorId);
     }
 
     public ObservableValue<Deal> getSelectedDeal() {

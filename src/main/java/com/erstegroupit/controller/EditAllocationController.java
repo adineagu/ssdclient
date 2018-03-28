@@ -8,6 +8,7 @@ package com.erstegroupit.controller;
 import com.erstegroupit.InjectorContext;
 import com.erstegroupit.model.Allocation;
 import com.erstegroupit.model.AllocationData;
+import com.erstegroupit.model.Subscription;
 import com.erstegroupit.restclient.CreateDealResponse;
 import com.erstegroupit.restclient.SSDRestClient;
 import java.net.URL;
@@ -127,6 +128,8 @@ public class EditAllocationController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        createAllocationsFromSubscriptions();
+        
         allocationTable.setItems(dataController.getAllocations());
         allocationTable.setEditable(true);
 
@@ -178,6 +181,21 @@ public class EditAllocationController implements Initializable {
 
     }
     
+    public void createAllocationsFromSubscriptions() {
+        dataController.getAllocations().clear();
+        for (Subscription subscription : dataController.getSubscriptions()) {
+            
+            String investorId = subscription.getInvestorId().getValue();
+            String trancheId = subscription.getTrancheId().getValue();
+            LocalDate initDate = subscription.getInitDate().getValue();
+            Integer targetAmount = subscription.getTargetAmount().getValue();
+            
+            AllocationData allocationData = new AllocationData(investorId, trancheId, initDate, targetAmount, "false");
+            Allocation allocation = new Allocation(allocationData);
+            
+            dataController.getAllocations().add(allocation);
+        }
+    }
     private class CreateAllocationsService extends Service<Void> {
 
         @Override

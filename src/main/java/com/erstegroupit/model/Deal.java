@@ -43,7 +43,6 @@ public class Deal {
         this.issuerId = new SimpleIntegerProperty(data.getIssuerId());
         this.issuerName = new SimpleStringProperty(dataModel.getIssuers().get(data.getIssuerId()));
         this.issueDate = new SimpleObjectProperty<>(data.getIssueDate());
-        this.expiryDate = new SimpleObjectProperty<>(data.getExpiryDate());
         this.issuedAmount = new SimpleIntegerProperty(data.getIssuedAmount());
         this.subscriptionMinAmount = new SimpleIntegerProperty(data.getSubscriptionMinAmount());
         

@@ -183,8 +183,10 @@ public class EditDealController implements Initializable {
 
     private DealData createDealData() {
         String issuerName = ssdIssuerNameList.getSelectionModel().getSelectedItem().toString();
+        Integer issuerId = dataController.getIssuerId(issuerName);
         Integer issuedAmount = Integer.parseInt(amount.getText());
-        DealData dealData = new DealData(issuerName, issuedAmount, issueDateDatePicker.getValue(), expiryDateDatePicker.getValue());
+        DealData dealData = new DealData(issuerName, issuedAmount, issueDateDatePicker.getValue());
+        dealData.setIssuerId(issuerId);
 
         return dealData;
     }
@@ -196,7 +198,7 @@ public class EditDealController implements Initializable {
         LocalDate expiryDate = expiryDateDatePicker.getValue();
         Integer issuedAmount = Integer.parseInt(amount.getText());
         Integer minSubscriptionAmount = Integer.parseInt(minSubscription.getText());        
-        DealData dealData = new DealData(dealId, issuerId, issuedAmount, issueDate, expiryDate, minSubscriptionAmount);
+        DealData dealData = new DealData(dealId, issuerId, issuedAmount, issueDate, minSubscriptionAmount);
         dataController.getDeals().add(new Deal(dealData));
     }
 

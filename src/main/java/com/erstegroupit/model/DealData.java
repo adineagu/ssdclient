@@ -18,7 +18,6 @@ public class DealData {
     private Integer issuerId;
     private String issuerName;
     private LocalDate issueDate;
-    private LocalDate expiryDate;
     private String arrangerName; 
     private String purpose;    
     private String type;        
@@ -29,16 +28,15 @@ public class DealData {
     
     private final List<TrancheData> trancheData = new ArrayList<>();
 
-    public DealData(String dealId, Integer issuerId, Integer issuedAmount, LocalDate issueDate, LocalDate expiryDate, Integer subscriptionMinAmount) {
-        this(issuerId, issuedAmount, issueDate, expiryDate, subscriptionMinAmount);
+    public DealData(String dealId, Integer issuerId, Integer issuedAmount, LocalDate issueDate, Integer subscriptionMinAmount) {
+        this(issuerId, issuedAmount, issueDate, subscriptionMinAmount);
         this.dealId = dealId;
     }
     
-    public DealData(Integer issuerId, Integer issuedAmount, LocalDate issueDate, LocalDate expiryDate, Integer subscriptionMinAmount) {
+    public DealData(Integer issuerId, Integer issuedAmount, LocalDate issueDate, Integer subscriptionMinAmount) {
         this.issuerId = issuerId;
         this.issuedAmount = issuedAmount;
         this.issueDate = issueDate;
-        this.expiryDate = expiryDate;
         this.subscriptionMinAmount = subscriptionMinAmount;   
         
         this.purpose = "Allgemeine Unternehmensfinanzierung und Refinanzierung";
@@ -49,11 +47,10 @@ public class DealData {
     }
 
     
-    public DealData(String issuerName, Integer issuedAmount, LocalDate issueDate, LocalDate expiryDate) {
+    public DealData(String issuerName, Integer issuedAmount, LocalDate issueDate) {
         this.issuerName = issuerName;
         this.issuedAmount = issuedAmount;
         this.issueDate = issueDate;
-        this.expiryDate = expiryDate;
     }
 
     
@@ -87,14 +84,6 @@ public class DealData {
 
     public void setIssueDate(LocalDate issueDate) {
         this.issueDate = issueDate;
-    }
-
-    public LocalDate getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
     }
 
     public String getArrangerName() {

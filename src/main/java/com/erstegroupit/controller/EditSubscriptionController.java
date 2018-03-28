@@ -139,9 +139,10 @@ public class EditSubscriptionController implements Initializable {
     private SubscriptionData createSubscriptionData() {
         Integer investorId = dataModel.getInvestorId(investorNameList.getSelectionModel().getSelectedItem().toString());
         String lDealId = dealId.getText();
+        String lTrancheId = trancheId.getText();
         Integer lTargetAmount = Integer.parseInt(targetAmount.getText());
         Double lSpreadLimit = Double.parseDouble(spreadLimit.getText());
-        SubscriptionData subscriptionData = new SubscriptionData(Integer.toString(investorId), lDealId, initDatePicker.getValue(), lTargetAmount, lSpreadLimit);
+        SubscriptionData subscriptionData = new SubscriptionData(Integer.toString(investorId), lTrancheId, initDatePicker.getValue(), lTargetAmount, lSpreadLimit);
 
         return subscriptionData;
     }

@@ -59,9 +59,6 @@ public class CommonFormController implements Initializable {
     protected TableColumn<Deal, LocalDate> issueDateColumn;
 
     @FXML
-    protected TableColumn<Deal, LocalDate> expiryDateColumn;
-
-    @FXML
     protected TableColumn<Deal, String> typeColumn;
 
     @FXML
@@ -239,7 +236,6 @@ public class CommonFormController implements Initializable {
         dealIdColumn.setCellValueFactory(cellData -> cellData.getValue().dealIdProperty());
         issuerColumn.setCellValueFactory(cellData -> cellData.getValue().issuerNameProperty());
         issueDateColumn.setCellValueFactory(cellData -> cellData.getValue().issueDateProperty());
-        expiryDateColumn.setCellValueFactory(cellData -> cellData.getValue().expiryDateProperty());
         typeColumn.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
         purposeColumn.setCellValueFactory(cellData -> cellData.getValue().purposeProperty());
         amountColumn.setCellValueFactory(cellData -> cellData.getValue().issuedAmountProperty().asObject());
