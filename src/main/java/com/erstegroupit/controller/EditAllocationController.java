@@ -30,6 +30,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -72,6 +74,9 @@ public class EditAllocationController implements Initializable {
 
     @FXML
     private Pane pane;
+    
+    @FXML
+    ImageView logoImage;
 
     @FXML
     private void handleSubmitAction(ActionEvent event) {
@@ -128,6 +133,8 @@ public class EditAllocationController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        logoImage.setImage(new Image(dataController.getImageLogoPath()));
+        
         createAllocationsFromSubscriptions();
 
         allocationTable.setItems(dataController.getAllocations());
@@ -212,8 +219,9 @@ public class EditAllocationController implements Initializable {
 
                         String allocationId = dealResp.getPayload().replaceAll("[{\"}]", "").split(":")[1];
                         System.out.println("Allocation Id: " + allocationId);
-
-                        //restc.readDeal(allocationId);
+                        
+                        allocationData.setAllocationId(allocationId);
+                        allocation.allocationIdProperty().setValue(allocationId);
                     }
                     return (Void) null;
                 }

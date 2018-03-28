@@ -33,6 +33,8 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -138,6 +140,9 @@ public class CommonFormController implements Initializable {
 
     @FXML
     protected GridPane pane;
+    
+    @FXML
+    ImageView logoImage;
 
     protected final CommonController dataController;
 
@@ -190,6 +195,9 @@ public class CommonFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        logoImage.setImage(new Image(dataController.getImageLogoPath()));
+        
         dealTable.setItems(dataController.getDeals());
         trancheTable.setItems(dataController.getTranches());   
         subscriptionTable.setItems(this.dataController.getSubscriptions());
@@ -264,14 +272,14 @@ public class CommonFormController implements Initializable {
         allocationAmountColumn.setCellValueFactory(cellData -> cellData.getValue().allocatedAmountProperty().asObject());
     }
     
-    public void authenticate() {
+    public void authenticate(String user, String organization) {
         ProgressIndicator pi = new ProgressIndicator();
         VBox box = new VBox(pi);
         box.setAlignment(Pos.CENTER);
         pane.setDisable(true);
         stackPane.getChildren().add(box);
 
-        AuthenticateService service = new AuthenticateService();
+        AuthenticateService service = new AuthenticateService(user, organization);
         service.start();
 
         service.setOnFailed(new EventHandler<WorkerStateEvent>() {
@@ -437,12 +445,20 @@ public class CommonFormController implements Initializable {
 
     private class AuthenticateService extends Service<Void> {
 
+        private final String user;
+        private final String organization;
+
+        public AuthenticateService(String user, String organization) {
+            this.user = user;
+            this.organization = organization;
+        }
+        
         @Override
         protected Task<Void> createTask() {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    dataController.authenticate();                    
+                    dataController.authenticate(user, organization);                    
                     dataController.readDeals();                                        
                     return (Void) null;
                 }

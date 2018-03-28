@@ -28,6 +28,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -73,6 +75,9 @@ public class EditDealController implements Initializable {
 
     @FXML
     private Button cancelButton;
+    
+    @FXML
+    ImageView logoImage;
     
     private CommonController dataController;
 
@@ -133,6 +138,8 @@ public class EditDealController implements Initializable {
     }
 
     public void updateControls() {
+        logoImage.setImage(new Image(dataController.getImageLogoPath()));
+        
         if (isUpdateDeal) {
             ObservableValue<Deal> deal = dataController.getSelectedDeal();
 
@@ -144,7 +151,7 @@ public class EditDealController implements Initializable {
             if (ssdIssuerNameList.getItems() != null) {
                 ssdIssuerNameList.getItems().removeAll(ssdIssuerNameList.getItems());
             }
-            ssdIssuerNameList.getItems().addAll(dataController.getIssuers().values());
+            ssdIssuerNameList.getItems().addAll(dataController.getIssuers().get(Integer.parseInt(dataController.getClientId())));
             
 
             if (ssdCurrency.getItems() != null) {
@@ -159,7 +166,7 @@ public class EditDealController implements Initializable {
             expiryDateDatePicker.setValue(deal.getValue().getExpiryDate());
         } else {
             if (ssdArrangeurNameList.getItems() != null) {
-                ssdArrangeurNameList.getItems().removeAll(ssdIssuerNameList.getItems());
+                ssdArrangeurNameList.getItems().clear();
             }
             ssdArrangeurNameList.getItems().addAll("Erste Group Bank", "UBS", "HSBC", "Merkantil Bank", "OTP Bank");
             ssdArrangeurNameList.getSelectionModel().selectFirst();
@@ -167,7 +174,7 @@ public class EditDealController implements Initializable {
             if (ssdIssuerNameList.getItems() != null) {
                 ssdIssuerNameList.getItems().removeAll(ssdIssuerNameList.getItems());
             }
-            ssdIssuerNameList.getItems().addAll("Deutsche Bahn", "Billa Group", "OMV");
+            ssdIssuerNameList.getItems().addAll(dataController.getIssuers().get(Integer.parseInt(dataController.getClientId())));
             ssdIssuerNameList.getSelectionModel().selectFirst();
 
             if (ssdCurrency.getItems() != null) {

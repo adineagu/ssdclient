@@ -36,13 +36,16 @@ public class SSDRestClient {
     public SSDRestClient() {
     }
 
-    public void authenticate() {
+    public void authenticate(String user, String organization) {
         Client client = ClientBuilder.newClient();
 
         Form form = new Form();
-        form.param("username", "jim");
-        form.param("orgName", "org1");
-
+        //form.param("username", "jim");
+        //form.param("orgName", "org1");
+        
+        form.param("username", user);
+        form.param("orgName", organization);
+        
         Response response = client
                 .target(REST_URI + "/users")
                 .path("")

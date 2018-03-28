@@ -5,6 +5,7 @@
  */
 package com.erstegroupit;
 
+import com.erstegroupit.controller.CommonController;
 import com.erstegroupit.controller.InvestorFormController;
 import com.erstegroupit.controller.IssuerFormController;
 import com.sun.xml.internal.ws.util.StringUtils;
@@ -29,7 +30,7 @@ public class IssuerClient extends Application {
     public void start(Stage stage) throws Exception {
 
         FXMLLoader loader = new FXMLLoader();
-        
+
         stage.getIcons().add(new Image(getClass().getResource("/com/erstegroupit/view/window-logo.png").toString()));
 
         if ("ISSUER".equalsIgnoreCase(clientType)) {
@@ -39,13 +40,12 @@ public class IssuerClient extends Application {
         }
 
     }
-    
+
     private void startIssuer(Stage stage) throws Exception {
-         FXMLLoader loader = new FXMLLoader();
+        FXMLLoader loader = new FXMLLoader();
 
         loader.setLocation(getClass().getResource("/com/erstegroupit/view/IssuerForm.fxml"));
         stage.setTitle("SSD - Issuer");
-
 
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -55,16 +55,16 @@ public class IssuerClient extends Application {
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent window) {
-                controller.authenticate();
+                controller.authenticate("Jim", "org1");
             }
         });
 
         stage.setScene(scene);
-        stage.show();       
+        stage.show();
     }
-    
+
     private void startInvestor(Stage stage) throws Exception {
-         FXMLLoader loader = new FXMLLoader();
+        FXMLLoader loader = new FXMLLoader();
 
         loader.setLocation(getClass().getResource("/com/erstegroupit/view/InvestorForm.fxml"));
         stage.setTitle("SSD - Investor");
@@ -77,23 +77,43 @@ public class IssuerClient extends Application {
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent window) {
-                controller.authenticate();
+                controller.authenticate("Barry", "org2");
             }
         });
 
         stage.setScene(scene);
-        stage.show();       
+        stage.show();
     }
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
 
-        if (args == null || args.length == 0) {
-            clientType = "ISSUER";
+        String id;
+
+        if (args == null || args.length != 2) {
+            System.out.println("Invalid command line. Use \"java -jar SSDClientMaven-4.0.0.jar ISSUER <issuerId>\"");
+            System.out.println("or");
+            System.out.println("Invalid command line. Use \"java -jar SSDClientMaven-4.0.0.jar INVESTOR <investorId>\"");
+            return;
         } else {
             clientType = args[0];
+            id = args[1];
+        }
+
+        CommonController commonController = InjectorContext.getInjector().getInstance(CommonController.class);
+
+        commonController.setClientType(clientType);
+        commonController.setClientId(id);
+
+        if ("INVESTOR".equals(clientType)) {
+
+        } else if ("ISSUER".equals(clientType)) {
+
+        } else {
+            System.out.println("Invalid member type. It must be ISSUER or INVESTOR");
+            return;
         }
 
         System.out.println("Launch " + StringUtils.capitalize(clientType) + " interface");

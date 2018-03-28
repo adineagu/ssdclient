@@ -29,6 +29,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -79,6 +81,9 @@ public class EditTrancheController implements Initializable {
     @FXML
     private Button cancelButton;
 
+    @FXML
+    ImageView logoImage;
+    
     public EditTrancheController() {
         this.dataModel = InjectorContext.getInjector().getInstance(DataModel.class);
     }
@@ -142,6 +147,8 @@ public class EditTrancheController implements Initializable {
     }
 
     public void updateControls() {
+        logoImage.setImage(new Image(dataModel.getImageLogoPath()));
+        
         if (isUpdate) {
             ObservableValue<Tranche> tranche = dataModel.getSelectedTranche();
             dealId.setText(tranche.getValue().getDealId());

@@ -25,7 +25,7 @@
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="84.0" fitWidth="335.0" layoutX="585.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="logoImage" fitHeight="84.0" fitWidth="335.0" layoutX="585.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@logo.png" />
                            </image>
@@ -46,7 +46,7 @@
                         <Label layoutX="27.0" layoutY="211.0" text="Target Amount:" />
                         <JFXTextField fx:id="targetAmount" layoutX="151.0" layoutY="205.0" prefHeight="29.0" prefWidth="206.0" text="10000" />
                         <Label layoutX="27.0" layoutY="172.0" text="Initial Date:" />
-                        <JFXDatePicker fx:id="initDatePicker" layoutX="150.0" layoutY="166.0" prefHeight="29.0" prefWidth="206.0" />
+                        <DatePicker fx:id="initDatePicker" layoutX="150.0" layoutY="166.0" prefHeight="29.0" prefWidth="206.0" />
                         <Label layoutX="27.0" layoutY="16.0" text="Subscription Id:" />
                         <JFXTextField fx:id="subscriptionId" disable="true" layoutX="150.0" layoutY="10.0" prefHeight="29.0" prefWidth="206.0" />
                         <Label layoutX="27.0" layoutY="250.0" text="Spread Limit:" />

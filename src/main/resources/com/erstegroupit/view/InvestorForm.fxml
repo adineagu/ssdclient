@@ -27,7 +27,7 @@
                <children>
                   <AnchorPane>
                      <children>
-                        <ImageView fitHeight="35.0" fitWidth="110.0" layoutX="1186.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="14.0">
+                        <ImageView fx:id="logoImage" fitHeight="35.0" fitWidth="110.0" layoutX="1186.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="14.0">
                            <image>
                               <Image url="@investor_logo.png" />
                            </image>

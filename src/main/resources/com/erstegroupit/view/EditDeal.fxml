@@ -55,12 +55,12 @@
                       <Label layoutX="11.0" layoutY="243.0" text="Arrangeur:" textFill="BLUE" />
                       <JFXComboBox id="ssdArrangeurNameList" fx:id="ssdArrangeurNameList" editable="true" layoutX="122.0" layoutY="239.0" prefHeight="25.0" prefWidth="459.0" promptText="Erste Group Bank" />
                       <Label layoutX="11.0" layoutY="280.0" text="Issuer:" textFill="BLUE" />
-                      <JFXComboBox id="ssdIssuerNameList" fx:id="ssdIssuerNameList" editable="true" layoutX="120.0" layoutY="276.0" prefHeight="25.0" prefWidth="466.0" promptText="Deutsche Bahn" />
+                      <JFXComboBox id="ssdIssuerNameList" fx:id="ssdIssuerNameList" layoutX="120.0" layoutY="276.0" prefHeight="25.0" prefWidth="466.0" promptText="Deutsche Bahn" />
                       <Label layoutX="11.0" layoutY="317.0" text="Min. Subscription:" textFill="BLUE" />
                       <JFXTextField fx:id="minSubscription" layoutX="123.0" layoutY="313.0" prefHeight="25.0" prefWidth="133.0" promptText="Mindestzeichung" text="100000" />
                       <Label layoutX="327.0" layoutY="317.0" text="Paid off:" textFill="BLUE" />
                       <JFXTextField id="payOutAmt" layoutX="424.0" layoutY="313.0" prefHeight="25.0" prefWidth="161.0" promptText="Auszahlung" text="0" />
-                      <ImageView fitHeight="58.0" fitWidth="142.0" layoutX="709.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                      <ImageView fx:id="logoImage" fitHeight="58.0" fitWidth="142.0" layoutX="709.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                           <image>
                               <Image url="@logo.png" />
                           </image>

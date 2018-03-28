@@ -18,34 +18,37 @@ import javax.inject.Singleton;
  *
  * @author H50UDBB
  */
-@Singleton 
+@Singleton
 public class DataModel {
-        
+
+    private String clientId;
+    private String clientType;
+
     private static final Map<Integer, String> issuerMap = new HashMap<>();
     private static final Map<Integer, String> investorMap = new HashMap<>();
-            
+
     private ObservableValue<Deal> selectedDeal;
     private ObservableValue<Tranche> selectedTranche;
     private ObservableValue<Subscription> selectedSubscription;
     private ObservableValue<Allocation> selectedAllocation;
-    
+
     private final SimpleBooleanProperty dealIsSelected = new SimpleBooleanProperty(true);
     private final SimpleBooleanProperty trancheIsSelected = new SimpleBooleanProperty(true);
     private final SimpleBooleanProperty subscriptionIsSelected = new SimpleBooleanProperty(true);
-    private final SimpleBooleanProperty allocationIsSelected = new SimpleBooleanProperty(true);     
-    
+    private final SimpleBooleanProperty allocationIsSelected = new SimpleBooleanProperty(true);
+
     @Inject
     private DataProvider dataProvider;
-        
+
     public DataModel() {
         initIssuers();
         initInvestors();
     }
-    
+
     public void deleteData() {
         dataProvider.cleanData();
     }
-                    
+
     public ObservableList<Deal> getDeals() {
         return dataProvider.getDealsObsList();
     }
@@ -53,35 +56,35 @@ public class DataModel {
     public ObservableList<Tranche> getTranches() {
         return dataProvider.getTranchesObsList();
     }
-    
+
     public ObservableList<Subscription> getSubscriptions() {
         return dataProvider.getSubscriptionsObsList();
     }
-    
+
     public ObservableList<Allocation> getAllocations() {
         return dataProvider.getAllocationsObsList();
     }
-    
+
     public Map<Integer, String> getIssuers() {
         return issuerMap;
     }
-    
+
     public Map<Integer, String> getInvestors() {
         return investorMap;
-    }    
-    
+    }
+
     private void initIssuers() {
         issuerMap.put(1001, "Deutsche Bahn");
         issuerMap.put(1002, "Billa Group");
         issuerMap.put(1003, "OMV");
     }
-    
+
     private void initInvestors() {
         investorMap.put(1001, "JPMorgan Intrepid European");
         investorMap.put(1002, "BlackRock EuroFund");
         investorMap.put(1003, "Pioneer");
     }
-    
+
     public ObservableValue<Deal> getSelectedDeal() {
         return selectedDeal;
     }
@@ -105,7 +108,7 @@ public class DataModel {
     public void setSelectedSubscription(ObservableValue<Subscription> selectedSubscription) {
         this.selectedSubscription = selectedSubscription;
     }
-        
+
     public ObservableValue<Boolean> getDealIsSelected() {
         return dealIsSelected;
     }
@@ -117,7 +120,7 @@ public class DataModel {
     public SimpleBooleanProperty getTrancheIsSelected() {
         return trancheIsSelected;
     }
-    
+
     public void setTrancheIsSelected(Boolean status) {
         this.trancheIsSelected.set(status);
     }
@@ -125,11 +128,11 @@ public class DataModel {
     public SimpleBooleanProperty getSubscriptionIsSelected() {
         return subscriptionIsSelected;
     }
-    
+
     public void setSubscriptionIsSelected(Boolean status) {
         this.subscriptionIsSelected.set(status);
-    }   
-    
+    }
+
     public Integer getIssuerId(String issuerName) {
         for (Integer issuerId : issuerMap.keySet()) {
             if (issuerMap.get(issuerId).equals(issuerName)) {
@@ -138,8 +141,8 @@ public class DataModel {
         }
 
         return 999;
-    }          
- 
+    }
+
     public Integer getInvestorId(String investorName) {
         for (Integer issuerId : investorMap.keySet()) {
             if (investorMap.get(issuerId).equals(investorName)) {
@@ -148,6 +151,45 @@ public class DataModel {
         }
 
         return 999;
-    }  
-  
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getClientType() {
+        return clientType;
+    }
+
+    public void setClientType(String clientType) {
+        this.clientType = clientType;
+    }
+
+    public String getImageLogoPath() {
+        String path = "";
+        if (getClientType().equals("ISSUER")) {
+            if ("1001".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/view/dbahn.png").toString();
+            } else if ("1002".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/view/billa.png").toString();
+            } else if ("1003".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/view/omv.png").toString();
+            }
+        } else if (getClientType().equals("INVESTOR")) {
+            if ("1001".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/view/jpm.jpg").toString();
+            } else if ("1002".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/view/blackrock.png").toString();
+            } else if ("1003".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/view/pioneer.png").toString();
+            }
+        }
+
+        return path;
+    }
+    
 }

@@ -44,8 +44,8 @@ public class CommonController {
         restClient = InjectorContext.getInjector().getInstance(SSDRestClient.class);
     }
 
-    public void authenticate() {
-        restClient.authenticate();
+    public void authenticate(String user, String organization) {
+        restClient.authenticate(user, organization);
     }
 
     public void deleteData() {
@@ -66,7 +66,11 @@ public class CommonController {
             System.out.println(object.get("Record"));
 
             DealData dealData = createDealFromJson(object.getAsJsonObject("Record"));
-            dataModel.getDeals().add(new Deal(dealData));
+
+            if (dataModel.getClientType().equals("ISSUER") && dataModel.getClientId().equals(dealData.getIssuerId().toString())
+                    || !dataModel.getClientType().equals("ISSUER")) {
+                dataModel.getDeals().add(new Deal(dealData));
+            }
         }
     }
 
@@ -114,12 +118,20 @@ public class CommonController {
 
         for (JsonElement subscriptionId : subscriptionsId) {
             SubscriptionData subscriptionData = readSubscription(subscriptionId.getAsString(), trancheId);
-            trancheData.getSubscriptionData().add(subscriptionData);
+
+            if (dataModel.getClientType().equals("INVESTOR") && subscriptionData.getInvestorId().equals(dataModel.getClientId().toString())
+                    || !dataModel.getClientType().equals("INVESTOR")) {
+                trancheData.getSubscriptionData().add(subscriptionData);
+            }
         }
 
         for (JsonElement allocationIdObj : allocationsId) {
             AllocationData allocationData = readAllocation(allocationIdObj.getAsString(), trancheId);
-            trancheData.getAllocationData().add(allocationData);
+
+            if (dataModel.getClientType().equals("INVESTOR") && allocationData.getInvestorId().equals(dataModel.getClientId().toString())
+                    || !dataModel.getClientType().equals("INVESTOR")) {
+                trancheData.getAllocationData().add(allocationData);
+            }
         }
         return trancheData;
     }
@@ -235,4 +247,42 @@ public class CommonController {
         return dataModel.getTrancheIsSelected();
     }
 
+    public String getClientId() {
+        return dataModel.getClientId();
+    }
+
+    public void setClientId(String clientId) {
+        dataModel.setClientId(clientId);
+    }
+
+    public String getClientType() {
+        return dataModel.getClientType();
+    }
+
+    public void setClientType(String clientType) {
+        dataModel.setClientType(clientType);
+    }
+
+    public String getImageLogoPath() {
+        String path = "";
+        if (getClientType().equals("ISSUER")) {
+            if ("1001".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/view/dbahn.png").toString();
+            } else if ("1002".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/view/billa.png").toString();
+            } else if ("1003".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/view/omv.png").toString();
+            }
+        } else if (getClientType().equals("INVESTOR")) {
+            if ("1001".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/view/jpm.jpg").toString();
+            } else if ("1002".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/view/blackrock.png").toString();
+            } else if ("1003".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/view/pioneer.png").toString();
+            }
+        }
+
+        return path;
+    }
 }

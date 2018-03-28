@@ -28,7 +28,7 @@
                                           <Blend />
                                       </effect>
                                   </Label>
-                                  <ImageView fitHeight="58.0" fitWidth="142.0" layoutX="886.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
+                                  <ImageView fx:id="logoImage" fitHeight="58.0" fitWidth="142.0" layoutX="886.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="14.0">
                                       <image>
                                           <Image url="@logo.png" />
                                       </image>

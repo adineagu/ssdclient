@@ -30,6 +30,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -75,6 +77,9 @@ public class EditSubscriptionController implements Initializable {
 
     @FXML
     private Pane pane;
+    
+    @FXML
+    ImageView logoImage;
 
     @FXML
     private void handleCancelAction(ActionEvent event) {
@@ -149,10 +154,13 @@ public class EditSubscriptionController implements Initializable {
 
     public void updateControls() {
 
+        logoImage.setImage(new Image(dataModel.getImageLogoPath()));
+        
         if (investorNameList.getItems() != null) {
             investorNameList.getItems().removeAll(investorNameList.getItems());
         }
-        investorNameList.getItems().addAll(dataModel.getInvestors().values());
+        //investorNameList.getItems().addAll(dataModel.getInvestors().values());
+        investorNameList.getItems().addAll(dataModel.getInvestors().get(Integer.parseInt(dataModel.getClientId())));
 
         if (isUpdate) {
             ObservableValue<Tranche> tranche = dataModel.getSelectedTranche();
