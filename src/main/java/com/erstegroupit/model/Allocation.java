@@ -129,7 +129,7 @@ public class Allocation {
         LocalDate initDate = (LocalDate) this.initDateProperty().getValue();
         Integer amount =  allocatedAmountProperty().getValue();
         String status = this.status.getValue();
-        return new AllocationData(investorId, trancheId, initDate, Integer.MAX_VALUE, status);
+        return new AllocationData(investorId, trancheId, initDate, amount, status);
     }    
     
 }

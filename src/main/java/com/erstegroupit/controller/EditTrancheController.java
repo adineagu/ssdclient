@@ -149,6 +149,7 @@ public class EditTrancheController implements Initializable {
         } else {
             dealId.setText(dataModel.getSelectedDeal().getValue().dealIdProperty().getValue());
             trancheDate.setValue(LocalDate.now());
+            repaymentDate.setValue(LocalDate.now());
         }
     }
 
@@ -184,7 +185,7 @@ public class EditTrancheController implements Initializable {
                     SSDRestClient restc = InjectorContext.getInjector().getInstance(SSDRestClient.class);
                     CreateDealResponse trancheIdStr = restc.createTranche(trancheData);
                     trancheId.setText(trancheIdStr.getPayload());
-                    trancheData.setTrancheId(trancheIdStr.getPayload().replaceAll("[{\"}]", "").split(":")[1]);
+                    trancheData.setTrancheId(trancheIdStr.getPayload().replaceAll("[{\"}]", "").split(":")[1].split(" ")[0]);
 
                     dealData.getTrancheData().add(trancheData);
                     dataModel.getTranches().add(new Tranche(trancheData));

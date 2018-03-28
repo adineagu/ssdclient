@@ -7,19 +7,20 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="440.0" prefWidth="792.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erstegroupit.controller.EditSubscriptionController">
+<AnchorPane id="AnchorPane" prefHeight="536.0" prefWidth="792.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erstegroupit.controller.EditSubscriptionController">
    <children>
-      <StackPane fx:id="stackPane" prefHeight="440.0" prefWidth="792.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <StackPane fx:id="stackPane" prefHeight="505.0" prefWidth="792.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <GridPane fx:id="pane" layoutX="10.0" layoutY="187.0" prefHeight="501.0" prefWidth="792.0" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <GridPane fx:id="pane" layoutX="10.0" layoutY="187.0" prefHeight="490.0" prefWidth="789.0" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="208.0" minHeight="10.0" prefHeight="102.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="396.0" minHeight="10.0" prefHeight="296.0" vgrow="SOMETIMES" />
-                <RowConstraints fillHeight="false" maxHeight="208.0" minHeight="10.0" prefHeight="62.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="208.0" minHeight="10.0" prefHeight="109.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="396.0" minHeight="10.0" prefHeight="331.0" vgrow="SOMETIMES" />
+                <RowConstraints fillHeight="false" maxHeight="208.0" minHeight="10.0" prefHeight="96.0" vgrow="NEVER" />
               </rowConstraints>
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0">
@@ -36,28 +37,42 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane prefHeight="333.0" prefWidth="792.0" GridPane.rowIndex="1">
+                  <Pane prefHeight="369.0" prefWidth="792.0" GridPane.rowIndex="1">
                      <children>
                         <Label layoutX="27.0" layoutY="91.0" text="Deal ID:" />
-                        <TextField fx:id="dealId" editable="false" layoutX="150.0" layoutY="85.0" prefHeight="25.0" prefWidth="206.0" />
+                        <JFXTextField fx:id="dealId" editable="false" layoutX="150.0" layoutY="85.0" prefHeight="25.0" prefWidth="206.0" />
                         <Label layoutX="27.0" layoutY="126.0" text="Tranche ID:" />
-                        <TextField fx:id="trancheId" editable="false" layoutX="150.0" layoutY="119.0" prefHeight="29.0" prefWidth="206.0" />
-                        <Label layoutX="27.0" layoutY="203.0" text="Target Amount:" />
-                        <TextField fx:id="targetAmount" layoutX="151.0" layoutY="197.0" prefHeight="29.0" prefWidth="206.0" text="10000" />
-                        <Label layoutX="27.0" layoutY="164.0" text="Initial Date:" />
-                        <DatePicker fx:id="initDatePicker" layoutX="150.0" layoutY="158.0" prefHeight="29.0" prefWidth="206.0" />
+                        <JFXTextField fx:id="trancheId" editable="false" layoutX="150.0" layoutY="119.0" prefHeight="29.0" prefWidth="206.0" />
+                        <Label layoutX="27.0" layoutY="211.0" text="Target Amount:" />
+                        <JFXTextField fx:id="targetAmount" layoutX="151.0" layoutY="205.0" prefHeight="29.0" prefWidth="206.0" text="10000" />
+                        <Label layoutX="27.0" layoutY="172.0" text="Initial Date:" />
+                        <JFXDatePicker fx:id="initDatePicker" layoutX="150.0" layoutY="166.0" prefHeight="29.0" prefWidth="206.0" />
                         <Label layoutX="27.0" layoutY="16.0" text="Subscription Id:" />
-                        <TextField fx:id="subscriptionId" editable="false" layoutX="150.0" layoutY="10.0" prefHeight="29.0" prefWidth="206.0" />
-                        <Label layoutX="27.0" layoutY="242.0" text="Spread Limit:" />
-                        <TextField fx:id="spreadLimit" layoutX="150.0" layoutY="238.0" prefHeight="25.0" prefWidth="206.0" />
+                        <JFXTextField fx:id="subscriptionId" disable="true" layoutX="150.0" layoutY="10.0" prefHeight="29.0" prefWidth="206.0" />
+                        <Label layoutX="27.0" layoutY="250.0" text="Spread Limit:" />
+                        <JFXTextField fx:id="spreadLimit" layoutX="150.0" layoutY="246.0" prefHeight="25.0" prefWidth="206.0" text="2.5" />
                         <Label layoutX="27.0" layoutY="54.0" text="Investor:" />
-                        <ComboBox fx:id="investorNameList" layoutX="151.0" layoutY="50.0" prefHeight="25.0" prefWidth="400.0" />
+                        <JFXComboBox fx:id="investorNameList" layoutX="151.0" layoutY="50.0" prefHeight="25.0" prefWidth="340.0" />
                      </children>
                   </Pane>
-                  <Pane prefHeight="75.0" prefWidth="792.0" GridPane.rowIndex="2">
+                  <Pane prefHeight="97.0" prefWidth="792.0" GridPane.rowIndex="2">
                      <children>
-                        <Button layoutX="514.0" layoutY="17.0" mnemonicParsing="false" onAction="#handleSubmitAction" prefHeight="25.0" prefWidth="95.0" text="Submit" />
-                        <Button fx:id="cancelButton" layoutX="642.0" layoutY="17.0" mnemonicParsing="false" onAction="#handleCancelAction" prefHeight="25.0" prefWidth="104.0" text="Cancel" />
+                        <JFXButton ellipsisString="" layoutX="642.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleSubmitAction" prefHeight="56.0" prefWidth="55.0" text="Submit">
+                           <graphic>
+                              <ImageView>
+                                 <image>
+                                    <Image url="@submit.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></JFXButton>
+                        <JFXButton fx:id="cancelButton" ellipsisString="" layoutX="710.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleCancelAction" prefHeight="56.0" prefWidth="16.0">
+                           <graphic>
+                              <ImageView>
+                                 <image>
+                                    <Image url="@cancel.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></JFXButton>
                      </children>
                   </Pane>
                </children>

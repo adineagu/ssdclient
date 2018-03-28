@@ -156,7 +156,6 @@ public class SSDRestClient {
         CreateDeal crd = new CreateDeal("createTranche", new String[]{tranche.getDealId(), tranche.getTrancheAmount().toString(),
             trancheDate, repaymentDate, tranche.getReferenceIndex(), margin.toString()});
 
-        //"args":["DEAL0", "600", "2018-Apr-01", "2019-Mar-31", "index1", "2.5"]
         System.out.println("REST CALL: " + crd);
 
         Response response = client

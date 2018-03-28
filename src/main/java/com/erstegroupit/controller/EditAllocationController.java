@@ -72,7 +72,7 @@ public class EditAllocationController implements Initializable {
 
     @FXML
     private Pane pane;
-    
+
     @FXML
     private void handleSubmitAction(ActionEvent event) {
         ProgressIndicator pi = new ProgressIndicator();
@@ -129,7 +129,7 @@ public class EditAllocationController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         createAllocationsFromSubscriptions();
-        
+
         allocationTable.setItems(dataController.getAllocations());
         allocationTable.setEditable(true);
 
@@ -143,7 +143,7 @@ public class EditAllocationController implements Initializable {
             }
         }
         );
-        
+
         allocationInitialDateColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LocalDateStringConverter()));
         allocationInitialDateColumn.setOnEditCommit(
                 new EventHandler<CellEditEvent<Allocation, LocalDate>>() {
@@ -180,22 +180,23 @@ public class EditAllocationController implements Initializable {
     public void updateControls() {
 
     }
-    
+
     public void createAllocationsFromSubscriptions() {
         dataController.getAllocations().clear();
         for (Subscription subscription : dataController.getSubscriptions()) {
-            
+
             String investorId = subscription.getInvestorId().getValue();
             String trancheId = subscription.getTrancheId().getValue();
             LocalDate initDate = subscription.getInitDate().getValue();
             Integer targetAmount = subscription.getTargetAmount().getValue();
-            
+
             AllocationData allocationData = new AllocationData(investorId, trancheId, initDate, targetAmount, "false");
             Allocation allocation = new Allocation(allocationData);
-            
+
             dataController.getAllocations().add(allocation);
         }
     }
+
     private class CreateAllocationsService extends Service<Void> {
 
         @Override
@@ -204,15 +205,15 @@ public class EditAllocationController implements Initializable {
                 @Override
                 protected Void call() throws Exception {
                     for (Allocation allocation : dataController.getAllocations()) {
-                    AllocationData allocationData = allocation.getAllocationData();
-                    SSDRestClient restc = InjectorContext.getInjector().getInstance(SSDRestClient.class);
-                    
-                    CreateDealResponse dealResp = restc.createAllocation(allocationData);
-                    
-                    String allocationId = dealResp.getPayload().replaceAll("[{\"}]", "").split(":")[1];
-                    System.out.println("Allocation Id: " + allocationId);
-                                        
-                    //restc.readDeal(allocationId);
+                        AllocationData allocationData = allocation.getAllocationData();
+                        SSDRestClient restc = InjectorContext.getInjector().getInstance(SSDRestClient.class);
+
+                        CreateDealResponse dealResp = restc.createAllocation(allocationData);
+
+                        String allocationId = dealResp.getPayload().replaceAll("[{\"}]", "").split(":")[1];
+                        System.out.println("Allocation Id: " + allocationId);
+
+                        //restc.readDeal(allocationId);
                     }
                     return (Void) null;
                 }
