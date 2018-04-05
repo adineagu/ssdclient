@@ -26,7 +26,10 @@ public class TrancheData {
     private final String referenceIndex;
     private final double margin;
     private final String creationDate;
-    
+    private boolean signedByIssuer;
+    private boolean signedByInvestor;
+    private boolean signedByArranger;
+
     private final List<SubscriptionData> subscriptionData = new ArrayList<>();
     private final List<AllocationData> allocationData = new ArrayList<>();
 
@@ -35,14 +38,21 @@ public class TrancheData {
         this.issuerId = issuerId;
         this.trancheAmount = trancheAmount;
         this.trancheDate = trancheDate;
-        this.repaymentDate = repaymentDate;        
+        this.repaymentDate = repaymentDate;
         this.referenceIndex = referenceIndex;
         this.margin = margin;
         this.creationDate = getCrtTime();
-            }
+        this.signedByIssuer = false;
+        this.signedByInvestor = false;
+        this.signedByArranger = false;
+    }
 
-    public TrancheData(String trancheId, String dealId, Integer issuerId, Integer trancheAmount, LocalDate trancheDate, LocalDate repaymentDate, String referenceIndex, double margin) {
+    public TrancheData(String trancheId, String dealId, Integer issuerId, Integer trancheAmount, LocalDate trancheDate, LocalDate repaymentDate, String referenceIndex, double margin,
+            boolean signedByIssuer, boolean signedByInvestor, boolean signedByArranger) {
         this(dealId, issuerId, trancheAmount, trancheDate, repaymentDate, referenceIndex, margin);
+        this.signedByArranger = signedByArranger;
+        this.signedByIssuer = signedByIssuer;
+        this.signedByInvestor = signedByInvestor;
         this.trancheId = trancheId;
     }
 
@@ -82,10 +92,34 @@ public class TrancheData {
         return margin;
     }
 
+    public boolean isSignedByIssuer() {
+        return signedByIssuer;
+    }
+
+    public void setSignedByIssuer(boolean signedByIssuer) {
+        this.signedByIssuer = signedByIssuer;
+    }
+
+    public boolean isSignedByInvestor() {
+        return signedByInvestor;
+    }
+
+    public void setSignedByInvestor(boolean signedByInvestor) {
+        this.signedByInvestor = signedByInvestor;
+    }
+
+    public boolean isSignedByArranger() {
+        return signedByArranger;
+    }
+
+    public void setSignedByArranger(boolean signedByArranger) {
+        this.signedByArranger = signedByArranger;
+    }
+
     public String getCreationDate() {
         return creationDate;
-    }        
-    
+    }
+
     private String getCrtTime() {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
         Date now = new Date();
@@ -99,4 +133,5 @@ public class TrancheData {
     public List<AllocationData> getAllocationData() {
         return allocationData;
     }
+
 }

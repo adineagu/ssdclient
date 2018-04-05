@@ -110,11 +110,14 @@ public class CommonController {
         Integer issuedAmount = jsonTranche.get("amount").getAsInt();
         String conditions = jsonTranche.get("ref_index").getAsString();
         Double margin = jsonTranche.get("margin").getAsDouble();
+        boolean signedByIssuer = jsonTranche.get("issuer_signature").getAsBoolean();
+        boolean signedByInvestor = jsonTranche.get("investor_signature").getAsBoolean();
+        boolean signedByArranger = jsonTranche.get("arranger_signature").getAsBoolean();
 
         JsonArray subscriptionsId = jsonTranche.getAsJsonArray("subscriptions");
         JsonArray allocationsId = jsonTranche.getAsJsonArray("allocations");
 
-        TrancheData trancheData = new TrancheData(trancheId, dealId, issuerId, issuedAmount, issueDate, repaymentDate, conditions, margin);
+        TrancheData trancheData = new TrancheData(trancheId, dealId, issuerId, issuedAmount, issueDate, repaymentDate, conditions, margin, signedByIssuer, signedByInvestor, signedByArranger);
 
         for (JsonElement subscriptionId : subscriptionsId) {
             SubscriptionData subscriptionData = readSubscription(subscriptionId.getAsString(), trancheId);

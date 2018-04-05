@@ -6,9 +6,11 @@
 package com.erstegroupit.hyperledger.javafxclient.model;
 
 import java.time.LocalDate;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -31,8 +33,48 @@ public class Tranche {
     private StringProperty referenceIndexColumn = new SimpleStringProperty();
     private DoubleProperty marginColumn = new SimpleDoubleProperty();
     private StringProperty creationDate = new SimpleStringProperty();
+    private BooleanProperty signedByIssuer = new SimpleBooleanProperty();
+    private BooleanProperty signedByInvestor = new SimpleBooleanProperty();
+    private BooleanProperty signedByArranger = new SimpleBooleanProperty();
 
-    private TrancheData trancheData;
+    public boolean isSignedByArranger() {
+        return signedByArranger.get();
+    }
+
+    public void setSignedByArranger(boolean value) {
+        signedByArranger.set(value);
+    }
+
+    public BooleanProperty signedByArrangerProperty() {
+        return signedByArranger;
+    }    
+
+    public boolean isSignedByInvestor() {
+        return signedByInvestor.get();
+    }
+
+    public void setSignedByInvestor(boolean value) {
+        signedByInvestor.set(value);
+    }
+
+    public BooleanProperty signedByInvestorProperty() {
+        return signedByInvestor;
+    }
+    
+
+    public boolean isSignedByIssuer() {
+        return signedByIssuer.get();
+    }
+
+    public void setSignedByIssuer(boolean value) {
+        signedByIssuer.set(value);
+    }
+
+    public BooleanProperty signedByIssuerProperty() {
+        return signedByIssuer;
+    }
+    
+    private final TrancheData trancheData;
 
     public Tranche(TrancheData data) {
         this.trancheData = data;
@@ -46,6 +88,9 @@ public class Tranche {
         this.referenceIndexColumn = new SimpleStringProperty(data.getReferenceIndex());
         this.marginColumn = new SimpleDoubleProperty(data.getMargin());
         this.creationDate = new SimpleStringProperty(data.getCreationDate());
+        this.signedByIssuer = new SimpleBooleanProperty(data.isSignedByIssuer());
+        this.signedByInvestor = new SimpleBooleanProperty(data.isSignedByInvestor());
+        this.signedByArranger = new SimpleBooleanProperty(data.isSignedByArranger());
     }        
 
     public LocalDate getRepaymentDate() {
