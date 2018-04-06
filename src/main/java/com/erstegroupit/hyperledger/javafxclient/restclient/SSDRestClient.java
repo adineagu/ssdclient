@@ -357,5 +357,34 @@ public class SSDRestClient {
             throw new RuntimeException("Error calling  \"" + REST_URI + "\": " + response.getStatusInfo().getReasonPhrase());
         }
     }
+    
+    public CreateDealResponse readCashflow(String cashflowId) {
+        Client client = ClientBuilder.newClient();
+
+        CreateDeal crd = new CreateDeal("readCashflow", new String[]{cashflowId});
+
+        System.out.println("REST CALL: " + crd);
+
+        Response response = client
+                .target(REST_URI + "/channels/mychannel/chaincodes/ssd")
+                .path("")
+                .queryParam("peer", "peer1")
+                .queryParam("fcn", "readAllocation")
+                .queryParam("args", new String[]{cashflowId})
+                .request(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .post(Entity.entity(crd, MediaType.APPLICATION_JSON), Response.class);
+
+        if (response.getStatus() == 201 || response.getStatus() == 200) {
+            CreateDealResponse obj = response.readEntity(CreateDealResponse.class);
+            System.out.println("Answer is: " + obj);
+            client.close();
+            return obj;
+        } else {
+            System.out.println(response.getStatusInfo().getReasonPhrase());
+            client.close();
+            throw new RuntimeException("Error calling  \"" + REST_URI + "\": " + response.getStatusInfo().getReasonPhrase());
+        }
+    }    
 
 }

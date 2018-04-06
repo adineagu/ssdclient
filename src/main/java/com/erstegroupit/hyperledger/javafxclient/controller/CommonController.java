@@ -9,6 +9,7 @@ import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
 import com.erstegroupit.hyperledger.javafxclient.model.AllocationData;
 import com.erstegroupit.hyperledger.javafxclient.model.Cashflow;
+import com.erstegroupit.hyperledger.javafxclient.model.CashflowData;
 import com.erstegroupit.hyperledger.javafxclient.model.DataModel;
 import com.erstegroupit.hyperledger.javafxclient.model.Deal;
 import com.erstegroupit.hyperledger.javafxclient.model.DealData;
@@ -117,6 +118,7 @@ public class CommonController {
 
         JsonArray subscriptionsId = jsonTranche.getAsJsonArray("subscriptions");
         JsonArray allocationsId = jsonTranche.getAsJsonArray("allocations");
+        JsonArray cashflowsId = jsonTranche.getAsJsonArray("cashflows");
 
         TrancheData trancheData = new TrancheData(trancheId, dealId, issuerId, issuedAmount, issueDate, repaymentDate, conditions, margin, signedByIssuer, signedByInvestor, signedByArranger);
 
@@ -137,6 +139,15 @@ public class CommonController {
                 trancheData.getAllocationData().add(allocationData);
             }
         }
+
+        for (JsonElement cashflowIdObj : cashflowsId) {
+            CashflowData cashflowData = readCashflow(cashflowIdObj.getAsString(), trancheId);
+
+            if (!dataModel.getClientType().equals("INVESTOR") && cashflowData != null) {
+                trancheData.getCashflowData().add(cashflowData);
+            }
+        }
+        
         return trancheData;
     }
 
@@ -173,6 +184,27 @@ public class CommonController {
         String investorId = jsonTranche.get("investor_id").getAsString();
 
         return new AllocationData(allocationId, investorId, trancheId, issueDate, issuedAmount, investorId);
+    }
+    
+    public CashflowData readCashflow(String cashflowId, String trancheId) {
+        CreateDealResponse resp = restClient.readAllocation(cashflowId);
+        System.out.println("Cashflow data payload is: " + resp.getPayload().getClass().getName());
+        System.out.println("Cashflow data is: " + resp.getPayload());
+
+        JsonParser parser = new JsonParser();
+        JsonElement jsonTree = parser.parse(resp.getPayload());
+
+        JsonObject jsonCashflow = jsonTree.getAsJsonObject();
+        
+        
+        LocalDate adjustedDate = LocalDate.parse(jsonCashflow.get("adjusted_date").getAsString(), DateTimeFormatter.ISO_DATE_TIME);
+        Double rate = jsonCashflow.get("rate").getAsDouble();
+        String type = jsonCashflow.get("cashflow_type").getAsString();
+        String currency = jsonCashflow.get("currency").getAsString();
+        Double amount = jsonCashflow.get("amount").getAsDouble();
+
+        return new CashflowData(cashflowId, trancheId, adjustedDate, rate, type, currency, amount);
+        
     }
 
     public ObservableValue<Deal> getSelectedDeal() {

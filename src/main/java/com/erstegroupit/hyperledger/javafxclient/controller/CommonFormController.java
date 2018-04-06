@@ -249,8 +249,15 @@ public class CommonFormController implements Initializable {
 
         trancheTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
+                
+                /*
+                The following three lines of code synchronize the content of Subscription, Allocations and Cashflow tables with
+                selected Tranche
+                */
                 newValue.setSubscriptionsList(dataController.getSubscriptions());
                 newValue.setAllocationsList(dataController.getAllocations());
+                newValue.setCashflowsList(dataController.getCashflows());
+                
                 dataController.setSelectedTranche(new SimpleObjectProperty<>(newValue));
 
                 dataController.setDealIsSelected(Boolean.TRUE);

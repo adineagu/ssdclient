@@ -29,6 +29,11 @@ public class CashflowData {
         this.currency = currency;
         this.amount = amount;
     }
+
+    public CashflowData(String cashflowId, String trancheId, LocalDate adjustedDate, Double rate, String cashflowType, String currency, Double amount) {
+        this(trancheId, adjustedDate, rate, cashflowType, currency, amount);
+        this.cashflowId = cashflowId;        
+    }    
     
     /**
      * Get the value of amount

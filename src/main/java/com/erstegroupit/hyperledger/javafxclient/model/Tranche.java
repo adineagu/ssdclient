@@ -232,4 +232,17 @@ public class Tranche {
             list.add(new Allocation(allocData));
         }        
     }
+    
+    public void setCashflowsList(ObservableList<Cashflow> list) {
+        list.clear();
+        
+        if (trancheData.getCashflowData() == null || trancheData.getCashflowData().isEmpty()) {
+            return;
+        }
+        
+        for (CashflowData cashflowData : trancheData.getCashflowData()) {
+            list.add(new Cashflow(cashflowData));
+        }        
+    }
+    
 }
