@@ -33,6 +33,7 @@ public class TrancheData {
 
     private final List<SubscriptionData> subscriptionData = new ArrayList<>();
     private final List<AllocationData> allocationData = new ArrayList<>();
+    private final List<CashflowData> cashflowData = new ArrayList<>();
 
     public TrancheData(String dealId, Integer issuerId, Integer trancheAmount, LocalDate trancheDate, LocalDate repaymentDate, String referenceIndex, double margin) {
         this.dealId = dealId;
@@ -135,6 +136,10 @@ public class TrancheData {
         return allocationData;
     }
 
+    public List<CashflowData> getCashflowData() {
+        return cashflowData;
+    }
+        
     public static List<CashflowData> getCashflow(TrancheData trancheData) {
         List<CashflowData> cashflowRecords = new ArrayList<>();
 

@@ -67,7 +67,6 @@ public class CashflowData {
         this.currency = currency;
     }
 
-
     /**
      * Get the value of cashflowType
      *
