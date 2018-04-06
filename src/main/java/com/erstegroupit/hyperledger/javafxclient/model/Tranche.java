@@ -36,7 +36,26 @@ public class Tranche {
     private BooleanProperty signedByIssuer = new SimpleBooleanProperty();
     private BooleanProperty signedByInvestor = new SimpleBooleanProperty();
     private BooleanProperty signedByArranger = new SimpleBooleanProperty();
+    
+    private final TrancheData trancheData;
 
+    public Tranche(TrancheData data) {
+        this.trancheData = data;
+        
+        this.trancheId = new SimpleStringProperty(data.getTrancheId());
+        this.dealId = new SimpleStringProperty(data.getDealId());
+        this.issuerId = new SimpleIntegerProperty(data.getIssuerId());
+        this.trancheDate = new SimpleObjectProperty(data.getTrancheDate());
+        this.repaymentDate = new SimpleObjectProperty(data.getRepaymentDate());
+        this.trancheAmount = new SimpleIntegerProperty(data.getTrancheAmount());
+        this.referenceIndexColumn = new SimpleStringProperty(data.getReferenceIndex());
+        this.marginColumn = new SimpleDoubleProperty(data.getMargin());
+        this.creationDate = new SimpleStringProperty(data.getCreationDate());
+        this.signedByIssuer = new SimpleBooleanProperty(data.isSignedByIssuer());
+        this.signedByInvestor = new SimpleBooleanProperty(data.isSignedByInvestor());
+        this.signedByArranger = new SimpleBooleanProperty(data.isSignedByArranger());
+    }  
+    
     public boolean isSignedByArranger() {
         return signedByArranger.get();
     }
@@ -73,26 +92,7 @@ public class Tranche {
     public BooleanProperty signedByIssuerProperty() {
         return signedByIssuer;
     }
-    
-    private final TrancheData trancheData;
-
-    public Tranche(TrancheData data) {
-        this.trancheData = data;
-        
-        this.trancheId = new SimpleStringProperty(data.getTrancheId());
-        this.dealId = new SimpleStringProperty(data.getDealId());
-        this.issuerId = new SimpleIntegerProperty(data.getIssuerId());
-        this.trancheDate = new SimpleObjectProperty(data.getTrancheDate());
-        this.repaymentDate = new SimpleObjectProperty(data.getRepaymentDate());
-        this.trancheAmount = new SimpleIntegerProperty(data.getTrancheAmount());
-        this.referenceIndexColumn = new SimpleStringProperty(data.getReferenceIndex());
-        this.marginColumn = new SimpleDoubleProperty(data.getMargin());
-        this.creationDate = new SimpleStringProperty(data.getCreationDate());
-        this.signedByIssuer = new SimpleBooleanProperty(data.isSignedByIssuer());
-        this.signedByInvestor = new SimpleBooleanProperty(data.isSignedByInvestor());
-        this.signedByArranger = new SimpleBooleanProperty(data.isSignedByArranger());
-    }        
-
+          
     public LocalDate getRepaymentDate() {
         return repaymentDate.get();
     }

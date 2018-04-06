@@ -7,6 +7,7 @@ package com.erstegroupit.hyperledger.javafxclient.model;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -132,6 +133,47 @@ public class TrancheData {
 
     public List<AllocationData> getAllocationData() {
         return allocationData;
+    }
+
+    public static List<CashflowData> getCashflow(TrancheData trancheData) {
+        List<CashflowData> cashflowRecords = new ArrayList<>();
+
+        int startMonth = trancheData.getTrancheDate().getMonthValue();
+        int startYear = trancheData.getTrancheDate().getYear();
+
+        int endMonth = trancheData.getRepaymentDate().getMonthValue();
+        int endYear = trancheData.getRepaymentDate().getYear();
+
+        double rate = 3.5;
+        double principal = trancheData.getTrancheAmount().doubleValue() / (endYear - startYear + 1);
+                
+        for (int i = startYear; i <= endYear; i++) {
+            if (i == startYear) {
+                // we have only a record in cashflow
+                
+                double amount = 0; 
+                if (startYear == endYear) {
+                    amount = trancheData.getTrancheAmount().doubleValue() * (1 + 1 / (12 - trancheData.getTrancheDate().getMonthValue() + 1)) * rate;
+                } else {
+                    amount =  trancheData.getTrancheAmount().doubleValue() * (12 - trancheData.getTrancheDate().getMonthValue() + 1) * rate;
+                }
+                cashflowRecords.add(new CashflowData(trancheData.getTrancheId(),
+                        trancheData.getTrancheDate().withMonth(12).withDayOfMonth(31), rate, "principal", "EUR", amount));
+            } else if (i > startYear && i < endYear) {
+                // add complete years
+            } else if (i == endYear && i != startYear) {
+                // add incomplete last year
+                //double amount = trancheData.getTrancheAmount().doubleValue() * (1 + 1 / (trancheData.getRepaymentDate().getMonthValue()) * rate;
+                cashflowRecords.add(new CashflowData(trancheData.getTrancheId(),
+                        trancheData.getTrancheDate().withMonth(12).withDayOfMonth(31), rate, "principal", "EUR", principal));
+                
+            }
+        }
+        Period tranchePeriod = Period.between(trancheData.getTrancheDate(), trancheData.getRepaymentDate());
+
+        tranchePeriod.getYears();
+
+        return cashflowRecords;
     }
 
 }

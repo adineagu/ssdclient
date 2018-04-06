@@ -130,6 +130,6 @@ public class Allocation {
         Integer amount =  allocatedAmountProperty().getValue();
         String status = this.status.getValue();
         return new AllocationData(investorId, trancheId, initDate, amount, status);
-    }    
+    }
     
 }
