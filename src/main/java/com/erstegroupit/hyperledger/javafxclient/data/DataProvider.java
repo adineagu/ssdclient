@@ -10,6 +10,7 @@ import com.erstegroupit.hyperledger.javafxclient.model.AllocationData;
 import com.erstegroupit.hyperledger.javafxclient.model.Cashflow;
 import com.erstegroupit.hyperledger.javafxclient.model.Deal;
 import com.erstegroupit.hyperledger.javafxclient.model.DealData;
+import com.erstegroupit.hyperledger.javafxclient.model.Payment;
 import com.erstegroupit.hyperledger.javafxclient.model.Subscription;
 import com.erstegroupit.hyperledger.javafxclient.model.SubscriptionData;
 import com.erstegroupit.hyperledger.javafxclient.model.Tranche;
@@ -28,6 +29,7 @@ public interface DataProvider {
     public ObservableList<Subscription> getSubscriptionsObsList();
     public ObservableList<Allocation> getAllocationsObsList();
     public ObservableList<Cashflow> getCashflowsObsList();
+	public ObservableList<Payment> getPaymentsObsList();
     
     public void cleanData();
 }

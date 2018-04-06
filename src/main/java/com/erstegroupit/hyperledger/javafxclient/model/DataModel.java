@@ -26,6 +26,13 @@ public class DataModel {
 
     private static final Map<Integer, String> issuerMap = new HashMap<>();
     private static final Map<Integer, String> investorMap = new HashMap<>();
+    
+    private final Map<String, DealData> dealMap = new HashMap<>();
+    private final Map<String, TrancheData> trancheMap = new HashMap<>();
+    private final Map<String, SubscriptionData> subscriptionMap = new HashMap<>();
+    private final Map<String, AllocationData> allocationMap = new HashMap<>();
+    private final Map<String, CashflowData> cashflowMap = new HashMap<>();
+    private final Map<String, PaymentData> paymentMap = new HashMap<>();
 
     private ObservableValue<Deal> selectedDeal;
     private ObservableValue<Tranche> selectedTranche;
@@ -47,12 +54,21 @@ public class DataModel {
 
     public void deleteData() {
         dataProvider.cleanData();
+        dealMap.clear();
+        trancheMap.clear();
+        subscriptionMap.clear();
+        allocationMap.clear();
+        cashflowMap.clear();
     }
 
     public ObservableList<Deal> getDeals() {
         return dataProvider.getDealsObsList();
     }
 
+	public ObservableList<Payment> getPayments() {
+        return dataProvider.getPaymentsObsList();
+	}
+    
     public ObservableList<Tranche> getTranches() {
         return dataProvider.getTranchesObsList();
     }
@@ -173,7 +189,31 @@ public class DataModel {
         this.clientType = clientType;
     }
 
-    public String getImageLogoPath() {
+    public Map<String, DealData> getDealMap() {
+		return dealMap;
+	}
+
+	public Map<String, TrancheData> getTrancheMap() {
+		return trancheMap;
+	}
+
+	public Map<String, SubscriptionData> getSubscriptionMap() {
+		return subscriptionMap;
+	}
+
+	public Map<String, AllocationData> getAllocationMap() {
+		return allocationMap;
+	}
+
+	public Map<String, CashflowData> getCashflowMap() {
+		return cashflowMap;
+	}
+	
+	public Map<String, PaymentData> getPaymentMap() {
+		return paymentMap;
+	}
+
+	public String getImageLogoPath() {
         String path = "";
         if (getClientType().equals("ISSUER")) {
             if ("1001".equals(getClientId())) {

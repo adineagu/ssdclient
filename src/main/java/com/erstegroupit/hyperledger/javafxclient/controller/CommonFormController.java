@@ -5,19 +5,31 @@
  */
 package com.erstegroupit.hyperledger.javafxclient.controller;
 
-import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
-import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
-import com.erstegroupit.hyperledger.javafxclient.model.Cashflow;
-import com.erstegroupit.hyperledger.javafxclient.model.CashflowData;
-import com.erstegroupit.hyperledger.javafxclient.model.Deal;
-import com.erstegroupit.hyperledger.javafxclient.model.Subscription;
-import com.erstegroupit.hyperledger.javafxclient.model.Tranche;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
+
+import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
+import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
+import com.erstegroupit.hyperledger.javafxclient.model.Cashflow;
+import com.erstegroupit.hyperledger.javafxclient.model.Deal;
+import com.erstegroupit.hyperledger.javafxclient.model.Payment;
+import com.erstegroupit.hyperledger.javafxclient.model.Subscription;
+import com.erstegroupit.hyperledger.javafxclient.model.Tranche;
+
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -156,6 +168,32 @@ public class CommonFormController implements Initializable {
 
     @FXML
     protected TableColumn<Cashflow, Double> cfAmountColumn;
+    
+    
+    @FXML
+    protected TableView<Payment> paymentTable;
+    
+    @FXML
+    protected TableColumn<Payment, String> paymentIdColumn;
+    
+    @FXML
+    protected TableColumn<Payment, LocalDate> paymentDateColumn;
+    
+    @FXML
+    protected TableColumn<Payment, Double> paymentAmountColumn;
+    
+    @FXML
+    protected TableColumn<Payment, String> paymentCurrencyColumn;
+    
+    @FXML
+    protected TableColumn<Payment, String> paymentIssuerNameColumn;
+    
+    @FXML
+    protected TableColumn<Payment, String> paymentInvestorNameColumn;
+    
+    @FXML
+    protected TableColumn<Payment, Integer>    paymentDirectionColumn;
+    
 
     @FXML
     protected Button refreshButton;
@@ -274,7 +312,10 @@ public class CommonFormController implements Initializable {
                 dataController.setSubscriptionIsSelected(Boolean.FALSE);
             }
         });
-
+        
+        
+		paymentTable.setItems(dataController.getPayments());
+		
         // bind for deals
         dealIdColumn.setCellValueFactory(cellData -> cellData.getValue().dealIdProperty());
         issuerColumn.setCellValueFactory(cellData -> cellData.getValue().issuerNameProperty());
@@ -313,6 +354,18 @@ public class CommonFormController implements Initializable {
         cashflowTypeColumn.setCellValueFactory(cellData -> cellData.getValue().cashflowTypeProperty());
         currencyCdColumn.setCellValueFactory(cellData -> cellData.getValue().currencyProperty());
         cfAmountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asObject());
+        
+        // bind for payments
+        
+        paymentIdColumn.setCellValueFactory(cellData -> cellData.getValue().getPaymentIdProperty() );
+        paymentDateColumn.setCellValueFactory(cellData -> cellData.getValue().getPaymentDateProperty());
+        paymentAmountColumn.setCellValueFactory(cellData -> cellData.getValue().getAmountProperty().asObject());
+        paymentCurrencyColumn.setCellValueFactory(cellData -> cellData.getValue().getCurrencyProperty());
+        paymentIssuerNameColumn.setCellValueFactory(cellData -> cellData.getValue().getIssuerNameProperty());
+        paymentInvestorNameColumn.setCellValueFactory(cellData -> cellData.getValue().getInvestorNameProperty());
+        paymentDirectionColumn.setCellValueFactory(cellData -> cellData.getValue().getPaymentDirectionProperty().asObject());
+        
+        
     }
 
     public void authenticate(String user, String organization) {
@@ -481,6 +534,7 @@ public class CommonFormController implements Initializable {
                 protected Void call() throws Exception {
                     dataController.deleteData();
                     dataController.readDeals();
+                    dataController.readPayments();
                     return (Void) null;
                 }
             };
@@ -504,6 +558,7 @@ public class CommonFormController implements Initializable {
                 protected Void call() throws Exception {
                     dataController.authenticate(user, organization);
                     dataController.readDeals();
+                    dataController.readPayments();
                     return (Void) null;
                 }
             };

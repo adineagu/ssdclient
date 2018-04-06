@@ -13,6 +13,8 @@ import com.erstegroupit.hyperledger.javafxclient.model.CashflowData;
 import com.erstegroupit.hyperledger.javafxclient.model.DataModel;
 import com.erstegroupit.hyperledger.javafxclient.model.Deal;
 import com.erstegroupit.hyperledger.javafxclient.model.DealData;
+import com.erstegroupit.hyperledger.javafxclient.model.Payment;
+import com.erstegroupit.hyperledger.javafxclient.model.PaymentData;
 import com.erstegroupit.hyperledger.javafxclient.model.Subscription;
 import com.erstegroupit.hyperledger.javafxclient.model.SubscriptionData;
 import com.erstegroupit.hyperledger.javafxclient.model.Tranche;
@@ -25,6 +27,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -68,7 +73,8 @@ public class CommonController {
             System.out.println(object.get("Record"));
 
             DealData dealData = createDealFromJson(object.getAsJsonObject("Record"));
-
+            dataModel.getDealMap().put(dealData.getDealId(), dealData);
+            
             if (dataModel.getClientType().equals("ISSUER") && dataModel.getClientId().equals(dealData.getIssuerId().toString())
                     || !dataModel.getClientType().equals("ISSUER")) {
                 dataModel.getDeals().add(new Deal(dealData));
@@ -91,6 +97,7 @@ public class CommonController {
             for (JsonElement trancheIdObj : tranchesId) {
                 TrancheData trancheData = readTranche(trancheIdObj.getAsString(), dealId, issuerId);
                 dealData.getTrancheData().add(trancheData);
+                dataModel.getTrancheMap().put(trancheData.getTrancheId(), trancheData);
             }
         }
 
@@ -124,7 +131,8 @@ public class CommonController {
 
         for (JsonElement subscriptionId : subscriptionsId) {
             SubscriptionData subscriptionData = readSubscription(subscriptionId.getAsString(), trancheId);
-
+            dataModel.getSubscriptionMap().put(subscriptionData.getSubscriptionId(), subscriptionData);
+            
             if (dataModel.getClientType().equals("INVESTOR") && subscriptionData.getInvestorId().equals(dataModel.getClientId().toString())
                     || !dataModel.getClientType().equals("INVESTOR")) {
                 trancheData.getSubscriptionData().add(subscriptionData);
@@ -133,7 +141,8 @@ public class CommonController {
 
         for (JsonElement allocationIdObj : allocationsId) {
             AllocationData allocationData = readAllocation(allocationIdObj.getAsString(), trancheId);
-
+            dataModel.getAllocationMap().put(allocationData.getAllocationId(), allocationData);
+            
             if (dataModel.getClientType().equals("INVESTOR") && allocationData.getInvestorId().equals(dataModel.getClientId().toString())
                     || !dataModel.getClientType().equals("INVESTOR")) {
                 trancheData.getAllocationData().add(allocationData);
@@ -142,7 +151,8 @@ public class CommonController {
 
         for (JsonElement cashflowIdObj : cashflowsId) {
             CashflowData cashflowData = readCashflow(cashflowIdObj.getAsString(), trancheId);
-
+            dataModel.getCashflowMap().put(cashflowData.getCashflowId(), cashflowData);
+            
             if (!dataModel.getClientType().equals("INVESTOR") && cashflowData != null) {
                 trancheData.getCashflowData().add(cashflowData);
             }
@@ -206,8 +216,78 @@ public class CommonController {
         return new CashflowData(cashflowId, trancheId, adjustedDate, rate, type, currency, amount);
         
     }
+    
+    
+    public void readPayments() {
+		Map<String, List<PaymentData>> groupedPayments = createAndGroupPayments();
+		Map<String, PaymentData> netedPayments = netPayments(groupedPayments);
+		
+		for (PaymentData paymentData : netedPayments.values()) {
+            dataModel.getPayments().add(new Payment(paymentData));
+            dataModel.getPaymentMap().put(paymentData.getPaymentId(), paymentData);
+		}
+    }
+   
+    public Map<String, List<PaymentData>> createAndGroupPayments() {
+    	Map<String, List<PaymentData>> groupedPayments = new HashMap<String, List<PaymentData>>();
+    	
+    	for (Map.Entry<String, AllocationData> allocationEntry : getAllocationMap().entrySet()) {
+    		AllocationData allocationData = allocationEntry.getValue();
+    		String investorId = allocationData.getInvestorId();
+    		Integer issuerId = getTrancheMap().get(allocationData.getTrancheId()).getIssuerId();
+    		TrancheData trancheData = getTrancheMap().get(allocationData.getTrancheId());
+    		List<CashflowData> allTrancheCashflowData = trancheData.getCashflowData();
+    		
+    		for (CashflowData cashflowData : allTrancheCashflowData) {
+    			LocalDate date = cashflowData.getAdjustedDate();
+    			String currency = cashflowData.getCurrency();
+    			String groupingKey = buildGroupingKey(investorId, issuerId, currency, date);
+    			PaymentData newPaymentData = new PaymentData(cashflowData, allocationData, trancheData);
+    			List<PaymentData> payments = groupedPayments.get(groupingKey);
+    			if (payments == null) {
+    				payments = new ArrayList<PaymentData>();
+        			groupedPayments.put(groupingKey, payments);
+    			}
+    			payments.add(newPaymentData);
+    		}
+    		getTrancheMap().get(allocationData.getTrancheId()).getCashflowData();	
+    	}
+    	
+    	return groupedPayments;
+    }
+    
+    public Map<String, PaymentData> netPayments(Map<String, List<PaymentData>> groupedPayments) {
+    	Map<String, PaymentData> nettedPayments = new HashMap<String, PaymentData>();
+    	
+    	for (Map.Entry<String, List<PaymentData>> groupedPaymentsEntry : groupedPayments.entrySet()) {
+    		PaymentData nettedPayment;
+    		if (groupedPaymentsEntry.getValue().size() < 0) {
+    			continue;
+    		} 
+    		
+    		nettedPayment = groupedPaymentsEntry.getValue().get(0);
+    		
+    		if (groupedPaymentsEntry.getValue().size() > 1) {
+    			for (int i = 1; i < groupedPaymentsEntry.getValue().size(); i++) {
+    	    		PaymentData paymentToAdd = groupedPaymentsEntry.getValue().get(i);
+    				nettedPayment.setAmount(nettedPayment.getAmount() + paymentToAdd.getAmount());
+    				for (Map.Entry<AllocationData, CashflowData> allocationCashflowEntry : paymentToAdd.getCashflowAllocationMap().entrySet()) {
+        				nettedPayment.getCashflowAllocationMap().put(allocationCashflowEntry.getKey(), allocationCashflowEntry.getValue());	
+    				}
+    			}
+    		}
+    		
+    		nettedPayments.put(nettedPayment.getPaymentId(), nettedPayment);
+    	}
+    	
+    	return nettedPayments;
+    }
 
-    public ObservableValue<Deal> getSelectedDeal() {
+    private String buildGroupingKey(String investorId, Integer issuerId, String currency, LocalDate date) {
+		return issuerId + "." + investorId + "." + currency + "." + date.toString();
+	}
+
+	public ObservableValue<Deal> getSelectedDeal() {
         return dataModel.getSelectedDeal();
     }
 
@@ -250,6 +330,10 @@ public class CommonController {
     public ObservableList<Deal> getDeals() {
         return dataModel.getDeals();
     }
+    
+	public ObservableList<Payment> getPayments() {
+		return dataModel.getPayments();
+	}
 
     public ObservableList<Tranche> getTranches() {
         return dataModel.getTranches();
@@ -306,5 +390,26 @@ public class CommonController {
     public String getImageLogoPath() {
         return dataModel.getImageLogoPath();
     }
+    
+    public Map<String, DealData> getDealMap() {
+		return dataModel.getDealMap();
+	}
+
+	public Map<String, TrancheData> getTrancheMap() {
+		return dataModel.getTrancheMap();
+	}
+
+	public Map<String, SubscriptionData> getSubscriptionMap() {
+		return dataModel.getSubscriptionMap();
+	}
+
+	public Map<String, AllocationData> getAllocationMap() {
+		return dataModel.getAllocationMap();
+	}
+
+	public Map<String, CashflowData> getCashflowMap() {
+		return dataModel.getCashflowMap();
+	}
+
     
 }

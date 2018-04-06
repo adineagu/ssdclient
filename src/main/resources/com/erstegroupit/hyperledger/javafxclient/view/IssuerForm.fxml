@@ -46,130 +46,173 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                  <SplitPane dividerPositions="0.3075245365321701, 0.6859323882224646" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" GridPane.rowIndex="1">
-                    <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                           <children>
-                              <TitledPane style="-fx-collapsible: false;" text="Deals" textFill="#1950da" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <TableView fx:id="dealTable" onMouseClicked="#handleRowSelect" prefHeight="279.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <columns>
-                                        <TableColumn fx:id="dealIdColumn" prefWidth="442.0" text="Deal Id" />
-                                        <TableColumn fx:id="issuerColumn" prefWidth="656.0" text="Issuer" />
-                                        <TableColumn fx:id="issueDateColumn" prefWidth="656.0" text="Issue Date" />
-                                        <TableColumn fx:id="typeColumn" prefWidth="656.0" text="Type" />
-                                        <TableColumn fx:id="purposeColumn" prefWidth="656.0" text="Purpose" />
-                                        <TableColumn fx:id="amountColumn" prefWidth="656.0" text="Amount" />
-                                        <TableColumn fx:id="currencyColumn" prefWidth="656.0" text="Currency" />
-                                        <TableColumn fx:id="minSubscriptionAmountColumn" prefWidth="656.0" text="Min Subs. Amount" />
-                                      </columns>
-                                       <columnResizePolicy>
-                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                       </columnResizePolicy>
-                                    </TableView>
-                                 </content>
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                              </TitledPane>
-                           </children>
-                        </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                           <children>
-                              <TitledPane style="-fx-collapsible: false;" text="Tranches" textFill="#1950da" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <TableView fx:id="trancheTable" prefHeight="341.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <columns>
-                                        <TableColumn fx:id="trancheIdColumn" prefWidth="75.0" text="Tranche Id" />                      
-                                        <TableColumn fx:id="trancheAmountColumn" prefWidth="75.0" text="Tranche Amount" />
-                                        <TableColumn fx:id="trancheDateColumn" prefWidth="75.0" text="Tranche Date" />
-                                        <TableColumn fx:id="repaymentDateColumn" prefWidth="75.0" text="Repayment Date" />
-                                        <TableColumn fx:id="referenceIndexColumn" prefWidth="75.0" text="Ref. Index" />
-                                        <TableColumn fx:id="marginColumn" prefWidth="75.0" text="Margin" />
-                                        <TableColumn fx:id="signedColumn" prefWidth="75.0" text="Sign" />
-                                      </columns>
-                                       <columnResizePolicy>
-                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                       </columnResizePolicy>
-                                    </TableView>
-                                 </content>
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                              </TitledPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <TabPane prefHeight="318.0" prefWidth="1290.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <tabs>
-                                  <Tab text="Subscriptions">
-                                    <content>
-                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                             <children>
-                                                <TableView fx:id="subscriptionTable" prefHeight="158.0" prefWidth="48.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
+                    <tabs>
+                      <Tab text="Deals">
+                           <content>
+                              <SplitPane dividerPositions="0.3075245365321701, 0.6859323882224646" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                                <items>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                       <children>
+                                          <TitledPane style="-fx-collapsible: false;" text="Deals" textFill="#1950da" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <content>
+                                                <TableView fx:id="dealTable" onMouseClicked="#handleRowSelect" prefHeight="279.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <columns>
+                                                    <TableColumn fx:id="dealIdColumn" prefWidth="442.0" text="Deal Id" />
+                                                    <TableColumn fx:id="issuerColumn" prefWidth="656.0" text="Issuer" />
+                                                    <TableColumn fx:id="issueDateColumn" prefWidth="656.0" text="Issue Date" />
+                                                    <TableColumn fx:id="typeColumn" prefWidth="656.0" text="Type" />
+                                                    <TableColumn fx:id="purposeColumn" prefWidth="656.0" text="Purpose" />
+                                                    <TableColumn fx:id="amountColumn" prefWidth="656.0" text="Amount" />
+                                                    <TableColumn fx:id="currencyColumn" prefWidth="656.0" text="Currency" />
+                                                    <TableColumn fx:id="minSubscriptionAmountColumn" prefWidth="656.0" text="Min Subs. Amount" />
+                                                  </columns>
                                                    <columnResizePolicy>
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                    </columnResizePolicy>
-                                                   <columns>
-                                                      <TableColumn fx:id="subscriptionIdColumn" prefWidth="75.0" text="Subscription Id" />
-                                                      <TableColumn fx:id="investorNameColumn" prefWidth="75.0" text="Investor Name" />
-                                                      <TableColumn fx:id="initialDateColumn" prefWidth="75.0" text="Initial Date" />
-                                                      <TableColumn fx:id="targetAmountColumn" prefWidth="75.0" text="Target Amount" />
-                                                      <TableColumn fx:id="spreadLimitColumn" prefWidth="75.0" text="Spread Limit" />
-                                                   </columns>
                                                 </TableView>
-                                             </children>
-                                          </AnchorPane>
-                                    </content>
-                                  </Tab>
-                                  <Tab text="Allocations">
-                                    <content>
-                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                             <children>
-                                                <TableView fx:id="allocationTable" prefHeight="172.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             </content>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </TitledPane>
+                                       </children>
+                                    </AnchorPane>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                       <children>
+                                          <TitledPane style="-fx-collapsible: false;" text="Tranches" textFill="#1950da" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <content>
+                                                <TableView fx:id="trancheTable" prefHeight="341.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <columns>
+                                                    <TableColumn fx:id="trancheIdColumn" prefWidth="75.0" text="Tranche Id" />                      
+                                                    <TableColumn fx:id="trancheAmountColumn" prefWidth="75.0" text="Tranche Amount" />
+                                                    <TableColumn fx:id="trancheDateColumn" prefWidth="75.0" text="Tranche Date" />
+                                                    <TableColumn fx:id="repaymentDateColumn" prefWidth="75.0" text="Repayment Date" />
+                                                    <TableColumn fx:id="referenceIndexColumn" prefWidth="75.0" text="Ref. Index" />
+                                                    <TableColumn fx:id="marginColumn" prefWidth="75.0" text="Margin" />
+                                                    <TableColumn fx:id="signedColumn" prefWidth="75.0" text="Sign" />
+                                                  </columns>
                                                    <columnResizePolicy>
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                    </columnResizePolicy>
-                                                   <columns>
-                                                      <TableColumn fx:id="allocationIdColumn" prefWidth="75.0" text="Allocation Id" />
-                                                      <TableColumn fx:id="allocationInvestorNameColumn" prefWidth="75.0" text="Investor Name" />
-                                                      <TableColumn fx:id="allocationInitialDateColumn" prefWidth="75.0" text="Initial Date" />
-                                                      <TableColumn fx:id="allocationAmountColumn" prefWidth="75.0" text="Amount" />
-                                                      <TableColumn fx:id="alocationStatusColumn" prefWidth="75.0" text="Status" />
-                                                   </columns>
                                                 </TableView>
-                                             </children>
-                                          </AnchorPane>
-                                    </content>
-                                  </Tab>
-                                  <Tab text="Cashflow">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                             <children>
-                                                <TableView fx:id="cashflowTable" prefHeight="172.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             </content>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </TitledPane>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <TabPane prefHeight="318.0" prefWidth="1290.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <tabs>
+                                              <Tab text="Subscriptions">
+                                                <content>
+                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <TableView fx:id="subscriptionTable" prefHeight="158.0" prefWidth="48.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <columnResizePolicy>
+                                                                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                               </columnResizePolicy>
+                                                               <columns>
+                                                                  <TableColumn fx:id="subscriptionIdColumn" prefWidth="75.0" text="Subscription Id" />
+                                                                  <TableColumn fx:id="investorNameColumn" prefWidth="75.0" text="Investor Name" />
+                                                                  <TableColumn fx:id="initialDateColumn" prefWidth="75.0" text="Initial Date" />
+                                                                  <TableColumn fx:id="targetAmountColumn" prefWidth="75.0" text="Target Amount" />
+                                                                  <TableColumn fx:id="spreadLimitColumn" prefWidth="75.0" text="Spread Limit" />
+                                                               </columns>
+                                                            </TableView>
+                                                         </children>
+                                                      </AnchorPane>
+                                                </content>
+                                              </Tab>
+                                              <Tab text="Allocations">
+                                                <content>
+                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <TableView fx:id="allocationTable" prefHeight="172.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <columnResizePolicy>
+                                                                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                               </columnResizePolicy>
+                                                               <columns>
+                                                                  <TableColumn fx:id="allocationIdColumn" prefWidth="75.0" text="Allocation Id" />
+                                                                  <TableColumn fx:id="allocationInvestorNameColumn" prefWidth="75.0" text="Investor Name" />
+                                                                  <TableColumn fx:id="allocationInitialDateColumn" prefWidth="75.0" text="Initial Date" />
+                                                                  <TableColumn fx:id="allocationAmountColumn" prefWidth="75.0" text="Amount" />
+                                                                  <TableColumn fx:id="alocationStatusColumn" prefWidth="75.0" text="Status" />
+                                                               </columns>
+                                                            </TableView>
+                                                         </children>
+                                                      </AnchorPane>
+                                                </content>
+                                              </Tab>
+                                              <Tab text="Cashflow">
+                                                <content>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <TableView fx:id="cashflowTable" prefHeight="172.0" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <columnResizePolicy>
+                                                                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                               </columnResizePolicy>
+                                                               <columns>
+                                                                  <TableColumn fx:id="cashflowIdColumn" prefWidth="75.0" text="Cashflow Id" />
+                                                                  <TableColumn fx:id="ajustedDateColumn" prefWidth="75.0" text="Adjusted Date" />
+                                                                  <TableColumn fx:id="rateColumn" prefWidth="75.0" text="Rate" />
+                                                                  <TableColumn fx:id="cashflowTypeColumn" prefWidth="75.0" text="Cashflow Type" />
+                                                                  <TableColumn fx:id="currencyCdColumn" prefWidth="75.0" text="Currency" />
+                                                                  <TableColumn fx:id="cfAmountColumn" prefWidth="75.0" text="Amount" />
+                                                               </columns>
+                                                            </TableView>
+                                                         </children>                                            
+                                                    </AnchorPane>
+                                                </content>
+                                              </Tab>                                  
+                                            </tabs>
+                                          </TabPane>
+                                       </children>
+                                    </AnchorPane>
+                                </items>
+                              </SplitPane>
+                           </content>
+                        </Tab>
+                      <Tab text="Payments">
+                           <content>
+                              <SplitPane dividerPositions="0.5, 0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                                <items>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="1292.0">
+                                       <children>
+                                          <TitledPane collapsible="false" text="Payments" textFill="#1950da">
+                                             <content>
+                                                <TableView fx:id="paymentTable" prefHeight="500.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <columns>
+                                                    <TableColumn fx:id="paymentIdColumn" prefWidth="600.0" text="Payment Id" />
+                                                    <TableColumn fx:id="paymentDateColumn" prefWidth="600.0" text="Payment Date" />
+                                                    <TableColumn fx:id="paymentAmountColumn" prefWidth="600.0" text="Amount" />
+                                                      <TableColumn fx:id="paymentCurrencyColumn" prefWidth="600.0" text="Currency" />
+                                                      <TableColumn fx:id="paymentIssuerNameColumn" prefWidth="600.0" text="Issuer Name" />
+                                                      <TableColumn fx:id="paymentInvestorNameColumn" prefWidth="600.0" text="Investor Name" />
+                                                      <TableColumn fx:id="paymentDirectionColumn" prefWidth="600.0" text="Payment direction" />
+                                                  </columns>
                                                    <columnResizePolicy>
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                    </columnResizePolicy>
-                                                   <columns>
-                                                      <TableColumn fx:id="cashflowIdColumn" prefWidth="75.0" text="Cashflow Id" />
-                                                      <TableColumn fx:id="ajustedDateColumn" prefWidth="75.0" text="Adjusted Date" />
-                                                      <TableColumn fx:id="rateColumn" prefWidth="75.0" text="Rate" />
-                                                      <TableColumn fx:id="cashflowTypeColumn" prefWidth="75.0" text="Cashflow Type" />
-                                                      <TableColumn fx:id="currencyCdColumn" prefWidth="75.0" text="Currency" />
-                                                      <TableColumn fx:id="cfAmountColumn" prefWidth="75.0" text="Amount" />
-                                                   </columns>
                                                 </TableView>
-                                             </children>                                            
-                                        </AnchorPane>
-                                    </content>
-                                  </Tab>                                  
-                                </tabs>
-                              </TabPane>
-                           </children>
-                        </AnchorPane>
-                    </items>
-                  </SplitPane>
+                                             </content>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </TitledPane>
+                                       </children>
+                                    </AnchorPane>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+                                    <AnchorPane prefHeight="279.0" prefWidth="1290.0" />
+                                </items>
+                              </SplitPane>
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
                   <ToolBar prefHeight="71.0" prefWidth="1292.0" GridPane.rowIndex="2">
                     <items>
                         <JFXButton fx:id="createDealBtn" buttonType="RAISED" ellipsisString="" onAction="#handleCreateDealAction" prefHeight="32.0" prefWidth="40.0">

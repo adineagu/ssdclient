@@ -2,31 +2,49 @@ package com.erstegroupit.hyperledger.javafxclient.model;
 
 import java.time.LocalDate;
 
+import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Payment {
+	
+    private final DataModel dataModel = InjectorContext.getInjector().getInstance(DataModel.class);
 	
     private final StringProperty paymentId;
     private final ObjectProperty<LocalDate> paymentDate;
     private final StringProperty currency;
     private final DoubleProperty amount;  
-    private final StringProperty issuerId;
-    private final StringProperty investorId;
+    private final StringProperty issuerName;
+    private final StringProperty investorName;
     private final IntegerProperty paymentDirection;
     
+    public Payment(PaymentData data) {
+    	this.paymentId = new SimpleStringProperty(data.getPaymentId());
+        this.paymentDate = new SimpleObjectProperty<>(data.getPaymentDate());
+        this.currency = new SimpleStringProperty(data.getCurrency());
+        this.amount = new SimpleDoubleProperty(data.getAmount());
+        this.issuerName = new SimpleStringProperty(dataModel.getIssuers().get(data.getIssuerId()));	
+        this.investorName = new SimpleStringProperty(dataModel.getInvestors().get(data.getInvestorId()));	
+        this.paymentDirection = new SimpleIntegerProperty(data.getPaymentDirection());
+    }
+    
 	public Payment(StringProperty paymentId, ObjectProperty<LocalDate> paymentDate, StringProperty currency,
-			DoubleProperty amount, StringProperty issuerId, StringProperty investorId,
+			DoubleProperty amount, StringProperty issuerName, StringProperty investorName,
 			IntegerProperty paymentDirection) {
 		super();
 		this.paymentId = paymentId;
 		this.paymentDate = paymentDate;
 		this.currency = currency;
 		this.amount = amount;
-		this.issuerId = issuerId;
-		this.investorId = investorId;
+		this.issuerName = issuerName;
+		this.investorName = investorName;
 		this.paymentDirection = paymentDirection;
 	}
 
@@ -46,12 +64,12 @@ public class Payment {
 		return amount;
 	}
 	
-	public StringProperty getIssuerIdProperty() {
-		return issuerId;
+	public StringProperty getIssuerNameProperty() {
+		return issuerName;
 	}
 	
-	public StringProperty getInvestorIdProperty() {
-		return investorId;
+	public StringProperty getInvestorNameProperty() {
+		return investorName;
 	}
 	
 	public IntegerProperty getPaymentDirectionProperty() {
@@ -74,12 +92,12 @@ public class Payment {
 		return amount.get();
 	}
 	
-	public String getIssuerId() {
-		return issuerId.get();
+	public String getIssuerName() {
+		return issuerName.get();
 	}
 	
-	public String getInvestorId() {
-		return investorId.get();
+	public String getInvestorName() {
+		return investorName.get();
 	}
 	
 	public int getPaymentDirection() {
@@ -103,12 +121,12 @@ public class Payment {
 		 amount.set(value);
 	}
 	
-	public void setIssuerId(String value) {
-		 issuerId.set(value);
+	public void setIssuerName(String value) {
+		 issuerName.set(value);
 	}
 	
-	public void setInvestorId(String value) {
-		 investorId.set(value);
+	public void setInvestorName(String value) {
+		 investorName.set(value);
 	}
 	
 	public void setPaymentDirection(Integer value) {

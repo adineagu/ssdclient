@@ -16,14 +16,16 @@ public class PaymentData {
     private LocalDate paymentDate;  
     private String currency;    
     private Double amount;
-    private String issuerId;
-    private String investorId;
+    private Integer issuerId;
+    private Integer investorId;
     private Integer paymentDirection; /* +1 = payment from issuer to investor, -1 payment from investor to issuer */
     
-    private final Map<CashflowData, AllocationData> trancheData = new HashMap<CashflowData, AllocationData>(); //TODO: replace AllocationData with BallanceData
+    private static Integer idCounter = 0;
     
-	public PaymentData(String paymentId, LocalDate paymentDate, String currency, Double amount, String issuerId,
-			String investorId, Integer paymentDirection) {
+    private final Map<AllocationData, CashflowData> allocationCashflowMap = new HashMap<AllocationData, CashflowData>(); //TODO: replace AllocationData with BallanceData
+    
+	public PaymentData(String paymentId, LocalDate paymentDate, String currency, Double amount, Integer issuerId,
+			Integer investorId, Integer paymentDirection) {
 		super();
 		this.paymentId = paymentId;
 		this.paymentDate = paymentDate;
@@ -32,6 +34,20 @@ public class PaymentData {
 		this.issuerId = issuerId;
 		this.investorId = investorId;
 		this.paymentDirection = paymentDirection;
+	}
+
+	public PaymentData(CashflowData cashflowData, AllocationData allocationData, TrancheData trancheData) {
+		idCounter = idCounter + 1;
+		this.paymentId = idCounter.toString();
+		this.paymentDate = cashflowData.getAdjustedDate();
+		this.currency = cashflowData.getCurrency();
+		Double stake = allocationData.getAllocationAmount().doubleValue() / trancheData.getTrancheAmount().doubleValue();
+		this.amount = cashflowData.getAmount().doubleValue() * stake;
+		this.issuerId = trancheData.getIssuerId();
+		this.investorId = Integer.parseInt(allocationData.getInvestorId());
+		this.paymentDirection = 1;
+		
+		allocationCashflowMap.put(allocationData, cashflowData);
 	}
 
 	public String getPaymentId() {
@@ -66,19 +82,19 @@ public class PaymentData {
 		this.amount = amount;
 	}
 
-	public String getIssuerId() {
+	public Integer getIssuerId() {
 		return issuerId;
 	}
 
-	public void setIssuerId(String issuerId) {
+	public void setIssuerId(Integer issuerId) {
 		this.issuerId = issuerId;
 	}
 
-	public String getInvestorId() {
+	public Integer getInvestorId() {
 		return investorId;
 	}
 
-	public void setInvestorId(String investorId) {
+	public void setInvestorId(Integer investorId) {
 		this.investorId = investorId;
 	}
 
@@ -90,8 +106,8 @@ public class PaymentData {
 		this.paymentDirection = paymentDirection;
 	}
 
-	public Map<CashflowData, AllocationData> getTrancheData() {
-		return trancheData;
+	public Map<AllocationData, CashflowData> getCashflowAllocationMap() {
+		return allocationCashflowMap;
 	}    
     
 }
