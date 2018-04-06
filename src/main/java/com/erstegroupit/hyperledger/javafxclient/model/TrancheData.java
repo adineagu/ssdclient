@@ -7,10 +7,10 @@ package com.erstegroupit.hyperledger.javafxclient.model;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  *
@@ -139,46 +139,41 @@ public class TrancheData {
     public List<CashflowData> getCashflowData() {
         return cashflowData;
     }
+
+    public void generateCashflow() {
+
+        cashflowData.clear();
+
+        int startMonth = this.getTrancheDate().getMonthValue();
+        int startYear = this.getTrancheDate().getYear();
+
+        int endMonth = this.getRepaymentDate().getMonthValue();
+        int endYear = this.getRepaymentDate().getYear();
+
+        double rate = 0.035;
+        double principal = this.getTrancheAmount().doubleValue() / (endYear - startYear + 1);
+
+        double startMonthDbl = startMonth;
+        double endMonthDbl = endMonth;
         
-    public static List<CashflowData> getCashflow(TrancheData trancheData) {
-        List<CashflowData> cashflowRecords = new ArrayList<>();
-
-        int startMonth = trancheData.getTrancheDate().getMonthValue();
-        int startYear = trancheData.getTrancheDate().getYear();
-
-        int endMonth = trancheData.getRepaymentDate().getMonthValue();
-        int endYear = trancheData.getRepaymentDate().getYear();
-
-        double rate = 3.5;
-        double principal = trancheData.getTrancheAmount().doubleValue() / (endYear - startYear + 1);
-                
         for (int i = startYear; i <= endYear; i++) {
+            double amount = 0;
+            LocalDate adjustmentDate = LocalDate.of(i, 12, 31);
+
             if (i == startYear) {
-                // we have only a record in cashflow
-                
-                double amount = 0; 
-                if (startYear == endYear) {
-                    amount = trancheData.getTrancheAmount().doubleValue() * (1 + 1 / (12 - trancheData.getTrancheDate().getMonthValue() + 1)) * rate;
-                } else {
-                    amount =  trancheData.getTrancheAmount().doubleValue() * (12 - trancheData.getTrancheDate().getMonthValue() + 1) * rate;
-                }
-                cashflowRecords.add(new CashflowData(trancheData.getTrancheId(),
-                        trancheData.getTrancheDate().withMonth(12).withDayOfMonth(31), rate, "principal", "EUR", amount));
+                amount = principal + principal * rate * ((12 - startMonthDbl + 1) / 12);
+                System.out.println("Inital year amount is: " + amount);
             } else if (i > startYear && i < endYear) {
-                // add complete years
+                amount = principal * (1 + rate);
             } else if (i == endYear && i != startYear) {
-                // add incomplete last year
-                //double amount = trancheData.getTrancheAmount().doubleValue() * (1 + 1 / (trancheData.getRepaymentDate().getMonthValue()) * rate;
-                cashflowRecords.add(new CashflowData(trancheData.getTrancheId(),
-                        trancheData.getTrancheDate().withMonth(12).withDayOfMonth(31), rate, "principal", "EUR", principal));
-                
+                amount = principal + principal * rate * (endMonthDbl - 1) / 12;
+            } else {
+                throw new RuntimeException("Unhandled year: " + i);
             }
+
+            this.cashflowData.add(new CashflowData(this.getTrancheId(), adjustmentDate, rate, "principal", "EUR", Double.parseDouble(String.format(Locale.ROOT, "%.3f", amount))));
         }
-        Period tranchePeriod = Period.between(trancheData.getTrancheDate(), trancheData.getRepaymentDate());
 
-        tranchePeriod.getYears();
-
-        return cashflowRecords;
     }
 
 }

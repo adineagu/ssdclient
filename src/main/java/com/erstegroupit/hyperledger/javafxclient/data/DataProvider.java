@@ -7,6 +7,7 @@ package com.erstegroupit.hyperledger.javafxclient.data;
 
 import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
 import com.erstegroupit.hyperledger.javafxclient.model.AllocationData;
+import com.erstegroupit.hyperledger.javafxclient.model.Cashflow;
 import com.erstegroupit.hyperledger.javafxclient.model.Deal;
 import com.erstegroupit.hyperledger.javafxclient.model.DealData;
 import com.erstegroupit.hyperledger.javafxclient.model.Subscription;
@@ -21,15 +22,12 @@ import javafx.collections.ObservableList;
  * @author User
  */
 public interface DataProvider {
-    public List<DealData> getDealsData();
-    public List<TrancheData> getTranchesData(String dealId);
-    public List<SubscriptionData> getSubscriptionData();
-    public List<AllocationData> getAllocationData();
-    
+      
     public ObservableList<Deal> getDealsObsList();
     public ObservableList<Tranche> getTranchesObsList();
     public ObservableList<Subscription> getSubscriptionsObsList();
     public ObservableList<Allocation> getAllocationsObsList();
+    public ObservableList<Cashflow> getCashflowsObsList();
     
     public void cleanData();
 }

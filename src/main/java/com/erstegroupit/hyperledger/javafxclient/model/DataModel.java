@@ -65,6 +65,10 @@ public class DataModel {
         return dataProvider.getAllocationsObsList();
     }
 
+    public ObservableList<Cashflow> getCashflows() {
+        return dataProvider.getCashflowsObsList();
+    }
+    
     public Map<Integer, String> getIssuers() {
         return issuerMap;
     }

@@ -7,6 +7,8 @@ package com.erstegroupit.hyperledger.javafxclient.controller;
 
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
+import com.erstegroupit.hyperledger.javafxclient.model.Cashflow;
+import com.erstegroupit.hyperledger.javafxclient.model.CashflowData;
 import com.erstegroupit.hyperledger.javafxclient.model.Deal;
 import com.erstegroupit.hyperledger.javafxclient.model.Subscription;
 import com.erstegroupit.hyperledger.javafxclient.model.Tranche;
@@ -15,6 +17,8 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -113,7 +117,7 @@ public class CommonFormController implements Initializable {
 
     @FXML
     protected TableColumn<Subscription, Double> spreadLimitColumn;
-    
+
     @FXML
     protected TableView<Allocation> allocationTable;
 
@@ -131,16 +135,37 @@ public class CommonFormController implements Initializable {
 
     @FXML
     protected TableColumn<Allocation, Double> alocationStatusColumn;
-    
+
+    @FXML
+    protected TableView<Cashflow> cashflowTable;
+
+    @FXML
+    protected TableColumn<Cashflow, String> cashflowIdColumn;
+
+    @FXML
+    protected TableColumn<Cashflow, LocalDate> ajustedDateColumn;
+
+    @FXML
+    protected TableColumn<Cashflow, Double> rateColumn;
+
+    @FXML
+    protected TableColumn<Cashflow, String> cashflowTypeColumn;
+
+    @FXML
+    protected TableColumn<Cashflow, String> currencyCdColumn;
+
+    @FXML
+    protected TableColumn<Cashflow, Double> cfAmountColumn;
+
     @FXML
     protected Button refreshButton;
-    
+
     @FXML
     protected StackPane stackPane;
 
     @FXML
     protected GridPane pane;
-    
+
     @FXML
     ImageView logoImage;
 
@@ -153,11 +178,11 @@ public class CommonFormController implements Initializable {
         this.dataController = InjectorContext.getInjector().getInstance(CommonController.class);
     }
 
-    @FXML 
+    @FXML
     protected void handleRefreshDataButton(ActionEvent event) {
-        refreshData();     
+        refreshData();
     }
-    
+
     @FXML
     protected void handleCreateDealAction(ActionEvent event) {
         showDealEditor(false);
@@ -195,22 +220,25 @@ public class CommonFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         logoImage.setImage(new Image(dataController.getImageLogoPath()));
-        
+
         dealTable.setItems(dataController.getDeals());
-        trancheTable.setItems(dataController.getTranches());   
+        trancheTable.setItems(dataController.getTranches());
         subscriptionTable.setItems(this.dataController.getSubscriptions());
         allocationTable.setItems(this.dataController.getAllocations());
-        
+        cashflowTable.setItems(this.dataController.getCashflows());
+
         Tooltip refreshBtnToolTip = new Tooltip("Refresh");
-        refreshButton.setTooltip(refreshBtnToolTip);        
-        
+        refreshButton.setTooltip(refreshBtnToolTip);
+
         dealTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 newValue.setTranchesList(dataController.getTranches());
                 dataController.getSubscriptions().clear();
                 dataController.getAllocations().clear();
+                dataController.getCashflows().clear();
+                
                 dataController.setSelectedDeal(new SimpleObjectProperty<>(newValue));
 
                 dataController.setDealIsSelected(Boolean.FALSE);
@@ -218,7 +246,7 @@ public class CommonFormController implements Initializable {
                 dataController.setSubscriptionIsSelected(Boolean.FALSE);
             }
         });
-        
+
         trancheTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 newValue.setSubscriptionsList(dataController.getSubscriptions());
@@ -230,7 +258,7 @@ public class CommonFormController implements Initializable {
                 dataController.setSubscriptionIsSelected(Boolean.TRUE);
             }
         });
-        
+
         subscriptionTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 dataController.setSelectedSubscription(new SimpleObjectProperty<>(newValue));
@@ -238,7 +266,7 @@ public class CommonFormController implements Initializable {
                 dataController.setTrancheIsSelected(Boolean.TRUE);
                 dataController.setSubscriptionIsSelected(Boolean.FALSE);
             }
-        });        
+        });
 
         // bind for deals
         dealIdColumn.setCellValueFactory(cellData -> cellData.getValue().dealIdProperty());
@@ -257,21 +285,29 @@ public class CommonFormController implements Initializable {
         trancheAmountColumn.setCellValueFactory(cellData -> cellData.getValue().trancheAmountProperty().asObject());
         referenceIndexColumn.setCellValueFactory(cellData -> cellData.getValue().referenceIndexProperty());
         marginColumn.setCellValueFactory(cellData -> cellData.getValue().marginColumnProperty().asObject());
-        
+
         // bind for subscriptions
         subscriptionIdColumn.setCellValueFactory(cellData -> cellData.getValue().getSubscriptionId());
         investorNameColumn.setCellValueFactory(cellData -> cellData.getValue().getInvestorName());
         initialDateColumn.setCellValueFactory(cellData -> cellData.getValue().getInitDate());
         targetAmountColumn.setCellValueFactory(cellData -> cellData.getValue().getTargetAmount().asObject());
-        spreadLimitColumn.setCellValueFactory(cellData -> cellData.getValue().getSpreadLimit().asObject());   
-        
+        spreadLimitColumn.setCellValueFactory(cellData -> cellData.getValue().getSpreadLimit().asObject());
+
         // bind for allocations
         allocationIdColumn.setCellValueFactory(cellData -> cellData.getValue().allocationIdProperty());
         allocationInvestorNameColumn.setCellValueFactory(cellData -> cellData.getValue().investorNameProperty());
         allocationInitialDateColumn.setCellValueFactory(cellData -> cellData.getValue().initDateProperty());
         allocationAmountColumn.setCellValueFactory(cellData -> cellData.getValue().allocatedAmountProperty().asObject());
+        
+        //bind for cashflow
+        cashflowIdColumn.setCellValueFactory(cellData -> cellData.getValue().cashflowIdProperty());
+        ajustedDateColumn.setCellValueFactory(cellData -> cellData.getValue().adjustmentDateProperty());
+        rateColumn.setCellValueFactory(cellData -> cellData.getValue().rateProperty().asObject());
+        cashflowTypeColumn.setCellValueFactory(cellData -> cellData.getValue().cashflowTypeProperty());
+        currencyCdColumn.setCellValueFactory(cellData -> cellData.getValue().currencyProperty());
+        cfAmountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asObject());
     }
-    
+
     public void authenticate(String user, String organization) {
         ProgressIndicator pi = new ProgressIndicator();
         VBox box = new VBox(pi);
@@ -428,8 +464,9 @@ public class CommonFormController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     private class RefreshDataService extends Service<Void> {
+
         @Override
         protected Task<Void> createTask() {
             return new Task<Void>() {
@@ -452,14 +489,14 @@ public class CommonFormController implements Initializable {
             this.user = user;
             this.organization = organization;
         }
-        
+
         @Override
         protected Task<Void> createTask() {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    dataController.authenticate(user, organization);                    
-                    dataController.readDeals();                                        
+                    dataController.authenticate(user, organization);
+                    dataController.readDeals();
                     return (Void) null;
                 }
             };

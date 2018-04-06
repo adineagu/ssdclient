@@ -8,6 +8,7 @@ package com.erstegroupit.hyperledger.javafxclient.controller;
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
 import com.erstegroupit.hyperledger.javafxclient.model.AllocationData;
+import com.erstegroupit.hyperledger.javafxclient.model.Cashflow;
 import com.erstegroupit.hyperledger.javafxclient.model.DataModel;
 import com.erstegroupit.hyperledger.javafxclient.model.Deal;
 import com.erstegroupit.hyperledger.javafxclient.model.DealData;
@@ -230,6 +231,10 @@ public class CommonController {
         return dataModel.getAllocations();
     }
 
+    public ObservableList<Cashflow> getCashflows() {
+        return dataModel.getCashflows();
+    }
+    
     public void setDealIsSelected(Boolean status) {
         dataModel.setDealIsSelected(status);
     }

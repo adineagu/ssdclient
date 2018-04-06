@@ -6,10 +6,12 @@
 package com.erstegroupit.hyperledger.javafxclient.restclient;
 
 import com.erstegroupit.hyperledger.javafxclient.model.AllocationData;
+import com.erstegroupit.hyperledger.javafxclient.model.CashflowData;
 import com.erstegroupit.hyperledger.javafxclient.model.DataModel;
 import com.erstegroupit.hyperledger.javafxclient.model.DealData;
 import com.erstegroupit.hyperledger.javafxclient.model.SubscriptionData;
 import com.erstegroupit.hyperledger.javafxclient.model.TrancheData;
+import com.sun.javafx.binding.StringFormatter;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import javax.inject.Inject;
@@ -178,6 +180,38 @@ public class SSDRestClient {
             throw new RuntimeException("Error calling  \"" + REST_URI + "\": " + response.getStatusInfo().getReasonPhrase());
         }
     }
+    
+    public CreateDealResponse createCashflow(CashflowData cashflow) {
+        Client client = ClientBuilder.newClient();
+
+        String adjustedDate = cashflow.getAdjustedDate().format(YYYYMMMDD_FMT);
+        String trancheId = cashflow.getTrancheId();
+        String rate = cashflow.getRate().toString();
+        String type = cashflow.getCashflowType();
+        String currency = cashflow.getCurrency();
+        Double amount = cashflow.getAmount();
+
+        CreateDeal crd = new CreateDeal("createCashflow", new String[]{trancheId, adjustedDate, "3.5", type, currency, String.format("%.0f", amount)});
+
+        System.out.println("REST CALL: " + crd);
+
+        Response response = client
+                .target(REST_URI + "/channels/mychannel/chaincodes/ssd")
+                .path("")
+                .request(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .post(Entity.entity(crd, MediaType.APPLICATION_JSON), Response.class);
+
+        if (response.getStatus() == 201 || response.getStatus() == 200) {
+            CreateDealResponse obj = response.readEntity(CreateDealResponse.class);
+            client.close();
+            return obj;
+        } else {
+            System.out.println(response.getStatusInfo().getReasonPhrase());
+            client.close();
+            throw new RuntimeException("Error calling  \"" + REST_URI + "\": " + response.getStatusInfo().getReasonPhrase());
+        }
+    }        
 
     public CreateDealResponse readTranche(String trancheId) {
         Client client = ClientBuilder.newClient();
