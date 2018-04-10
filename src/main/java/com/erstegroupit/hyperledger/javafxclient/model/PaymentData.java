@@ -6,11 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
+
 /**
 *
 * @author H502QOB
 */
 public class PaymentData {
+	
+    private final DataModel dataModel = InjectorContext.getInjector().getInstance(DataModel.class);
 	
     private String paymentId; 
     private LocalDate paymentDate;  
@@ -18,14 +22,13 @@ public class PaymentData {
     private Double amount;
     private Integer issuerId;
     private Integer investorId;
-    private Integer paymentDirection; /* +1 = payment from issuer to investor, -1 payment from investor to issuer */
     
     private static Integer idCounter = 0;
     
     private final Map<AllocationData, List<CashflowData>> allocationCashflowMap = new HashMap<AllocationData, List<CashflowData>>(); //TODO: replace AllocationData with BallanceData
     
 	public PaymentData(String paymentId, LocalDate paymentDate, String currency, Double amount, Integer issuerId,
-			Integer investorId, Integer paymentDirection) {
+			Integer investorId) {
 		super();
 		this.paymentId = paymentId;
 		this.paymentDate = paymentDate;
@@ -33,7 +36,6 @@ public class PaymentData {
 		this.amount = amount;
 		this.issuerId = issuerId;
 		this.investorId = investorId;
-		this.paymentDirection = paymentDirection;
 	}
 
 	public PaymentData(CashflowData cashflowData, AllocationData allocationData, TrancheData trancheData) {
@@ -41,11 +43,15 @@ public class PaymentData {
 		this.paymentId = idCounter.toString();
 		this.paymentDate = cashflowData.getAdjustedDate();
 		this.currency = cashflowData.getCurrency();
-		Double stake = allocationData.getAllocationAmount().doubleValue() / trancheData.getTrancheAmount().doubleValue();
-		this.amount = cashflowData.getAmount().doubleValue() * stake;
 		this.issuerId = trancheData.getIssuerId();
 		this.investorId = Integer.parseInt(allocationData.getInvestorId());
-		this.paymentDirection = 1;
+		
+		Double stake = allocationData.getAllocationAmount().doubleValue() / trancheData.getTrancheAmount().doubleValue();
+		Integer paymentDirection = 1;
+	    if (dataModel.getClientType().equals("ISSUER")) {
+	    	paymentDirection = -1;
+	    }
+		this.amount = cashflowData.getAmount().doubleValue() * stake * paymentDirection.doubleValue();
 		
 		List<CashflowData> cdList = new ArrayList<CashflowData>();
 		cdList.add(cashflowData);
@@ -98,14 +104,6 @@ public class PaymentData {
 
 	public void setInvestorId(Integer investorId) {
 		this.investorId = investorId;
-	}
-
-	public Integer getPaymentDirection() {
-		return paymentDirection;
-	}
-
-	public void setPaymentDirection(Integer paymentDirection) {
-		this.paymentDirection = paymentDirection;
 	}
 
 	public Map<AllocationData, List<CashflowData>> getCashflowAllocationMap() {

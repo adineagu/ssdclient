@@ -55,12 +55,16 @@ public class DataModel {
 
     public void deleteData() {
         dataProvider.cleanData();
-        dealMap.clear();
+        cleanObjectMaps();
+    }
+
+	private void cleanObjectMaps() {
+		dealMap.clear();
         trancheMap.clear();
         subscriptionMap.clear();
         allocationMap.clear();
         cashflowMap.clear();
-    }
+	}
 
     public ObservableList<Deal> getDeals() {
         return dataProvider.getDealsObsList();

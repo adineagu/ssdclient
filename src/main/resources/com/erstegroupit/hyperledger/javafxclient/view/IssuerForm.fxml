@@ -192,7 +192,6 @@
                                                       <TableColumn fx:id="paymentCurrencyColumn" prefWidth="600.0" text="Currency" />
                                                       <TableColumn fx:id="paymentIssuerNameColumn" prefWidth="600.0" text="Issuer Name" />
                                                       <TableColumn fx:id="paymentInvestorNameColumn" prefWidth="600.0" text="Investor Name" />
-                                                      <TableColumn fx:id="paymentDirectionColumn" prefWidth="600.0" text="Payment direction" />
                                                   </columns>
                                                    <columnResizePolicy>
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

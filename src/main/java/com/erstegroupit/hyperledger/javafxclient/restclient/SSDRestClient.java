@@ -5,16 +5,9 @@
  */
 package com.erstegroupit.hyperledger.javafxclient.restclient;
 
-import com.erstegroupit.hyperledger.javafxclient.model.AllocationData;
-import com.erstegroupit.hyperledger.javafxclient.model.CashflowData;
-import com.erstegroupit.hyperledger.javafxclient.model.DataModel;
-import com.erstegroupit.hyperledger.javafxclient.model.DealData;
-import com.erstegroupit.hyperledger.javafxclient.model.SubscriptionData;
-import com.erstegroupit.hyperledger.javafxclient.model.TrancheData;
-import com.sun.javafx.binding.StringFormatter;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import javax.inject.Inject;
+
 import javax.inject.Singleton;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -22,6 +15,12 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import com.erstegroupit.hyperledger.javafxclient.model.AllocationData;
+import com.erstegroupit.hyperledger.javafxclient.model.CashflowData;
+import com.erstegroupit.hyperledger.javafxclient.model.DealData;
+import com.erstegroupit.hyperledger.javafxclient.model.SubscriptionData;
+import com.erstegroupit.hyperledger.javafxclient.model.TrancheData;
 
 /**
  *
@@ -307,7 +306,7 @@ public class SSDRestClient {
         Client client = ClientBuilder.newClient();
 
         CreateDeal crd = new CreateDeal("createAllocation", new String[]{allocation.getTrancheId(), allocation.getInvestorId(), 
-            initDate, allocation.getAllocationAmount().toString(), "false"});
+            initDate, allocation.getAllocationAmount().toString()});
          
         System.out.println("REST CALL: " + crd);
 

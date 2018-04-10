@@ -5,14 +5,16 @@
  */
 package com.erstegroupit.hyperledger.javafxclient.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 import com.erstegroupit.hyperledger.javafxclient.model.Cashflow;
 import com.erstegroupit.hyperledger.javafxclient.model.CashflowData;
 import com.erstegroupit.hyperledger.javafxclient.model.Tranche;
 import com.erstegroupit.hyperledger.javafxclient.restclient.CreateDealResponse;
 import com.erstegroupit.hyperledger.javafxclient.restclient.SSDRestClient;
-import java.net.URL;
-import java.util.ResourceBundle;
+
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -63,6 +65,9 @@ public class IssuerFormController extends CommonFormController {
 
         Tooltip cashflowBtnToolTip = new Tooltip("Create Cashflow");
         createCashflowBtn.setTooltip(cashflowBtnToolTip);    
+        
+        Tooltip refreshBtnToolTip = new Tooltip("Refresh");
+        refreshButton.setTooltip(refreshBtnToolTip);
         
         createTrancheBtn.disableProperty().bind(dataController.getDealIsSelected());
         super.initialize(url, rb);        

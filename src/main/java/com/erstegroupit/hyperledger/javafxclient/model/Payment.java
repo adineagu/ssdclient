@@ -7,10 +7,8 @@ import java.util.Map;
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -30,7 +28,6 @@ public class Payment {
     private final DoubleProperty amount;  
     private final StringProperty issuerName;
     private final StringProperty investorName;
-    private final IntegerProperty paymentDirection;
     
     private PaymentData paymentData;
     
@@ -41,13 +38,11 @@ public class Payment {
         this.amount = new SimpleDoubleProperty(data.getAmount());
         this.issuerName = new SimpleStringProperty(dataModel.getIssuers().get(data.getIssuerId()));	
         this.investorName = new SimpleStringProperty(dataModel.getInvestors().get(data.getInvestorId()));	
-        this.paymentDirection = new SimpleIntegerProperty(data.getPaymentDirection());
         this.paymentData = data;
     }
     
 	public Payment(StringProperty paymentId, ObjectProperty<LocalDate> paymentDate, StringProperty currency,
-			DoubleProperty amount, StringProperty issuerName, StringProperty investorName,
-			IntegerProperty paymentDirection) {
+			DoubleProperty amount, StringProperty issuerName, StringProperty investorName) {
 		super();
 		this.paymentId = paymentId;
 		this.paymentDate = paymentDate;
@@ -55,7 +50,6 @@ public class Payment {
 		this.amount = amount;
 		this.issuerName = issuerName;
 		this.investorName = investorName;
-		this.paymentDirection = paymentDirection;
 	}
 
 	public StringProperty getPaymentIdProperty() {
@@ -82,10 +76,6 @@ public class Payment {
 		return investorName;
 	}
 	
-	public IntegerProperty getPaymentDirectionProperty() {
-		return paymentDirection;
-	}
-	
 	public String getPaymentId() {
 		return paymentId.get();
 	}
@@ -110,11 +100,6 @@ public class Payment {
 		return investorName.get();
 	}
 	
-	public int getPaymentDirection() {
-		return paymentDirection.get();
-	}
-	
-	
 	public void setPaymentId(String value) {
 		 paymentId.set(value);
 	}
@@ -137,10 +122,6 @@ public class Payment {
 	
 	public void setInvestorName(String value) {
 		 investorName.set(value);
-	}
-	
-	public void setPaymentDirection(Integer value) {
-		 paymentDirection.set(value);
 	}
 	
     public void setPaymentCashflowsList(ObservableList<PaymentCashflow> list) {

@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import com.erstegroupit.hyperledger.javafxclient.model.CashflowData.CashflowType;
+
 /**
  *
  * @author User
@@ -144,7 +146,6 @@ public class TrancheData {
 
         cashflowData.clear();
 
-        int startMonth = this.getTrancheDate().getMonthValue();
         int startYear = this.getTrancheDate().getYear();
 
         int endMonth = this.getRepaymentDate().getMonthValue();
@@ -152,26 +153,17 @@ public class TrancheData {
 
         double rate = 0.035;
         double principal = this.getTrancheAmount().doubleValue() / (endYear - startYear + 1);
-
-        double startMonthDbl = startMonth;
-        double endMonthDbl = endMonth;
+        double interest = this.getTrancheAmount().doubleValue() * rate;
         
         for (int i = startYear; i <= endYear; i++) {
-            double amount = 0;
-            LocalDate adjustmentDate = LocalDate.of(i, 12, 31);
+        	
+            LocalDate adjustmentDate = LocalDate.of(i, endMonth, 28);
+        	this.cashflowData.add(new CashflowData(this.getTrancheId(), adjustmentDate, rate, CashflowType.PRINCIPAL.toString(), "EUR", Double.parseDouble(String.format(Locale.ROOT, "%.3f", principal))));
+        	this.cashflowData.add(new CashflowData(this.getTrancheId(), adjustmentDate, rate, CashflowType.INTEREST.toString(), "EUR", Double.parseDouble(String.format(Locale.ROOT, "%.3f", interest))));
 
             if (i == startYear) {
-                amount = principal + principal * rate * ((12 - startMonthDbl + 1) / 12);
-                System.out.println("Inital year amount is: " + amount);
-            } else if (i > startYear && i < endYear) {
-                amount = principal * (1 + rate);
-            } else if (i == endYear && i != startYear) {
-                amount = principal + principal * rate * (endMonthDbl - 1) / 12;
-            } else {
-                throw new RuntimeException("Unhandled year: " + i);
+            	this.cashflowData.add(new CashflowData(this.getTrancheId(), this.getTrancheDate(), rate, CashflowType.INVESTMENT.toString(), "EUR", -1 * Double.parseDouble(String.format(Locale.ROOT, "%.3f", this.getTrancheAmount().doubleValue()))));
             }
-
-            this.cashflowData.add(new CashflowData(this.getTrancheId(), adjustmentDate, rate, "principal", "EUR", Double.parseDouble(String.format(Locale.ROOT, "%.3f", amount))));
         }
 
     }

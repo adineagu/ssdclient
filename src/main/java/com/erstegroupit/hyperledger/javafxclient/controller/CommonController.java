@@ -5,6 +5,15 @@
  */
 package com.erstegroupit.hyperledger.javafxclient.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Singleton;
+
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
 import com.erstegroupit.hyperledger.javafxclient.model.AllocationData;
@@ -26,16 +35,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javax.inject.Singleton;
 
 /**
  *
@@ -218,7 +221,6 @@ public class CommonController {
         
     }
     
-    
     public void readPayments() {
 		Map<String, List<PaymentData>> groupedPayments = createAndGroupPayments();
 		Map<String, PaymentData> netedPayments = netPayments(groupedPayments);
@@ -245,12 +247,9 @@ public class CommonController {
     			String groupingKey = buildGroupingKey(investorId, issuerId, currency, date);
     			PaymentData newPaymentData = new PaymentData(cashflowData, allocationData, trancheData);
     			List<PaymentData> payments = groupedPayments.get(groupingKey);
-    			System.out.println(groupingKey);
     			if (payments == null) {
     				payments = new ArrayList<PaymentData>();
         			groupedPayments.put(groupingKey, payments);
-    			} else {
-    				System.out.println("grouping payments");
     			}
     			payments.add(newPaymentData);
     		}

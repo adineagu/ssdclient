@@ -12,6 +12,10 @@ import java.time.LocalDate;
  * @author H50UDBB
  */
 public class CashflowData {
+	
+	public enum CashflowType {
+		INVESTMENT, PRINCIPAL, INTEREST;		
+	}
    
     private String cashflowId;    
     private String trancheId;    
