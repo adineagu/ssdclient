@@ -248,7 +248,7 @@ public class DataModel {
             } else if ("1003".equals(getClientId())) {
                 path = getClass().getResource("/com/erstegroupit/hyperledger/javafxclient/view/omv.png").toString();
             }
-        } else if (getClientType().equals("INVESTOR")) {
+        } else if (getClientType().equals(ClientType.INVESTOR)) {
             if ("1001".equals(getClientId())) {
                 path = getClass().getResource("/com/erstegroupit/hyperledger/javafxclient/view/jpm.jpg").toString();
             } else if ("1002".equals(getClientId())) {

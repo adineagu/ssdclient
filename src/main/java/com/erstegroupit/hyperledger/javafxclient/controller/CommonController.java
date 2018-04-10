@@ -138,8 +138,8 @@ public class CommonController {
             SubscriptionData subscriptionData = readSubscription(subscriptionId.getAsString(), trancheId);
             dataModel.getSubscriptionMap().put(subscriptionData.getSubscriptionId(), subscriptionData);
             
-            if (dataModel.getClientType().equals("INVESTOR") && subscriptionData.getInvestorId().equals(dataModel.getClientId().toString())
-                    || !dataModel.getClientType().equals("INVESTOR")) {
+            if (dataModel.getClientType().equals(ClientType.INVESTOR) && subscriptionData.getInvestorId().equals(dataModel.getClientId().toString())
+                    || !dataModel.getClientType().equals(ClientType.INVESTOR)) {
                 trancheData.getSubscriptionData().add(subscriptionData);
             }
         }
@@ -148,8 +148,8 @@ public class CommonController {
             AllocationData allocationData = readAllocation(allocationIdObj.getAsString(), trancheId);
             dataModel.getAllocationMap().put(allocationData.getAllocationId(), allocationData);
             
-            if (dataModel.getClientType().equals("INVESTOR") && allocationData.getInvestorId().equals(dataModel.getClientId().toString())
-                    || !dataModel.getClientType().equals("INVESTOR")) {
+            if (dataModel.getClientType().equals(ClientType.INVESTOR) && allocationData.getInvestorId().equals(dataModel.getClientId().toString())
+                    || !dataModel.getClientType().equals(ClientType.INVESTOR)) {
                 trancheData.getAllocationData().add(allocationData);
             }
         }
@@ -158,7 +158,7 @@ public class CommonController {
             CashflowData cashflowData = readCashflow(cashflowIdObj.getAsString(), trancheId);
             dataModel.getCashflowMap().put(cashflowData.getCashflowId(), cashflowData);
             
-            if (!dataModel.getClientType().equals("INVESTOR") && cashflowData != null) {
+            if (!dataModel.getClientType().equals(ClientType.INVESTOR) && cashflowData != null) {
                 trancheData.getCashflowData().add(cashflowData);
             }
         }
