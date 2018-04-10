@@ -46,7 +46,7 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
+                  <TabPane fx:id="paymentsTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
                     <tabs>
                       <Tab text="Deals">
                            <content>
@@ -238,47 +238,11 @@
                   </TabPane>
                   <ToolBar prefHeight="71.0" prefWidth="1292.0" GridPane.rowIndex="2">
                     <items>
-                        <JFXButton fx:id="createDealBtn" buttonType="RAISED" ellipsisString="" onAction="#handleCreateDealAction" prefHeight="32.0" prefWidth="40.0">
-                           <graphic>
-                              <ImageView>
-                                 <image>
-                                    <Image url="@deal.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <JFXButton id="createTrancheBtn" fx:id="createTrancheBtn" buttonType="RAISED" ellipsisString="" onAction="#handleCreateTrancheAction" prefHeight="32.0" prefWidth="40.0" ripplerFill="BLACK">
-                           <graphic>
-                              <ImageView>
-                                 <image>
-                                    <Image url="@tranche.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <JFXButton id="createTrancheBtn" fx:id="createAllocationsBtn" buttonType="RAISED" ellipsisString="" mnemonicParsing="false" onAction="#handleCreateAllocationAction" prefHeight="32.0" prefWidth="40.0">
-                           <graphic>
-                              <ImageView>
-                                 <image>
-                                    <Image url="@allocation.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <JFXButton id="createTrancheBtn" fx:id="createCashflowBtn" buttonType="RAISED" ellipsisString="" layoutX="154.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleCreateCashflowAction" prefHeight="32.0" prefWidth="40.0">
-                           <graphic>
-                              <ImageView>
-                                 <image>
-                                    <Image url="@cashflow-icon.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
                         <JFXButton id="signBtn" fx:id="signBtn" buttonType="RAISED" ellipsisString="" layoutX="154.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleSignAction" prefHeight="32.0" prefWidth="40.0">
                            <graphic>
                               <ImageView>
                                  <image>
-                                    <Image url="@deal.png" />
+                                    <Image url="@sign.png" />
                                  </image>
                               </ImageView>
                            </graphic>

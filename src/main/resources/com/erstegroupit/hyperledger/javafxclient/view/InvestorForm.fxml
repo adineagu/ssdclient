@@ -248,7 +248,7 @@
                            <graphic>
                               <ImageView>
                                  <image>
-                                    <Image url="@deal.png" />
+                                    <Image url="@sign.png" />
                                  </image>
                               </ImageView>
                            </graphic>

@@ -13,9 +13,9 @@ import com.erstegroupit.hyperledger.javafxclient.controller.IssuerFormController
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -103,23 +103,21 @@ public class SsdClient extends Application {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         
-       
-
         ArrangerFormController controller = loader.getController();
+        
+        TabPane tabPane = controller.getPaymentsTabPane();
+        tabPane.getTabs().remove(1);
 
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent window) {
-                controller.authenticate("Barry", "org2");
+                controller.authenticate("Jim", "org1");
             }
         });
 
         stage.setScene(scene);
         stage.show();
         
-//        Node paymentsTab = scene. ("paymentsTab");
-        
-       // System.out.println(paymentsTab);
     }
 
     /**
