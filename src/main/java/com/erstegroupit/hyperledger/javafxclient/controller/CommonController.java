@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.inject.Singleton;
 
+import com.erstegroupit.hyperledger.javafxclient.ClientType;
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
 import com.erstegroupit.hyperledger.javafxclient.model.AllocationData;
@@ -79,8 +80,8 @@ public class CommonController {
             DealData dealData = createDealFromJson(object.getAsJsonObject("Record"));
             dataModel.getDealMap().put(dealData.getDealId(), dealData);
             
-            if (dataModel.getClientType().equals("ISSUER") && dataModel.getClientId().equals(dealData.getIssuerId().toString())
-                    || !dataModel.getClientType().equals("ISSUER")) {
+            if (dataModel.getClientType().equals(ClientType.ISSUER) && dataModel.getClientId().equals(dealData.getIssuerId().toString())
+                    || !dataModel.getClientType().equals(ClientType.ISSUER)) {
                 dataModel.getDeals().add(new Deal(dealData));
             }
         }
@@ -402,11 +403,11 @@ public class CommonController {
         dataModel.setClientId(clientId);
     }
 
-    public String getClientType() {
+    public ClientType getClientType() {
         return dataModel.getClientType();
     }
 
-    public void setClientType(String clientType) {
+    public void setClientType(ClientType clientType) {
         dataModel.setClientType(clientType);
     }
 

@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.erstegroupit.hyperledger.javafxclient.ClientType;
 import com.erstegroupit.hyperledger.javafxclient.data.DataProvider;
 
 import javafx.beans.property.SimpleBooleanProperty;
@@ -25,7 +26,7 @@ import javafx.collections.ObservableList;
 public class DataModel {
 
     private String clientId;
-    private String clientType;
+    private ClientType clientType;
 
     private static final Map<Integer, String> issuerMap = new HashMap<>();
     private static final Map<Integer, String> investorMap = new HashMap<>();
@@ -205,11 +206,11 @@ public class DataModel {
         this.clientId = clientId;
     }
 
-    public String getClientType() {
+    public ClientType getClientType() {
         return clientType;
     }
 
-    public void setClientType(String clientType) {
+    public void setClientType(ClientType clientType) {
         this.clientType = clientType;
     }
 
@@ -239,7 +240,7 @@ public class DataModel {
 
 	public String getImageLogoPath() {
         String path = "";
-        if (getClientType().equals("ISSUER")) {
+        if (getClientType().equals(ClientType.ISSUER)) {
             if ("1001".equals(getClientId())) {
                 path = getClass().getResource("/com/erstegroupit/hyperledger/javafxclient/view/dbahn.png").toString();
             } else if ("1002".equals(getClientId())) {

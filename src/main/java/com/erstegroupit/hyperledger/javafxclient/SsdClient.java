@@ -8,7 +8,7 @@ package com.erstegroupit.hyperledger.javafxclient;
 import com.erstegroupit.hyperledger.javafxclient.controller.CommonController;
 import com.erstegroupit.hyperledger.javafxclient.controller.InvestorFormController;
 import com.erstegroupit.hyperledger.javafxclient.controller.IssuerFormController;
-import com.sun.xml.internal.ws.util.StringUtils;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -22,9 +22,9 @@ import javafx.stage.WindowEvent;
  *
  * @author H50UDBB
  */
-public class IssuerClient extends Application {
+public class SsdClient extends Application {
 
-    private static String clientType = "ISSUER";
+    private static ClientType clientType = ClientType.ISSUER;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -33,7 +33,16 @@ public class IssuerClient extends Application {
 
         stage.getIcons().add(new Image(getClass().getResource("/com/erstegroupit/hyperledger/javafxclient/view/window-logo.png").toString()));
 
-        if ("ISSUER".equalsIgnoreCase(clientType)) {
+        switch (clientType) {
+        case ISSUER: 	startIssuer(stage);
+        				break;
+        case INVESTOR:  startInvestor(stage);
+        				break;
+        case ARRANGER:  startInvestor(stage);
+        				break;
+        }
+        
+        if (ClientType.ISSUER.equals(clientType)) {
             startIssuer(stage);
         } else {
             startInvestor(stage);
@@ -96,9 +105,15 @@ public class IssuerClient extends Application {
             System.out.println("Invalid command line. Use \"java -jar SSDClientMaven-4.0.0.jar ISSUER <issuerId>\"");
             System.out.println("or");
             System.out.println("Invalid command line. Use \"java -jar SSDClientMaven-4.0.0.jar INVESTOR <investorId>\"");
+            System.out.println("or");
+            System.out.println("Invalid command line. Use \"java -jar SSDClientMaven-4.0.0.jar ARRANGER <arrangerId>\"");
             return;
         } else {
-            clientType = args[0];
+        	try {
+        		clientType = ClientType.valueOf(args[0]);
+        	} catch (IllegalArgumentException e) {
+                System.out.println("Invalid member type. It must be ISSUER or INVESTOR or ARRANGER");
+        	}
             id = args[1];
         }
 
@@ -106,17 +121,6 @@ public class IssuerClient extends Application {
 
         commonController.setClientType(clientType);
         commonController.setClientId(id);
-
-        if ("INVESTOR".equals(clientType)) {
-
-        } else if ("ISSUER".equals(clientType)) {
-
-        } else {
-            System.out.println("Invalid member type. It must be ISSUER or INVESTOR");
-            return;
-        }
-
-        System.out.println("Launch " + StringUtils.capitalize(clientType) + " interface");
 
         launch(args);
     }

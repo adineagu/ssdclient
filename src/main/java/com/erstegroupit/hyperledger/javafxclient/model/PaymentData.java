@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.erstegroupit.hyperledger.javafxclient.ClientType;
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 
 /**
@@ -48,7 +49,7 @@ public class PaymentData {
 		
 		Double stake = allocationData.getAllocationAmount().doubleValue() / trancheData.getTrancheAmount().doubleValue();
 		Integer paymentDirection = 1;
-	    if (dataModel.getClientType().equals("ISSUER")) {
+	    if (dataModel.getClientType().equals(ClientType.ISSUER)) {
 	    	paymentDirection = -1;
 	    }
 		this.amount = cashflowData.getAmount().doubleValue() * stake * paymentDirection.doubleValue();
