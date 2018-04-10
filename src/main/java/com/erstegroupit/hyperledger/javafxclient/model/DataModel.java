@@ -256,7 +256,16 @@ public class DataModel {
             } else if ("1003".equals(getClientId())) {
                 path = getClass().getResource("/com/erstegroupit/hyperledger/javafxclient/view/pioneer.png").toString();
             }
+        }  else if (getClientType().equals(ClientType.ARRANGER)) {
+            if ("1001".equals(getClientId())) {
+                path = getClass().getResource("/com/erstegroupit/hyperledger/javafxclient/view/erstebank.png").toString();
+            } else if ("1002".equals(getClientId())) {
+            	path = getClass().getResource("/com/erstegroupit/hyperledger/javafxclient/view/erstebank.png").toString();
+            } else if ("1003".equals(getClientId())) {
+            	path = getClass().getResource("/com/erstegroupit/hyperledger/javafxclient/view/erstebank.png").toString();
+            }
         }
+
 
         return path;
     }

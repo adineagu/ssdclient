@@ -158,7 +158,7 @@ public class CommonController {
             CashflowData cashflowData = readCashflow(cashflowIdObj.getAsString(), trancheId);
             dataModel.getCashflowMap().put(cashflowData.getCashflowId(), cashflowData);
             
-            if (!dataModel.getClientType().equals(ClientType.INVESTOR) && cashflowData != null) {
+            if (cashflowData != null) {
                 trancheData.getCashflowData().add(cashflowData);
             }
         }

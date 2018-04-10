@@ -5,6 +5,7 @@
  */
 package com.erstegroupit.hyperledger.javafxclient;
 
+import com.erstegroupit.hyperledger.javafxclient.controller.ArrangerFormController;
 import com.erstegroupit.hyperledger.javafxclient.controller.CommonController;
 import com.erstegroupit.hyperledger.javafxclient.controller.InvestorFormController;
 import com.erstegroupit.hyperledger.javafxclient.controller.IssuerFormController;
@@ -12,6 +13,7 @@ import com.erstegroupit.hyperledger.javafxclient.controller.IssuerFormController
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -33,20 +35,17 @@ public class SsdClient extends Application {
 
         stage.getIcons().add(new Image(getClass().getResource("/com/erstegroupit/hyperledger/javafxclient/view/window-logo.png").toString()));
 
-        switch (clientType) {
-        case ISSUER: 	startIssuer(stage);
-        				break;
-        case INVESTOR:  startInvestor(stage);
-        				break;
-        case ARRANGER:  startInvestor(stage);
-        				break;
-        }
-        
-        if (ClientType.ISSUER.equals(clientType)) {
-            startIssuer(stage);
-        } else {
-            startInvestor(stage);
-        }
+		switch (clientType) {
+		case ISSUER:
+			startIssuer(stage);
+			break;
+		case INVESTOR:
+			startInvestor(stage);
+			break;
+		case ARRANGER:
+			startArranger(stage);
+			break;
+		}
 
     }
 
@@ -92,6 +91,35 @@ public class SsdClient extends Application {
 
         stage.setScene(scene);
         stage.show();
+    }
+    
+    
+    private void startArranger(Stage stage) throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("/com/erstegroupit/hyperledger/javafxclient/view/ArrangerForm.fxml"));
+        stage.setTitle("SSD - Arranger");
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        
+       
+
+        ArrangerFormController controller = loader.getController();
+
+        stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent window) {
+                controller.authenticate("Barry", "org2");
+            }
+        });
+
+        stage.setScene(scene);
+        stage.show();
+        
+//        Node paymentsTab = scene. ("paymentsTab");
+        
+       // System.out.println(paymentsTab);
     }
 
     /**
