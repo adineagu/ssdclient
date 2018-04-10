@@ -302,6 +302,14 @@ public class CommonController {
         dataModel.setSelectedDeal(selectedDeal);
     }
     
+	public ObservableValue<Allocation> getSelectedAllocation() {
+        return dataModel.getSelectedAllocation();
+    }
+
+    public void setSelectedAllocation(ObservableValue<Allocation> selectedAllocation) {
+        dataModel.setSelectedAllocation(selectedAllocation);
+    }
+    
     public void setSelectedPayment(ObservableValue<Payment> selectedPayment) {
         dataModel.setSelectedPayment(selectedPayment);
     }

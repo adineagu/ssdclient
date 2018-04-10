@@ -102,6 +102,9 @@ public class CommonFormController implements Initializable {
 
     @FXML
     protected TableColumn<Tranche, Double> marginColumn;
+    
+    @FXML
+    protected TableColumn<Tranche, Boolean> signedColumn;
 
     @FXML
     protected TableView<Subscription> subscriptionTable;
@@ -281,11 +284,11 @@ public class CommonFormController implements Initializable {
         trancheTable.setItems(dataController.getTranches());
         subscriptionTable.setItems(this.dataController.getSubscriptions());
         allocationTable.setItems(this.dataController.getAllocations());
-	    if (dataModel.getClientType().equals("ISSUER")) {
-	        cashflowTable.setItems(this.dataController.getCashflows());
-			paymentTable.setItems(dataController.getPayments());
-			paymentCashflowTable.setItems(dataController.getPaymentCashflows());
-	    }
+
+        cashflowTable.setItems(this.dataController.getCashflows());
+		paymentTable.setItems(dataController.getPayments());
+		paymentCashflowTable.setItems(dataController.getPaymentCashflows());
+
 
         dealTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -331,17 +334,15 @@ public class CommonFormController implements Initializable {
         });
         
         
-	    if (dataModel.getClientType().equals("ISSUER")) {
-	        paymentTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-	            if (newValue != null) {
-	                newValue.setPaymentCashflowsList(dataController.getPaymentCashflows());
-	              
-	                dataController.setSelectedPayment(new SimpleObjectProperty<>(newValue));
-	            }
-	        });
-	
-			setPaymentAmountFormatting();
-	    }
+        paymentTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                newValue.setPaymentCashflowsList(dataController.getPaymentCashflows());
+              
+                dataController.setSelectedPayment(new SimpleObjectProperty<>(newValue));
+            }
+        });
+
+		setPaymentAmountFormatting();
         
 		
         // bind for deals
@@ -361,6 +362,8 @@ public class CommonFormController implements Initializable {
         trancheAmountColumn.setCellValueFactory(cellData -> cellData.getValue().trancheAmountProperty().asObject());
         referenceIndexColumn.setCellValueFactory(cellData -> cellData.getValue().referenceIndexProperty());
         marginColumn.setCellValueFactory(cellData -> cellData.getValue().marginColumnProperty().asObject());
+	    signedColumn.setCellValueFactory(cellData -> cellData.getValue().signedByIssuerProperty().asObject());
+
 
         // bind for subscriptions
         subscriptionIdColumn.setCellValueFactory(cellData -> cellData.getValue().getSubscriptionId());
@@ -375,36 +378,33 @@ public class CommonFormController implements Initializable {
         allocationInitialDateColumn.setCellValueFactory(cellData -> cellData.getValue().initDateProperty());
         allocationAmountColumn.setCellValueFactory(cellData -> cellData.getValue().allocatedAmountProperty().asObject());
         
-        
-	    if (dataModel.getClientType().equals("ISSUER")) {
 	    	
-	        //bind for cashflow
-	        cashflowIdColumn.setCellValueFactory(cellData -> cellData.getValue().cashflowIdProperty());
-	        ajustedDateColumn.setCellValueFactory(cellData -> cellData.getValue().adjustmentDateProperty());
-	        rateColumn.setCellValueFactory(cellData -> cellData.getValue().rateProperty().asObject());
-	        cashflowTypeColumn.setCellValueFactory(cellData -> cellData.getValue().cashflowTypeProperty());
-	        currencyCdColumn.setCellValueFactory(cellData -> cellData.getValue().currencyProperty());
-	        cfAmountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asObject());
+        //bind for cashflow
+        cashflowIdColumn.setCellValueFactory(cellData -> cellData.getValue().cashflowIdProperty());
+        ajustedDateColumn.setCellValueFactory(cellData -> cellData.getValue().adjustmentDateProperty());
+        rateColumn.setCellValueFactory(cellData -> cellData.getValue().rateProperty().asObject());
+        cashflowTypeColumn.setCellValueFactory(cellData -> cellData.getValue().cashflowTypeProperty());
+        currencyCdColumn.setCellValueFactory(cellData -> cellData.getValue().currencyProperty());
+        cfAmountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asObject());
+    
+        // bind for payments
+        paymentIdColumn.setCellValueFactory(cellData -> cellData.getValue().getPaymentIdProperty() );
+        paymentDateColumn.setCellValueFactory(cellData -> cellData.getValue().getPaymentDateProperty());
+        paymentAmountColumn.setCellValueFactory(cellData -> cellData.getValue().getAmountProperty().asObject());
+        paymentCurrencyColumn.setCellValueFactory(cellData -> cellData.getValue().getCurrencyProperty());
+        paymentIssuerNameColumn.setCellValueFactory(cellData -> cellData.getValue().getIssuerNameProperty());
+        paymentInvestorNameColumn.setCellValueFactory(cellData -> cellData.getValue().getInvestorNameProperty());
         
-	        // bind for payments
-	        paymentIdColumn.setCellValueFactory(cellData -> cellData.getValue().getPaymentIdProperty() );
-	        paymentDateColumn.setCellValueFactory(cellData -> cellData.getValue().getPaymentDateProperty());
-	        paymentAmountColumn.setCellValueFactory(cellData -> cellData.getValue().getAmountProperty().asObject());
-	        paymentCurrencyColumn.setCellValueFactory(cellData -> cellData.getValue().getCurrencyProperty());
-	        paymentIssuerNameColumn.setCellValueFactory(cellData -> cellData.getValue().getIssuerNameProperty());
-	        paymentInvestorNameColumn.setCellValueFactory(cellData -> cellData.getValue().getInvestorNameProperty());
-	        
-	        // bind for payment cashflow      
-	        pcfCashflowIdColumn.setCellValueFactory(cellData -> cellData.getValue().cashflowIdProperty());
-	        pcfAjustedDateColumn.setCellValueFactory(cellData -> cellData.getValue().adjustmentDateProperty());
-	        pcfRateColumn.setCellValueFactory(cellData -> cellData.getValue().rateProperty().asObject());
-	        pcfCashflowTypeColumn.setCellValueFactory(cellData -> cellData.getValue().cashflowTypeProperty());
-	        pcfCurrencyCdColumn.setCellValueFactory(cellData -> cellData.getValue().currencyProperty());
-	        pcfCashflowAmountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asObject());
-	        pcfAllocationIdColumn.setCellValueFactory(cellData -> cellData.getValue().getAllocationIdProperty());
-	        pcfTrancheStakeColumn.setCellValueFactory(cellData -> cellData.getValue().getTrancheStakeProperty().asObject());
-        
-	    }
+        // bind for payment cashflow      
+        pcfCashflowIdColumn.setCellValueFactory(cellData -> cellData.getValue().cashflowIdProperty());
+        pcfAjustedDateColumn.setCellValueFactory(cellData -> cellData.getValue().adjustmentDateProperty());
+        pcfRateColumn.setCellValueFactory(cellData -> cellData.getValue().rateProperty().asObject());
+        pcfCashflowTypeColumn.setCellValueFactory(cellData -> cellData.getValue().cashflowTypeProperty());
+        pcfCurrencyCdColumn.setCellValueFactory(cellData -> cellData.getValue().currencyProperty());
+        pcfCashflowAmountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asObject());
+        pcfAllocationIdColumn.setCellValueFactory(cellData -> cellData.getValue().getAllocationIdProperty());
+        pcfTrancheStakeColumn.setCellValueFactory(cellData -> cellData.getValue().getTrancheStakeProperty().asObject());
+       
     }
 
     private void setPaymentAmountFormatting() {

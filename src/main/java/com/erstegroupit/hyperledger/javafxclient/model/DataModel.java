@@ -5,14 +5,17 @@
  */
 package com.erstegroupit.hyperledger.javafxclient.model;
 
-import com.erstegroupit.hyperledger.javafxclient.data.DataProvider;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import com.erstegroupit.hyperledger.javafxclient.data.DataProvider;
+
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  *
@@ -120,6 +123,14 @@ public class DataModel {
 
     public void setSelectedDeal(ObservableValue<Deal> selectedDeal) {
         this.selectedDeal = selectedDeal;
+    }
+    
+    public ObservableValue<Allocation> getSelectedAllocation() {
+        return selectedAllocation;
+    }
+    
+    public void setSelectedAllocation(ObservableValue<Allocation> selectedAllocation) {
+        this.selectedAllocation = selectedAllocation;
     }
     
     public void setSelectedPayment(ObservableValue<Payment> selectedPayment) {

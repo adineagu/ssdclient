@@ -51,6 +51,9 @@ public class IssuerFormController extends CommonFormController {
     @FXML
     private Button createCashflowBtn;
     
+    @FXML
+    private Button signBtn;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -65,6 +68,9 @@ public class IssuerFormController extends CommonFormController {
 
         Tooltip cashflowBtnToolTip = new Tooltip("Create Cashflow");
         createCashflowBtn.setTooltip(cashflowBtnToolTip);    
+        
+        Tooltip signBtnToolTip = new Tooltip("Sign");
+        signBtn.setTooltip(signBtnToolTip);
         
         Tooltip refreshBtnToolTip = new Tooltip("Refresh");
         refreshButton.setTooltip(refreshBtnToolTip);
@@ -115,8 +121,51 @@ public class IssuerFormController extends CommonFormController {
         });
         
 
-    }    
-       
+    }  
+    
+    
+    @FXML
+    protected void handleSignAction(ActionEvent event) {
+    	
+        ProgressIndicator pi = new ProgressIndicator();
+        VBox box = new VBox();
+        box.getChildren().add(pi);
+        box.setAlignment(Pos.CENTER);
+        pane.setDisable(true);
+        stackPane.getChildren().add(box);
+
+        SignTrancheService service = new SignTrancheService();
+        service.start();
+
+        service.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+
+            @Override
+            public void handle(WorkerStateEvent t) {
+                pane.setDisable(false);
+                stackPane.getChildren().remove(box);
+            }
+        });
+
+        service.setOnFailed(new EventHandler<WorkerStateEvent>() {
+
+            @Override
+            public void handle(WorkerStateEvent t) {
+                Throwable ouch = service.getException();
+                pane.setDisable(false);
+                stackPane.getChildren().remove(box);
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText(ouch.getMessage());
+                ouch.printStackTrace();
+
+                alert.showAndWait();
+            }
+        });
+    	
+    }
+  
     private void createCashflowData() {
         SSDRestClient restc = InjectorContext.getInjector().getInstance(SSDRestClient.class);
         
@@ -139,6 +188,7 @@ public class IssuerFormController extends CommonFormController {
             
         }        
     }
+    
     private class CreateCashflowService extends Service<Void> {
         @Override
         protected Task<Void> createTask() {
@@ -150,6 +200,30 @@ public class IssuerFormController extends CommonFormController {
                 }
             };
         }
+    }
+    
+    public class SignTrancheService extends Service<Void> {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    signTrancheByIssuer();
+                    return (Void) null;
+                }
+            };
+        }
+    }
+    
+    private void signTrancheByIssuer() {
+        SSDRestClient restc = InjectorContext.getInjector().getInstance(SSDRestClient.class);
+
+        Tranche tranche = this.dataController.getSelectedTranche().getValue();
+        if (tranche != null) {
+        	restc.signTrancheByInvestor(tranche.getTrancheId());
+        	tranche.setSignedByInvestor(true);
+        }
+              
     }
     
 }

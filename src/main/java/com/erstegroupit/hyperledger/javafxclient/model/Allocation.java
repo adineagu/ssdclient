@@ -5,8 +5,10 @@
  */
 package com.erstegroupit.hyperledger.javafxclient.model;
 
-import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 import java.time.LocalDate;
+
+import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -36,7 +38,7 @@ public class Allocation {
         this.investorName = new SimpleStringProperty(dataModel.getInvestors().get(Integer.parseInt(data.getInvestorId())));
         this.initDate = new SimpleObjectProperty<>(data.getInitDate());
         this.allocatedAmount = new SimpleIntegerProperty(data.getAllocationAmount());
-        this.status = new SimpleStringProperty("");
+        this.status = new SimpleStringProperty(data.getStatus());
     }
         
     public String getStatus() {

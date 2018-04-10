@@ -5,23 +5,25 @@
  */
 package com.erstegroupit.hyperledger.javafxclient.controller;
 
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
 import com.erstegroupit.hyperledger.javafxclient.model.AllocationData;
+import com.erstegroupit.hyperledger.javafxclient.model.AllocationData.AllocationStatus;
 import com.erstegroupit.hyperledger.javafxclient.model.Subscription;
 import com.erstegroupit.hyperledger.javafxclient.restclient.CreateDealResponse;
 import com.erstegroupit.hyperledger.javafxclient.restclient.SSDRestClient;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
+
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -38,7 +40,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.LocalDateStringConverter;
-import javafx.util.converter.NumberStringConverter;
 
 /**
  *
@@ -197,7 +198,7 @@ public class EditAllocationController implements Initializable {
             LocalDate initDate = subscription.getInitDate().getValue();
             Integer targetAmount = subscription.getTargetAmount().getValue();
 
-            AllocationData allocationData = new AllocationData(investorId, trancheId, initDate, targetAmount, "false");
+            AllocationData allocationData = new AllocationData(investorId, trancheId, initDate, targetAmount, AllocationStatus.FALSE.toString());
             Allocation allocation = new Allocation(allocationData);
 
             dataController.getAllocations().add(allocation);
