@@ -9,6 +9,7 @@ import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
 import com.erstegroupit.hyperledger.javafxclient.model.Cashflow;
 import com.erstegroupit.hyperledger.javafxclient.model.Deal;
 import com.erstegroupit.hyperledger.javafxclient.model.Payment;
+import com.erstegroupit.hyperledger.javafxclient.model.PaymentCashflow;
 import com.erstegroupit.hyperledger.javafxclient.model.Subscription;
 import com.erstegroupit.hyperledger.javafxclient.model.Tranche;
 import javafx.collections.FXCollections;
@@ -28,6 +29,7 @@ public class MockDataProvider implements DataProvider {
     private final ObservableList<Allocation> allocations = FXCollections.observableArrayList();
     private final ObservableList<Cashflow> cashflows = FXCollections.observableArrayList();
     private final ObservableList<Payment> payments = FXCollections.observableArrayList();
+    private final ObservableList<PaymentCashflow> paymentCashflows = FXCollections.observableArrayList();
 
     @Override
     public ObservableList<Deal> getDealsObsList() {
@@ -58,6 +60,11 @@ public class MockDataProvider implements DataProvider {
 	public ObservableList<Payment> getPaymentsObsList() {
 		return payments;
 	}
+	
+	@Override
+	public ObservableList<PaymentCashflow> getPaymentCashflowsObsList() {
+		return paymentCashflows;
+	}
     
     @Override
     public void cleanData() {
@@ -67,6 +74,8 @@ public class MockDataProvider implements DataProvider {
         tranches.clear();
         deals.clear();
         payments.clear();
+        paymentCashflows.clear();
     }
+
             
 }

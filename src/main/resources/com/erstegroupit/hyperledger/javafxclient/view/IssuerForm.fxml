@@ -180,11 +180,11 @@
                            <content>
                               <SplitPane dividerPositions="0.5, 0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                                 <items>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="1292.0">
+                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="270.0" prefWidth="160.0">
                                        <children>
                                           <TitledPane collapsible="false" text="Payments" textFill="#1950da">
                                              <content>
-                                                <TableView fx:id="paymentTable" prefHeight="500.0" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <TableView fx:id="paymentTable" prefWidth="1290.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                   <columns>
                                                     <TableColumn fx:id="paymentIdColumn" prefWidth="600.0" text="Payment Id" />
                                                     <TableColumn fx:id="paymentDateColumn" prefWidth="600.0" text="Payment Date" />
@@ -205,8 +205,32 @@
                                           </TitledPane>
                                        </children>
                                     </AnchorPane>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
-                                    <AnchorPane prefHeight="279.0" prefWidth="1290.0" />
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="270.0" prefWidth="160.0">
+                                       <children>
+                                          <TitledPane style="-fx-collapsible: false;" text="Cashflows" textFill="#1950da" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <content>
+                                                <TableView fx:id="paymentCashflowTable" prefWidth="625.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">                                                
+                                                   <columns>
+                                                      <TableColumn fx:id="pcfCashflowIdColumn" prefWidth="75.0" text="Cashflow Id" />
+                                                      <TableColumn fx:id="pcfAjustedDateColumn" prefWidth="75.0" text="Adjusted Date" />
+                                                      <TableColumn fx:id="pcfRateColumn" prefWidth="75.0" text="Rate" />
+                                                      <TableColumn fx:id="pcfCashflowTypeColumn" prefWidth="75.0" text="Cashflow Type" />
+                                                      <TableColumn fx:id="pcfCurrencyCdColumn" prefWidth="75.0" text="Currency" />
+                                                      <TableColumn fx:id="pcfCashflowAmountColumn" prefWidth="75.0" text="Amount" />
+                                                      <TableColumn fx:id="pcfAllocationIdColumn" prefWidth="75.0" text="Allocation Id" />
+                                                      <TableColumn fx:id="pcfTrancheStakeColumn" prefWidth="75.0" text="Tranche Stake" />
+                                                   </columns>
+                                                   <columnResizePolicy>
+                                                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                   </columnResizePolicy>
+                                                </TableView>
+                                             </content>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </TitledPane>
+                                       </children>
+                                    </AnchorPane>
                                 </items>
                               </SplitPane>
                            </content>

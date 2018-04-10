@@ -38,6 +38,7 @@ public class DataModel {
     private ObservableValue<Tranche> selectedTranche;
     private ObservableValue<Subscription> selectedSubscription;
     private ObservableValue<Allocation> selectedAllocation;
+    private ObservableValue<Payment> selectedPayment;
 
     private final SimpleBooleanProperty dealIsSelected = new SimpleBooleanProperty(true);
     private final SimpleBooleanProperty trancheIsSelected = new SimpleBooleanProperty(true);
@@ -85,6 +86,10 @@ public class DataModel {
         return dataProvider.getCashflowsObsList();
     }
     
+    public ObservableList<PaymentCashflow> getPaymentCashflows() {
+        return dataProvider.getPaymentCashflowsObsList();
+    }
+    
     public Map<Integer, String> getIssuers() {
         return issuerMap;
     }
@@ -111,6 +116,10 @@ public class DataModel {
 
     public void setSelectedDeal(ObservableValue<Deal> selectedDeal) {
         this.selectedDeal = selectedDeal;
+    }
+    
+    public void setSelectedPayment(ObservableValue<Payment> selectedPayment) {
+        this.selectedPayment = selectedPayment;
     }
 
     public ObservableValue<Tranche> getSelectedTranche() {

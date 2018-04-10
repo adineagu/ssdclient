@@ -14,6 +14,7 @@ import com.erstegroupit.hyperledger.javafxclient.model.DataModel;
 import com.erstegroupit.hyperledger.javafxclient.model.Deal;
 import com.erstegroupit.hyperledger.javafxclient.model.DealData;
 import com.erstegroupit.hyperledger.javafxclient.model.Payment;
+import com.erstegroupit.hyperledger.javafxclient.model.PaymentCashflow;
 import com.erstegroupit.hyperledger.javafxclient.model.PaymentData;
 import com.erstegroupit.hyperledger.javafxclient.model.Subscription;
 import com.erstegroupit.hyperledger.javafxclient.model.SubscriptionData;
@@ -244,9 +245,12 @@ public class CommonController {
     			String groupingKey = buildGroupingKey(investorId, issuerId, currency, date);
     			PaymentData newPaymentData = new PaymentData(cashflowData, allocationData, trancheData);
     			List<PaymentData> payments = groupedPayments.get(groupingKey);
+    			System.out.println(groupingKey);
     			if (payments == null) {
     				payments = new ArrayList<PaymentData>();
         			groupedPayments.put(groupingKey, payments);
+    			} else {
+    				System.out.println("grouping payments");
     			}
     			payments.add(newPaymentData);
     		}
@@ -271,8 +275,12 @@ public class CommonController {
     			for (int i = 1; i < groupedPaymentsEntry.getValue().size(); i++) {
     	    		PaymentData paymentToAdd = groupedPaymentsEntry.getValue().get(i);
     				nettedPayment.setAmount(nettedPayment.getAmount() + paymentToAdd.getAmount());
-    				for (Map.Entry<AllocationData, CashflowData> allocationCashflowEntry : paymentToAdd.getCashflowAllocationMap().entrySet()) {
-        				nettedPayment.getCashflowAllocationMap().put(allocationCashflowEntry.getKey(), allocationCashflowEntry.getValue());	
+    				for (Map.Entry<AllocationData, List<CashflowData>> allocationCashflowsEntry : paymentToAdd.getCashflowAllocationMap().entrySet()) {
+    					if (nettedPayment.getCashflowAllocationMap().get(allocationCashflowsEntry.getKey()) != null) {
+    						nettedPayment.getCashflowAllocationMap().get(allocationCashflowsEntry.getKey()).addAll(allocationCashflowsEntry.getValue());
+    					} else {
+            				nettedPayment.getCashflowAllocationMap().put(allocationCashflowsEntry.getKey(), allocationCashflowsEntry.getValue());	
+    					}
     				}
     			}
     		}
@@ -293,6 +301,10 @@ public class CommonController {
 
     public void setSelectedDeal(ObservableValue<Deal> selectedDeal) {
         dataModel.setSelectedDeal(selectedDeal);
+    }
+    
+    public void setSelectedPayment(ObservableValue<Payment> selectedPayment) {
+        dataModel.setSelectedPayment(selectedPayment);
     }
 
     public ObservableValue<Tranche> getSelectedTranche() {
@@ -349,6 +361,10 @@ public class CommonController {
 
     public ObservableList<Cashflow> getCashflows() {
         return dataModel.getCashflows();
+    }
+
+    public ObservableList<PaymentCashflow> getPaymentCashflows() {
+        return dataModel.getPaymentCashflows();
     }
     
     public void setDealIsSelected(Boolean status) {

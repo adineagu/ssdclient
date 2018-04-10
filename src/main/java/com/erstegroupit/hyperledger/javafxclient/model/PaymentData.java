@@ -22,7 +22,7 @@ public class PaymentData {
     
     private static Integer idCounter = 0;
     
-    private final Map<AllocationData, CashflowData> allocationCashflowMap = new HashMap<AllocationData, CashflowData>(); //TODO: replace AllocationData with BallanceData
+    private final Map<AllocationData, List<CashflowData>> allocationCashflowMap = new HashMap<AllocationData, List<CashflowData>>(); //TODO: replace AllocationData with BallanceData
     
 	public PaymentData(String paymentId, LocalDate paymentDate, String currency, Double amount, Integer issuerId,
 			Integer investorId, Integer paymentDirection) {
@@ -47,7 +47,9 @@ public class PaymentData {
 		this.investorId = Integer.parseInt(allocationData.getInvestorId());
 		this.paymentDirection = 1;
 		
-		allocationCashflowMap.put(allocationData, cashflowData);
+		List<CashflowData> cdList = new ArrayList<CashflowData>();
+		cdList.add(cashflowData);
+		allocationCashflowMap.put(allocationData, cdList);
 	}
 
 	public String getPaymentId() {
@@ -106,7 +108,7 @@ public class PaymentData {
 		this.paymentDirection = paymentDirection;
 	}
 
-	public Map<AllocationData, CashflowData> getCashflowAllocationMap() {
+	public Map<AllocationData, List<CashflowData>> getCashflowAllocationMap() {
 		return allocationCashflowMap;
 	}    
     

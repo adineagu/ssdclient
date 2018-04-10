@@ -1,6 +1,8 @@
 package com.erstegroupit.hyperledger.javafxclient.model;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 
@@ -12,7 +14,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 
+/**
+*
+* @author H502QOB
+*/
 public class Payment {
 	
     private final DataModel dataModel = InjectorContext.getInjector().getInstance(DataModel.class);
@@ -25,6 +32,8 @@ public class Payment {
     private final StringProperty investorName;
     private final IntegerProperty paymentDirection;
     
+    private PaymentData paymentData;
+    
     public Payment(PaymentData data) {
     	this.paymentId = new SimpleStringProperty(data.getPaymentId());
         this.paymentDate = new SimpleObjectProperty<>(data.getPaymentDate());
@@ -33,6 +42,7 @@ public class Payment {
         this.issuerName = new SimpleStringProperty(dataModel.getIssuers().get(data.getIssuerId()));	
         this.investorName = new SimpleStringProperty(dataModel.getInvestors().get(data.getInvestorId()));	
         this.paymentDirection = new SimpleIntegerProperty(data.getPaymentDirection());
+        this.paymentData = data;
     }
     
 	public Payment(StringProperty paymentId, ObjectProperty<LocalDate> paymentDate, StringProperty currency,
@@ -133,7 +143,22 @@ public class Payment {
 		 paymentDirection.set(value);
 	}
 	
-    
+    public void setPaymentCashflowsList(ObservableList<PaymentCashflow> list) {
+        list.clear();
+        
+        if (paymentData.getCashflowAllocationMap().isEmpty()) {
+            return;
+        }
+
+        for (Map.Entry<AllocationData, List<CashflowData>> entry : paymentData.getCashflowAllocationMap().entrySet()) {
+        	AllocationData allocationData = entry.getKey();
+        	TrancheData trancheData = dataModel.getTrancheMap().get(allocationData.getTrancheId());
+        	for (CashflowData cashflowData : entry.getValue()) {
+        		list.add(new PaymentCashflow(cashflowData, allocationData, trancheData));
+        	}
+        }
+               
+    }
 
 
 }
