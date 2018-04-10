@@ -158,8 +158,9 @@ public class TrancheData {
         for (int i = startYear; i <= endYear; i++) {
         	
             LocalDate adjustmentDate = LocalDate.of(i, endMonth, 28);
-        	this.cashflowData.add(new CashflowData(this.getTrancheId(), adjustmentDate, rate, CashflowType.PRINCIPAL.toString(), "EUR", Double.parseDouble(String.format(Locale.ROOT, "%.3f", principal))));
-        	this.cashflowData.add(new CashflowData(this.getTrancheId(), adjustmentDate, rate, CashflowType.INTEREST.toString(), "EUR", Double.parseDouble(String.format(Locale.ROOT, "%.3f", interest))));
+            this.cashflowData.add(new CashflowData(this.getTrancheId(), adjustmentDate, rate, CashflowType.PRINCIPAL_AND_INTEREST.toString(), "EUR", Double.parseDouble(String.format(Locale.ROOT, "%.3f", principal + interest))));
+        	//this.cashflowData.add(new CashflowData(this.getTrancheId(), adjustmentDate, rate, CashflowType.PRINCIPAL.toString(), "EUR", Double.parseDouble(String.format(Locale.ROOT, "%.3f", principal))));
+        	//this.cashflowData.add(new CashflowData(this.getTrancheId(), adjustmentDate, rate, CashflowType.INTEREST.toString(), "EUR", Double.parseDouble(String.format(Locale.ROOT, "%.3f", interest))));
 
             if (i == startYear) {
             	this.cashflowData.add(new CashflowData(this.getTrancheId(), this.getTrancheDate(), rate, CashflowType.INVESTMENT.toString(), "EUR", -1 * Double.parseDouble(String.format(Locale.ROOT, "%.3f", this.getTrancheAmount().doubleValue()))));

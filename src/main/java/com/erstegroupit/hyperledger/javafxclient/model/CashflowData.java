@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class CashflowData {
 	
 	public enum CashflowType {
-		INVESTMENT, PRINCIPAL, INTEREST;		
+		INVESTMENT, PRINCIPAL, INTEREST, PRINCIPAL_AND_INTEREST;		
 	}
    
     private String cashflowId;    
