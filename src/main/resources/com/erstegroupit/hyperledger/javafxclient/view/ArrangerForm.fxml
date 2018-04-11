@@ -89,7 +89,7 @@
                                                     <TableColumn fx:id="trancheDateColumn" prefWidth="75.0" text="Tranche Date" />
                                                     <TableColumn fx:id="repaymentDateColumn" prefWidth="75.0" text="Repayment Date" />
                                                     <TableColumn fx:id="referenceIndexColumn" prefWidth="75.0" text="Ref. Index" />
-                                                    <TableColumn fx:id="marginColumn" prefWidth="75.0" text="Margin" />
+                                                    <TableColumn fx:id="marginColumn" prefWidth="75.0" text="Spread" />
                                                     <TableColumn fx:id="issuerSignedColumn" prefWidth="75.0" text="Issuer Signed" />
                                                     <TableColumn fx:id="investorSignedColumn" prefWidth="75.0" text="Investor Signed" />
                                                     <TableColumn fx:id="arrangerSignedColumn" prefWidth="75.0" text="Arranger Signed" />
