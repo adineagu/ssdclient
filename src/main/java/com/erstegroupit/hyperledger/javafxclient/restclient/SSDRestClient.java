@@ -357,6 +357,32 @@ public class SSDRestClient {
         }
     }
     
+    public CreateDealResponse signAllocationByInvestor(String allocationId, String investorId) {
+        Client client = ClientBuilder.newClient();
+
+        CreateDeal crd = new CreateDeal("signByInvestor", new String[]{allocationId, investorId});
+
+        System.out.println("REST CALL: " + crd);
+
+        Response response = client
+                .target(REST_URI + "/channels/mychannel/chaincodes/ssd")
+                .path("").request(new String[]{"application/json"})
+                .header("Authorization", "Bearer " + this.token)
+                .post(Entity.entity(crd, "application/json"), Response.class);
+        
+        if (response.getStatus() == 201 || response.getStatus() == 200) {
+            CreateDealResponse obj = response.readEntity(CreateDealResponse.class);
+            System.out.println("Answer is: " + obj);
+            client.close();
+            return obj;
+        } else {
+            System.out.println(response.getStatusInfo().getReasonPhrase());
+            client.close();
+            throw new RuntimeException("Error calling  \"" + REST_URI + "\": " + response.getStatusInfo().getReasonPhrase());
+        }
+        
+    }
+    
     public CreateDealResponse signAllocationByInvestor(String allocationId) {
         Client client = ClientBuilder.newClient();
 

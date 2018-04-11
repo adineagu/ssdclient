@@ -115,10 +115,9 @@ public class InvestorFormController extends CommonFormController {
 
         Allocation allocation = this.dataController.getSelectedAllocation().getValue();
         if (allocation != null) {
-        	restc.signAllocationByInvestor(allocation.getAllocationId());
+        	restc.signAllocationByInvestor(allocation.getAllocationId(), this.dataController.getClientId());
         	allocation.setStatus(true);
         }
-              
     }
 
 }

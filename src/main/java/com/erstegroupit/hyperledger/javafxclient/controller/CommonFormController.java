@@ -699,7 +699,7 @@ public class CommonFormController implements Initializable {
             
             setText(signedStatus.toString());
             
-            if ((boolean) signedStatus) {
+            if (signedStatus.equals(true)) {
             	setTextFill(Color.GREEN);
             } else {
                  setTextFill(Color.RED);
