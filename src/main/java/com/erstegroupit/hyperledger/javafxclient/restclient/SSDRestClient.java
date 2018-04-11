@@ -413,10 +413,10 @@ public class SSDRestClient {
         }
     }
     
-    public CreateDealResponse signTrancheByIssuer(String trancheId) {
+    public CreateDealResponse signTrancheByIssuer(String trancheId, String issuerId) {
         Client client = ClientBuilder.newClient();
 
-        CreateDeal crd = new CreateDeal("signByIssuer", new String[]{trancheId, "1"});
+        CreateDeal crd = new CreateDeal("signByIssuer", new String[]{trancheId, issuerId});
 
         System.out.println("REST CALL: " + crd);
 
@@ -425,7 +425,7 @@ public class SSDRestClient {
                 .path("")
                 .queryParam("peer", "peer1")
                 .queryParam("fcn", "signByIssuer")
-                .queryParam("args", new String[]{trancheId, "1"})
+                .queryParam("args", new String[]{trancheId, issuerId})
                 .request(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
                 .post(Entity.entity(crd, MediaType.APPLICATION_JSON), Response.class);
@@ -442,10 +442,10 @@ public class SSDRestClient {
         }
     }
     
-    public CreateDealResponse signTrancheByArranger(String trancheId) {
+    public CreateDealResponse signTrancheByArranger(String trancheId, String arrangerId) {
         Client client = ClientBuilder.newClient();
 
-        CreateDeal crd = new CreateDeal("signByArranger", new String[]{trancheId, "1"});
+        CreateDeal crd = new CreateDeal("signByArranger", new String[]{trancheId, arrangerId});
 
         System.out.println("REST CALL: " + crd);
 
@@ -454,7 +454,7 @@ public class SSDRestClient {
                 .path("")
                 .queryParam("peer", "peer1")
                 .queryParam("fcn", "signByArranger")
-                .queryParam("args", new String[]{trancheId, "1"})
+                .queryParam("args", new String[]{trancheId, arrangerId})
                 .request(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
                 .post(Entity.entity(crd, MediaType.APPLICATION_JSON), Response.class);

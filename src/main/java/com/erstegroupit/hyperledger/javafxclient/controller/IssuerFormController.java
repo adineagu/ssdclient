@@ -223,7 +223,7 @@ public class IssuerFormController extends CommonFormController {
 
         Tranche tranche = this.dataController.getSelectedTranche().getValue();
         if (tranche != null) {
-        	CreateDealResponse response = restc.signTrancheByIssuer(tranche.getTrancheId());
+        	CreateDealResponse response = restc.signTrancheByIssuer(tranche.getTrancheId(), this.dataController.getClientId());
         	ActionStatus actionStatus = new ActionStatus(AlertType.INFORMATION, "Answer is: " + response);
         	showPopupMessage(actionStatus);
         }

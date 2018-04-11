@@ -113,7 +113,7 @@ public class ArrangerFormController extends CommonFormController {
 
         Tranche tranche = this.dataController.getSelectedTranche().getValue();
         if (tranche != null) {
-        	restc.signTrancheByArranger(tranche.getTrancheId());
+        	restc.signTrancheByArranger(tranche.getTrancheId(), this.dataController.getClientId());
         	tranche.setSignedByArranger(true);
         }
               
