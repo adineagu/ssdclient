@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
-import com.erstegroupit.hyperledger.javafxclient.model.AllocationData.AllocationStatus;
 import com.erstegroupit.hyperledger.javafxclient.restclient.SSDRestClient;
 
 import javafx.concurrent.Service;
@@ -117,7 +116,7 @@ public class InvestorFormController extends CommonFormController {
         Allocation allocation = this.dataController.getSelectedAllocation().getValue();
         if (allocation != null) {
         	restc.signAllocationByInvestor(allocation.getAllocationId());
-        	allocation.setStatus(AllocationStatus.TRUE.toString());
+        	allocation.setStatus(true);
         }
               
     }

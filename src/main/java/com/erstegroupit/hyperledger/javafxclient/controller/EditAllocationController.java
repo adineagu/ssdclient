@@ -12,7 +12,6 @@ import java.util.ResourceBundle;
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
 import com.erstegroupit.hyperledger.javafxclient.model.AllocationData;
-import com.erstegroupit.hyperledger.javafxclient.model.AllocationData.AllocationStatus;
 import com.erstegroupit.hyperledger.javafxclient.model.Subscription;
 import com.erstegroupit.hyperledger.javafxclient.restclient.CreateDealResponse;
 import com.erstegroupit.hyperledger.javafxclient.restclient.SSDRestClient;
@@ -168,7 +167,7 @@ public class EditAllocationController implements Initializable {
         allocationInvestorNameColumn.setCellValueFactory(cellData -> cellData.getValue().investorNameProperty());
         allocationInitialDateColumn.setCellValueFactory(cellData -> cellData.getValue().initDateProperty());
         allocationAmountColumn.setCellValueFactory(cellData -> cellData.getValue().allocatedAmountProperty().asObject());
-        alocationStatusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
+        //alocationStatusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
 
     }
 
@@ -198,7 +197,7 @@ public class EditAllocationController implements Initializable {
             LocalDate initDate = subscription.getInitDate().getValue();
             Integer targetAmount = subscription.getTargetAmount().getValue();
 
-            AllocationData allocationData = new AllocationData(investorId, trancheId, initDate, targetAmount, AllocationStatus.FALSE.toString());
+            AllocationData allocationData = new AllocationData(investorId, trancheId, initDate, targetAmount, "");
             Allocation allocation = new Allocation(allocationData);
 
             dataController.getAllocations().add(allocation);

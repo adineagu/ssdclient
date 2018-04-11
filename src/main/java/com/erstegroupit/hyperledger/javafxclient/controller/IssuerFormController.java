@@ -220,8 +220,8 @@ public class IssuerFormController extends CommonFormController {
 
         Tranche tranche = this.dataController.getSelectedTranche().getValue();
         if (tranche != null) {
-        	restc.signTrancheByInvestor(tranche.getTrancheId());
-        	tranche.setSignedByInvestor(true);
+        	CreateDealResponse response = restc.signTrancheByIssuer(tranche.getTrancheId());
+            System.out.println("Answer is: " + response);
         }
               
     }

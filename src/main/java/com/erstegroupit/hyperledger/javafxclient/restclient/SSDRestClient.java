@@ -373,6 +373,7 @@ public class SSDRestClient {
                 .request(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
                 .post(Entity.entity(crd, MediaType.APPLICATION_JSON), Response.class);
+        
 
         if (response.getStatus() == 201 || response.getStatus() == 200) {
             CreateDealResponse obj = response.readEntity(CreateDealResponse.class);
@@ -386,7 +387,7 @@ public class SSDRestClient {
         }
     }
     
-    public CreateDealResponse signTrancheByInvestor(String trancheId) {
+    public CreateDealResponse signTrancheByIssuer(String trancheId) {
         Client client = ClientBuilder.newClient();
 
         CreateDeal crd = new CreateDeal("signByIssuer", new String[]{trancheId, "1"});

@@ -12,11 +12,7 @@ import java.time.LocalDate;
  * @author User
  */
 public class AllocationData {
-	
-	public enum AllocationStatus {
-		TRUE, FALSE; 
-	}
-    
+	  
     private String allocationId;
     private String investorId;
     private String trancheId;

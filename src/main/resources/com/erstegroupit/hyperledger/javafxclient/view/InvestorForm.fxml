@@ -90,7 +90,9 @@
                                                     <TableColumn fx:id="repaymentDateColumn" prefWidth="75.0" text="Repayment Date" />
                                                     <TableColumn fx:id="referenceIndexColumn" prefWidth="75.0" text="Ref. Index" />
                                                     <TableColumn fx:id="marginColumn" prefWidth="75.0" text="Margin" />
-                                                    <TableColumn fx:id="signedColumn" prefWidth="75.0" text="Issuer Signed" />
+                                                    <TableColumn fx:id="issuerSignedColumn" prefWidth="75.0" text="Issuer Signed" />
+                                                    <TableColumn fx:id="investorSignedColumn" prefWidth="75.0" text="Investor Signed" />
+                                                    <TableColumn fx:id="arrangerSignedColumn" prefWidth="75.0" text="Arranger Signed" />
                                                   </columns>
                                                    <columnResizePolicy>
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -137,7 +139,7 @@
                                                                   <TableColumn fx:id="allocationInvestorNameColumn" prefWidth="75.0" text="Investor Name" />
                                                                   <TableColumn fx:id="allocationInitialDateColumn" prefWidth="75.0" text="Initial Date" />
                                                                   <TableColumn fx:id="allocationAmountColumn" prefWidth="75.0" text="Amount" />
-                                                                  <TableColumn fx:id="alocationStatusColumn" prefWidth="75.0" text="Status" />
+                                                                  <TableColumn fx:id="alocationStatusColumn" prefWidth="75.0" text="Investor Signed" />
                                                                </columns>
                                                             </TableView>
                                                          </children>

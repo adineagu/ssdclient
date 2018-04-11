@@ -104,7 +104,13 @@ public class CommonFormController implements Initializable {
     protected TableColumn<Tranche, Double> marginColumn;
     
     @FXML
-    protected TableColumn<Tranche, Boolean> signedColumn;
+    protected TableColumn<Tranche, Boolean> issuerSignedColumn;
+    
+    @FXML
+    protected TableColumn<Tranche, Boolean> investorSignedColumn;
+    
+    @FXML
+    protected TableColumn<Tranche, Boolean> arrangerSignedColumn;
 
     @FXML
     protected TableView<Subscription> subscriptionTable;
@@ -140,7 +146,7 @@ public class CommonFormController implements Initializable {
     protected TableColumn<Allocation, Integer> allocationAmountColumn;
 
     @FXML
-    protected TableColumn<Allocation, Double> alocationStatusColumn;
+    protected TableColumn<Allocation, Boolean> alocationStatusColumn;
 
     @FXML
     protected TableView<Cashflow> cashflowTable;
@@ -333,6 +339,15 @@ public class CommonFormController implements Initializable {
             }
         });
         
+        allocationTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                dataController.setSelectedAllocation(new SimpleObjectProperty<>(newValue));
+                dataController.setDealIsSelected(Boolean.TRUE);
+                dataController.setTrancheIsSelected(Boolean.TRUE);
+                dataController.setSubscriptionIsSelected(Boolean.TRUE);
+            }
+        });
+        
         
         paymentTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -343,6 +358,7 @@ public class CommonFormController implements Initializable {
         });
 
 		setPaymentAmountFormatting();
+		setSignedStatusFormatting();
         
 		
         // bind for deals
@@ -362,7 +378,9 @@ public class CommonFormController implements Initializable {
         trancheAmountColumn.setCellValueFactory(cellData -> cellData.getValue().trancheAmountProperty().asObject());
         referenceIndexColumn.setCellValueFactory(cellData -> cellData.getValue().referenceIndexProperty());
         marginColumn.setCellValueFactory(cellData -> cellData.getValue().marginColumnProperty().asObject());
-	    signedColumn.setCellValueFactory(cellData -> cellData.getValue().signedByIssuerProperty().asObject());
+	    issuerSignedColumn.setCellValueFactory(cellData -> cellData.getValue().signedByIssuerProperty().asObject());
+	    investorSignedColumn.setCellValueFactory(cellData -> cellData.getValue().signedByInvestorProperty().asObject());
+	    arrangerSignedColumn.setCellValueFactory(cellData -> cellData.getValue().signedByInvestorProperty().asObject());
 
 
         // bind for subscriptions
@@ -377,6 +395,7 @@ public class CommonFormController implements Initializable {
         allocationInvestorNameColumn.setCellValueFactory(cellData -> cellData.getValue().investorNameProperty());
         allocationInitialDateColumn.setCellValueFactory(cellData -> cellData.getValue().initDateProperty());
         allocationAmountColumn.setCellValueFactory(cellData -> cellData.getValue().allocatedAmountProperty().asObject());
+        alocationStatusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty().asObject());
         
 	    	
         //bind for cashflow
@@ -431,6 +450,13 @@ public class CommonFormController implements Initializable {
 		        }
 		    };
 		});
+    }
+    
+    private void setSignedStatusFormatting() {
+    	issuerSignedColumn.setCellFactory(column -> {return new SignedStatusTableCell<Tranche, Boolean>();});
+    	investorSignedColumn.setCellFactory(column -> {return new SignedStatusTableCell<Tranche, Boolean>();});
+    	arrangerSignedColumn.setCellFactory(column -> {return new SignedStatusTableCell<Tranche, Boolean>();});
+    	alocationStatusColumn.setCellFactory(column -> {return new SignedStatusTableCell<Allocation, Boolean>();});
     }
     
     public void authenticate(String user, String organization) {
@@ -589,6 +615,44 @@ public class CommonFormController implements Initializable {
             e.printStackTrace();
         }
     }
+    
+//    protected void showPopupMessage(String message) {
+//    	
+//    	Popup popup = new Popup(); popup.setX(300); popup.setY(200);
+//
+//        Button okBtn = new Button("Ok");
+//        okBtn.setOnAction(new EventHandler<ActionEvent>() {
+//          @Override public void handle(ActionEvent event) {
+//            popup.hide();
+//          }
+//        });
+//
+//
+//        popup.show(arg0);
+//        HBox layout = new HBox(10);
+//        layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+//        layout.getChildren().addAll(show, hide);
+//        primaryStage.setScene(new Scene(layout));
+//        primaryStage.show();
+//    	
+//        try {
+//            FXMLLoader loader = new FXMLLoader();
+//            loader.setLocation(getClass().getResource("/com/erstegroupit/hyperledger/javafxclient/view/EditAllocations.fxml"));
+//            Parent root = loader.load();
+//
+//            EditAllocationController controller = loader.getController();
+//            controller.setIsUpdate(isUpdate);
+//            controller.updateControls();
+//
+//            Scene sceneIssuer = new Scene(root);
+//            Stage stage = new Stage(StageStyle.UTILITY);
+//            stage.initModality(Modality.APPLICATION_MODAL);
+//            stage.setScene(sceneIssuer);
+//            stage.show();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private class RefreshDataService extends Service<Void> {
 
@@ -629,5 +693,27 @@ public class CommonFormController implements Initializable {
             };
         }
     }
+    
+    private class SignedStatusTableCell<Object, Boolean> extends TableCell<Object, Boolean>  {
+    	
+        @Override
+        protected void updateItem(Boolean signedStatus, boolean empty) {
+            super.updateItem(signedStatus, empty);
+
+            if (signedStatus == null || empty) {
+                setText(null);
+                setStyle("");
+                return;
+            } 
+            
+            setText(signedStatus.toString());
+            
+            if ((boolean) signedStatus) {
+            	setTextFill(Color.GREEN);
+            } else {
+                 setTextFill(Color.RED);
+            }    
+        }
+    };
 
 }

@@ -9,8 +9,10 @@ import java.time.LocalDate;
 
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -29,7 +31,7 @@ public class Allocation {
     private final StringProperty trancheId;
     private final ObjectProperty<LocalDate> initDate;
     private final IntegerProperty allocatedAmount;
-    private final StringProperty status;
+    private final BooleanProperty status;
 
     public Allocation(AllocationData data) {
         this.allocationId = new SimpleStringProperty(data.getAllocationId());
@@ -38,18 +40,18 @@ public class Allocation {
         this.investorName = new SimpleStringProperty(dataModel.getInvestors().get(Integer.parseInt(data.getInvestorId())));
         this.initDate = new SimpleObjectProperty<>(data.getInitDate());
         this.allocatedAmount = new SimpleIntegerProperty(data.getAllocationAmount());
-        this.status = new SimpleStringProperty(data.getStatus());
+        this.status = new SimpleBooleanProperty(data.getInvestorId().equals(data.getStatus()));
     }
         
-    public String getStatus() {
+    public Boolean getStatus() {
         return status.get();
     }
 
-    public void setStatus(String value) {
+    public void setStatus(Boolean value) {
         status.set(value);
     }
 
-    public StringProperty statusProperty() {
+    public BooleanProperty statusProperty() {
         return status;
     }    
 
@@ -130,7 +132,7 @@ public class Allocation {
         String trancheId = this.trancheId.getValue();
         LocalDate initDate = (LocalDate) this.initDateProperty().getValue();
         Integer amount =  allocatedAmountProperty().getValue();
-        String status = this.status.getValue();
+        String status = "";
         return new AllocationData(investorId, trancheId, initDate, amount, status);
     }
     
