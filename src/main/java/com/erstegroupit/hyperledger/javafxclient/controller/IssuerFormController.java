@@ -24,6 +24,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Tooltip;
@@ -172,7 +173,7 @@ public class IssuerFormController extends CommonFormController {
         ObservableList<Cashflow> displayCashflowRecords = dataController.getCashflows();
         Tranche tranche = this.dataController.getSelectedTranche().getValue();
         
-        String actionStatus = tranche.getTrancheData().generateCashflow();
+        ActionStatus actionStatus = tranche.getTrancheData().generateCashflow();
         
         displayCashflowRecords.clear();
         
@@ -223,8 +224,8 @@ public class IssuerFormController extends CommonFormController {
         Tranche tranche = this.dataController.getSelectedTranche().getValue();
         if (tranche != null) {
         	CreateDealResponse response = restc.signTrancheByIssuer(tranche.getTrancheId());
-        	this.
-        	showPopupMessage("Answer is: " + response);
+        	ActionStatus actionStatus = new ActionStatus(AlertType.INFORMATION, "Answer is: " + response);
+        	showPopupMessage(actionStatus);
         }
               
     }

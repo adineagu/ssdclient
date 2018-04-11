@@ -620,27 +620,16 @@ public class CommonFormController implements Initializable {
         }
     }
     
-    protected void showPopupMessage(String message) {
+    protected void showPopupMessage(ActionStatus actionStatus) {
     	
         Platform.runLater(new Runnable() {
             @Override public void run() {
-            	Popup popup = new Popup(); 
-            	popup.setAutoHide(true);
-                popup.setHideOnEscape(true);
+            Alert alert = new Alert(actionStatus.getAlertType());
+            alert.setTitle(actionStatus.getAlertType().toString() + " Dialog");
+            alert.setHeaderText(actionStatus.getMessage());
 
-            	Label label = new Label(message);
-                popup.getContent().add(label);
-            	
-                Button okBtn = new Button("Ok");
-                okBtn.setOnAction(new EventHandler<ActionEvent>() {
-                  @Override public void handle(ActionEvent event) {
-                    popup.hide();
-                  }
-                });
-                
-                popup.getContent().add(okBtn);
+            alert.showAndWait();
 
-                popup.show(refreshButton.getScene().getWindow());
             }
         });
     }

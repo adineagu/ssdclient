@@ -12,7 +12,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import com.erstegroupit.hyperledger.javafxclient.controller.ActionStatus;
 import com.erstegroupit.hyperledger.javafxclient.model.CashflowData.CashflowType;
+
+import javafx.scene.control.Alert.AlertType;
 
 /**
  *
@@ -142,19 +145,15 @@ public class TrancheData {
         return cashflowData;
     }
 
-    public String generateCashflow() {
-    	
-    	String actionStatus = "";
+    public ActionStatus generateCashflow() {
     	
     	if (!this.getCashflowData().isEmpty()) {
-            actionStatus = "This tranche has already cashflows generated.";
-            return actionStatus;
+    		return new ActionStatus(AlertType.WARNING, "This tranche has already cashflows generated.");
     	}
     	
     	boolean isFullySigned = this.isSignedByArranger() && this.isSignedByInvestor() && this.isSignedByIssuer();
     	if (!isFullySigned) {
-            actionStatus = "This tranche is not fully signed and so cashflows can't be generated.";
-            return actionStatus;
+    		return new ActionStatus(AlertType.WARNING, "This tranche is not fully signed and so cashflows can't be generated.");
     	}
 
         cashflowData.clear();
@@ -178,9 +177,7 @@ public class TrancheData {
         	//this.cashflowData.add(new CashflowData(this.getTrancheId(), adjustmentDate, rate, CashflowType.INTEREST.toString(), "EUR", Double.parseDouble(String.format(Locale.ROOT, "%.3f", interest))));
         }
         
-        actionStatus = "Cashflows have been generated.";
-        
-        return actionStatus;
+        return new ActionStatus(AlertType.INFORMATION, "Cashflows have been generated.");
 
     }
 
