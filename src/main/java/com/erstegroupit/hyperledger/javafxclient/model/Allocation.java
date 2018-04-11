@@ -31,7 +31,7 @@ public class Allocation {
     private final StringProperty trancheId;
     private final ObjectProperty<LocalDate> initDate;
     private final IntegerProperty allocatedAmount;
-    private final BooleanProperty status;
+    private final BooleanProperty allocationSigned;
 
     public Allocation(AllocationData data) {
         this.allocationId = new SimpleStringProperty(data.getAllocationId());
@@ -40,19 +40,19 @@ public class Allocation {
         this.investorName = new SimpleStringProperty(dataModel.getInvestors().get(Integer.parseInt(data.getInvestorId())));
         this.initDate = new SimpleObjectProperty<>(data.getInitDate());
         this.allocatedAmount = new SimpleIntegerProperty(data.getAllocationAmount());
-        this.status = new SimpleBooleanProperty(data.getInvestorId().equals(data.getStatus()));
+        this.allocationSigned = new SimpleBooleanProperty(data.getIsAllocationSigned());
     }
         
-    public Boolean getStatus() {
-        return status.get();
+    public Boolean getAllocationSigned() {
+        return allocationSigned.get();
     }
 
-    public void setStatus(Boolean value) {
-        status.set(value);
+    public void setAllocationSigned(Boolean value) {
+    	allocationSigned.set(value);
     }
 
-    public BooleanProperty statusProperty() {
-        return status;
+    public BooleanProperty allocationSignedProperty() {
+        return allocationSigned;
     }    
 
     public int getAllocatedAmount() {
@@ -132,8 +132,8 @@ public class Allocation {
         String trancheId = this.trancheId.getValue();
         LocalDate initDate = (LocalDate) this.initDateProperty().getValue();
         Integer amount =  allocatedAmountProperty().getValue();
-        String status = "";
-        return new AllocationData(investorId, trancheId, initDate, amount, status);
+        Boolean allocationSigned = false;
+        return new AllocationData(investorId, trancheId, initDate, amount, allocationSigned);
     }
     
 }

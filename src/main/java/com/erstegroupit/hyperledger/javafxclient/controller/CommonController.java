@@ -197,12 +197,13 @@ public class CommonController {
         LocalDate issueDate = LocalDate.parse(jsonTranche.get("init_date").getAsString(), DateTimeFormatter.ISO_DATE_TIME);
         Integer issuedAmount = jsonTranche.get("allocation_amount").getAsInt();
         String investorId = jsonTranche.get("investor_id").getAsString();
+        Boolean allocationSigned = jsonTranche.get("allocation_signed").getAsBoolean();
 
-        return new AllocationData(allocationId, investorId, trancheId, issueDate, issuedAmount, investorId);
+        return new AllocationData(allocationId, investorId, trancheId, issueDate, issuedAmount, allocationSigned);
     }
     
     public CashflowData readCashflow(String cashflowId, String trancheId) {
-        CreateDealResponse resp = restClient.readAllocation(cashflowId);
+        CreateDealResponse resp = restClient.readCashflow(cashflowId);
         System.out.println("Cashflow data payload is: " + resp.getPayload().getClass().getName());
         System.out.println("Cashflow data is: " + resp.getPayload());
 
@@ -239,22 +240,26 @@ public class CommonController {
     		AllocationData allocationData = allocationEntry.getValue();
     		String investorId = allocationData.getInvestorId();
     		Integer issuerId = getTrancheMap().get(allocationData.getTrancheId()).getIssuerId();
-    		TrancheData trancheData = getTrancheMap().get(allocationData.getTrancheId());
-    		List<CashflowData> allTrancheCashflowData = trancheData.getCashflowData();
-    		
-    		for (CashflowData cashflowData : allTrancheCashflowData) {
-    			LocalDate date = cashflowData.getAdjustedDate();
-    			String currency = cashflowData.getCurrency();
-    			String groupingKey = buildGroupingKey(investorId, issuerId, currency, date);
-    			PaymentData newPaymentData = new PaymentData(cashflowData, allocationData, trancheData);
-    			List<PaymentData> payments = groupedPayments.get(groupingKey);
-    			if (payments == null) {
-    				payments = new ArrayList<PaymentData>();
-        			groupedPayments.put(groupingKey, payments);
-    			}
-    			payments.add(newPaymentData);
+    		if ((ClientType.ISSUER.equals(dataModel.getClientType()) && issuerId.equals(dataModel.getClientId())) ||
+    				(ClientType.INVESTOR.equals(dataModel.getClientType()) && investorId.equals(dataModel.getClientId()))) {
+    	
+	    		TrancheData trancheData = getTrancheMap().get(allocationData.getTrancheId());
+	    		List<CashflowData> allTrancheCashflowData = trancheData.getCashflowData();
+	    		
+	    		for (CashflowData cashflowData : allTrancheCashflowData) {
+	    			LocalDate date = cashflowData.getAdjustedDate();
+	    			String currency = cashflowData.getCurrency();
+	    			String groupingKey = buildGroupingKey(investorId, issuerId, currency, date);
+	    			PaymentData newPaymentData = new PaymentData(cashflowData, allocationData, trancheData);
+	    			List<PaymentData> payments = groupedPayments.get(groupingKey);
+	    			if (payments == null) {
+	    				payments = new ArrayList<PaymentData>();
+	        			groupedPayments.put(groupingKey, payments);
+	    			}
+	    			payments.add(newPaymentData);
+	    		}
+	    		getTrancheMap().get(allocationData.getTrancheId()).getCashflowData();
     		}
-    		getTrancheMap().get(allocationData.getTrancheId()).getCashflowData();	
     	}
     	
     	return groupedPayments;

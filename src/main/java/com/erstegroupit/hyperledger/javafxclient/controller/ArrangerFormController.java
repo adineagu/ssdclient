@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 import com.erstegroupit.hyperledger.javafxclient.model.Tranche;
+import com.erstegroupit.hyperledger.javafxclient.restclient.CreateDealResponse;
 import com.erstegroupit.hyperledger.javafxclient.restclient.SSDRestClient;
 
 import javafx.concurrent.Service;
@@ -24,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 
 /**
@@ -115,8 +117,9 @@ public class ArrangerFormController extends CommonFormController {
 
         Tranche tranche = this.dataController.getSelectedTranche().getValue();
         if (tranche != null) {
-        	restc.signTrancheByArranger(tranche.getTrancheId(), this.dataController.getClientId());
-        	tranche.setSignedByArranger(true);
+        	CreateDealResponse response = restc.signTrancheByArranger(tranche.getTrancheId(), this.dataController.getClientId());
+        	ActionStatus actionStatus = new ActionStatus(AlertType.INFORMATION, "Answer is: " + response);
+        	showPopupMessage(actionStatus);
         }
               
     }

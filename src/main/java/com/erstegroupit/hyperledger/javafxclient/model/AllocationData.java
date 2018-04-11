@@ -18,15 +18,15 @@ public class AllocationData {
     private String trancheId;
     private LocalDate initDate;
     private Integer allocationAmount;    
-    private String status;
+    private boolean allocationSigned;
 
     /**
      * Get the value of status
      *
      * @return the value of status
      */
-    public String getStatus() {
-        return status;
+    public Boolean getIsAllocationSigned() {
+        return allocationSigned;
     }
 
     /**
@@ -34,21 +34,21 @@ public class AllocationData {
      *
      * @param status new value of status
      */
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(Boolean allocationSigned) {
+        this.allocationSigned = allocationSigned;
     }
 
-    public AllocationData(String allocationId, String investorId, String trancheId, LocalDate initDate, Integer targetAmount, String status) {
-        this(investorId, trancheId, initDate, targetAmount, status);
+    public AllocationData(String allocationId, String investorId, String trancheId, LocalDate initDate, Integer targetAmount, Boolean allocationSigned) {
+        this(investorId, trancheId, initDate, targetAmount, allocationSigned);
         this.allocationId = allocationId;
     }
 
-    public AllocationData(String investorId, String trancheId, LocalDate initDate, Integer targetAmount, String status) {
+    public AllocationData(String investorId, String trancheId, LocalDate initDate, Integer targetAmount, Boolean allocationSigned) {
         this.investorId = investorId;
         this.trancheId = trancheId;
         this.initDate = initDate;
         this.allocationAmount = targetAmount;
-        this.status = status;
+        this.allocationSigned = allocationSigned;
     }
 
     public void setAllocationId(String allocationId) {

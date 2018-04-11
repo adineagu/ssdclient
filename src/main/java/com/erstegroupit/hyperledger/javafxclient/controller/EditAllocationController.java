@@ -197,7 +197,7 @@ public class EditAllocationController implements Initializable {
             LocalDate initDate = subscription.getInitDate().getValue();
             Integer targetAmount = subscription.getTargetAmount().getValue();
 
-            AllocationData allocationData = new AllocationData(investorId, trancheId, initDate, targetAmount, "");
+            AllocationData allocationData = new AllocationData(investorId, trancheId, initDate, targetAmount, false);
             Allocation allocation = new Allocation(allocationData);
 
             dataController.getAllocations().add(allocation);

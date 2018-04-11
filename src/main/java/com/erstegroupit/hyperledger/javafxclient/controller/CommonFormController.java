@@ -384,7 +384,7 @@ public class CommonFormController implements Initializable {
         marginColumn.setCellValueFactory(cellData -> cellData.getValue().marginColumnProperty().asObject());
 	    issuerSignedColumn.setCellValueFactory(cellData -> cellData.getValue().signedByIssuerProperty().asObject());
 	    investorSignedColumn.setCellValueFactory(cellData -> cellData.getValue().signedByInvestorProperty().asObject());
-	    arrangerSignedColumn.setCellValueFactory(cellData -> cellData.getValue().signedByInvestorProperty().asObject());
+	    arrangerSignedColumn.setCellValueFactory(cellData -> cellData.getValue().signedByArrangerProperty().asObject());
 
 
         // bind for subscriptions
@@ -399,7 +399,7 @@ public class CommonFormController implements Initializable {
         allocationInvestorNameColumn.setCellValueFactory(cellData -> cellData.getValue().investorNameProperty());
         allocationInitialDateColumn.setCellValueFactory(cellData -> cellData.getValue().initDateProperty());
         allocationAmountColumn.setCellValueFactory(cellData -> cellData.getValue().allocatedAmountProperty().asObject());
-        alocationStatusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty().asObject());
+        alocationStatusColumn.setCellValueFactory(cellData -> cellData.getValue().allocationSignedProperty().asObject());
         
 	    	
         //bind for cashflow

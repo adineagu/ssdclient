@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import com.erstegroupit.hyperledger.javafxclient.InjectorContext;
 import com.erstegroupit.hyperledger.javafxclient.model.Allocation;
+import com.erstegroupit.hyperledger.javafxclient.restclient.CreateDealResponse;
 import com.erstegroupit.hyperledger.javafxclient.restclient.SSDRestClient;
 
 import javafx.concurrent.Service;
@@ -23,6 +24,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 
 /**
@@ -115,8 +117,9 @@ public class InvestorFormController extends CommonFormController {
 
         Allocation allocation = this.dataController.getSelectedAllocation().getValue();
         if (allocation != null) {
-        	restc.signAllocationByInvestor(allocation.getAllocationId(), this.dataController.getClientId());
-        	allocation.setStatus(true);
+        	CreateDealResponse response = restc.signAllocationByInvestor(allocation.getAllocationId(), this.dataController.getClientId());
+        	ActionStatus actionStatus = new ActionStatus(AlertType.INFORMATION, "Answer is: " + response);
+        	showPopupMessage(actionStatus);
         }
     }
 
