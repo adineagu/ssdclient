@@ -20,6 +20,7 @@ import com.erstegroupit.hyperledger.javafxclient.model.PaymentCashflow;
 import com.erstegroupit.hyperledger.javafxclient.model.Subscription;
 import com.erstegroupit.hyperledger.javafxclient.model.Tranche;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -35,6 +36,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -46,6 +48,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -235,6 +238,7 @@ public class CommonFormController implements Initializable {
     protected final CommonController dataController;
 
     protected Deal prevSelectedDealRow;
+    
     Date lastClickTime;
 
     public CommonFormController() {
@@ -616,43 +620,30 @@ public class CommonFormController implements Initializable {
         }
     }
     
-//    protected void showPopupMessage(String message) {
-//    	
-//    	Popup popup = new Popup(); popup.setX(300); popup.setY(200);
-//
-//        Button okBtn = new Button("Ok");
-//        okBtn.setOnAction(new EventHandler<ActionEvent>() {
-//          @Override public void handle(ActionEvent event) {
-//            popup.hide();
-//          }
-//        });
-//
-//
-//        popup.show(arg0);
-//        HBox layout = new HBox(10);
-//        layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-//        layout.getChildren().addAll(show, hide);
-//        primaryStage.setScene(new Scene(layout));
-//        primaryStage.show();
-//    	
-//        try {
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(getClass().getResource("/com/erstegroupit/hyperledger/javafxclient/view/EditAllocations.fxml"));
-//            Parent root = loader.load();
-//
-//            EditAllocationController controller = loader.getController();
-//            controller.setIsUpdate(isUpdate);
-//            controller.updateControls();
-//
-//            Scene sceneIssuer = new Scene(root);
-//            Stage stage = new Stage(StageStyle.UTILITY);
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//            stage.setScene(sceneIssuer);
-//            stage.show();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    protected void showPopupMessage(String message) {
+    	
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+            	Popup popup = new Popup(); 
+            	popup.setAutoHide(true);
+                popup.setHideOnEscape(true);
+
+            	Label label = new Label(message);
+                popup.getContent().add(label);
+            	
+                Button okBtn = new Button("Ok");
+                okBtn.setOnAction(new EventHandler<ActionEvent>() {
+                  @Override public void handle(ActionEvent event) {
+                    popup.hide();
+                  }
+                });
+                
+                popup.getContent().add(okBtn);
+
+                popup.show(refreshButton.getScene().getWindow());
+            }
+        });
+    }
 
     private class RefreshDataService extends Service<Void> {
 

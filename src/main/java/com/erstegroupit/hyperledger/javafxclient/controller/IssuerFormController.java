@@ -172,7 +172,7 @@ public class IssuerFormController extends CommonFormController {
         ObservableList<Cashflow> displayCashflowRecords = dataController.getCashflows();
         Tranche tranche = this.dataController.getSelectedTranche().getValue();
         
-        tranche.getTrancheData().generateCashflow();
+        String actionStatus = tranche.getTrancheData().generateCashflow();
         
         displayCashflowRecords.clear();
         
@@ -186,7 +186,9 @@ public class IssuerFormController extends CommonFormController {
                     
             displayCashflowRecords.add(new Cashflow(trancheData));            
             
-        }        
+        }       
+        
+        showPopupMessage(actionStatus);
     }
     
     private class CreateCashflowService extends Service<Void> {
@@ -221,7 +223,8 @@ public class IssuerFormController extends CommonFormController {
         Tranche tranche = this.dataController.getSelectedTranche().getValue();
         if (tranche != null) {
         	CreateDealResponse response = restc.signTrancheByIssuer(tranche.getTrancheId());
-            System.out.println("Answer is: " + response);
+        	this.
+        	showPopupMessage("Answer is: " + response);
         }
               
     }

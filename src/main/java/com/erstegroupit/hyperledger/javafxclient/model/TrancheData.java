@@ -142,7 +142,20 @@ public class TrancheData {
         return cashflowData;
     }
 
-    public void generateCashflow() {
+    public String generateCashflow() {
+    	
+    	String actionStatus = "";
+    	
+    	if (!this.getCashflowData().isEmpty()) {
+            actionStatus = "This tranche has already cashflows generated.";
+            return actionStatus;
+    	}
+    	
+    	boolean isFullySigned = this.isSignedByArranger() && this.isSignedByInvestor() && this.isSignedByIssuer();
+    	if (!isFullySigned) {
+            actionStatus = "This tranche is not fully signed and so cashflows can't be generated.";
+            return actionStatus;
+    	}
 
         cashflowData.clear();
 
@@ -164,6 +177,10 @@ public class TrancheData {
         	//this.cashflowData.add(new CashflowData(this.getTrancheId(), adjustmentDate, rate, CashflowType.PRINCIPAL.toString(), "EUR", Double.parseDouble(String.format(Locale.ROOT, "%.3f", principal))));
         	//this.cashflowData.add(new CashflowData(this.getTrancheId(), adjustmentDate, rate, CashflowType.INTEREST.toString(), "EUR", Double.parseDouble(String.format(Locale.ROOT, "%.3f", interest))));
         }
+        
+        actionStatus = "Cashflows have been generated.";
+        
+        return actionStatus;
 
     }
 
