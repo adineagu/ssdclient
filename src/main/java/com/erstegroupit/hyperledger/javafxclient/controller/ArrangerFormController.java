@@ -49,7 +49,9 @@ public class ArrangerFormController extends CommonFormController {
         signBtn.setTooltip(signBtnToolTip);
         
         Tooltip refreshBtnToolTip = new Tooltip("Refresh");
-        refreshButton.setTooltip(refreshBtnToolTip);       
+        refreshButton.setTooltip(refreshBtnToolTip);    
+        
+        super.initialize(url, rb);
     }
     
     @FXML
