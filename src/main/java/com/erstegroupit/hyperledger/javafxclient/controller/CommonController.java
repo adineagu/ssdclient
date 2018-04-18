@@ -239,7 +239,8 @@ public class CommonController {
     	for (Map.Entry<String, AllocationData> allocationEntry : getAllocationMap().entrySet()) {
     		AllocationData allocationData = allocationEntry.getValue();
     		String investorId = allocationData.getInvestorId();
-    		Integer issuerId = getTrancheMap().get(allocationData.getTrancheId()).getIssuerId();
+    		String issuerId = getTrancheMap().get(allocationData.getTrancheId()).getIssuerId().toString();
+    		
     		if ((ClientType.ISSUER.equals(dataModel.getClientType()) && issuerId.equals(dataModel.getClientId())) ||
     				(ClientType.INVESTOR.equals(dataModel.getClientType()) && investorId.equals(dataModel.getClientId()))) {
     	
@@ -296,7 +297,7 @@ public class CommonController {
     	return nettedPayments;
     }
 
-    private String buildGroupingKey(String investorId, Integer issuerId, String currency, LocalDate date) {
+    private String buildGroupingKey(String investorId, String issuerId, String currency, LocalDate date) {
 		return issuerId + "." + investorId + "." + currency + "." + date.toString();
 	}
 
